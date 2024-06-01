@@ -27,7 +27,7 @@ const updateUserById = async (req, res) => {
         })
     }
     await user.updateOne(req.body, {new: true})
-    return res.status(201).json({
+    return res.status(200).json({
         status: 'success',
         message: 'User updated successfully'
     })
@@ -43,7 +43,7 @@ const deleteUserById = async (req, res) => {
         })
     }
     await user.deleteOne();
-    return res.status(201).json({
+    return res.status(200).json({
         status: 'success',
         message: 'User has been successfully deleted'
     })

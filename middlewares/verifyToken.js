@@ -10,7 +10,7 @@ const verifyToken = async (req, res, next) => {
     }
     try {
         const jwtToken = token.split(' ').pop();
-        const data = jwt.verify(jwtToken, 'shhh');
+        const data = jwt.verify(jwtToken, process.env.JWT_SECRET);
         // console.log(data.data);
         const user = await User.findById(data.data._id);
         // console.log(user);

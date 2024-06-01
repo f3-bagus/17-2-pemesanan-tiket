@@ -1,5 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const moment = require('moment-timezone');
 
 const userSchema = new Schema({
     username: {
@@ -20,11 +21,17 @@ const userSchema = new Schema({
     isAdmin: {
         type: Boolean,
         default: false,
+    },
+    createdAt: {
+        type: String,
+        default: () => moment().tz('Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss')
+    },
+    updatedAt: {
+        type: String,
+        default: () => moment().tz('Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss')
     }
-},{
-    timestamps: true,
-})
+});
 
-const User = mongoose.model('User',userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
