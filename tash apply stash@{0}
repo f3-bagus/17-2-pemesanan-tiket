@@ -1,0 +1,476 @@
+[1mdiff --git a/.env b/.env[m
+[1mdeleted file mode 100644[m
+[1mindex 6bf0574..0000000[m
+[1m--- a/.env[m
+[1m+++ /dev/null[m
+[36m@@ -1,2 +0,0 @@[m
+[31m-PORT = 3000[m
+[31m-DB_NAME = 'mongodb://127.0.0.1:27017/ticket_bioskop'[m
+\ No newline at end of file[m
+[1mdiff --git a/app.js b/app.js[m
+[1mdeleted file mode 100644[m
+[1mindex 9be6e44..0000000[m
+[1m--- a/app.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,39 +0,0 @@[m
+[31m-require('dotenv').config()[m
+[31m-const express = require('express')[m
+[31m-const app = express()[m
+[31m-const mongoose = require('mongoose');[m
+[31m-const bodyParser = require('body-parser');[m
+[31m-const cors = require('cors')[m
+[31m-const port = process.env.PORT || 5000[m
+[31m-const usersRouter = require('./routes/users')[m
+[31m-const authRouter = require('./routes/auth')[m
+[31m-[m
+[31m-app.use(cors())[m
+[31m-app.use(express.json())[m
+[31m-app.use(bodyParser.json());[m
+[31m-app.use(bodyParser.urlencoded({ extended: false }))[m
+[31m-[m
+[31m-mongoose.connect(process.env.DB_NAME).then(() => {[m
+[31m-    console.log('Database connected');[m
+[31m-}).catch((err) => {[m
+[31m-    console.log('Database is not connected', err.message);[m
+[31m-})[m
+[31m-[m
+[31m-app.use('/api/admin/dashboard/users', usersRouter)[m
+[31m-app.use('/api', authRouter)[m
+[31m-[m
+[31m-app.use((req, res, next) => {[m
+[31m-    res.status(404).json({[m
+[31m-      message: 'Page Not Found',[m
+[31m-    });[m
+[31m-    // next()[m
+[31m-  });[m
+[31m-[m
+[31m-app.use((err, req, res, next) => {[m
+[31m-    console.error(err.stack);[m
+[31m-    res.status(500).json({ error: 'Internal Server Error' });[m
+[31m-  });[m
+[31m-[m
+[31m-app.listen(port, () => {[m
+[31m-  console.log(`server is running`)[m
+[31m-})[m
+\ No newline at end of file[m
+[1mdiff --git a/controllers/authController.js b/controllers/authController.js[m
+[1mdeleted file mode 100644[m
+[1mindex 394c415..0000000[m
+[1m--- a/controllers/authController.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,71 +0,0 @@[m
+[31m-const User = require('../models/User');[m
+[31m-const bcrypt = require('bcrypt')[m
+[31m-const jwt = require('jsonwebtoken')[m
+[31m-[m
+[31m-const register = async (req, res) => {[m
+[31m-    const { username, password, email, noHp } = req.body[m
+[31m-    if (!username || !password || !email || !noHp) {[m
+[31m-        return res.status(400).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'Invalid input data'[m
+[31m-        })[m
+[31m-    }[m
+[31m-    const emailUsed = await User.findOne({email})[m
+[31m-    if (emailUsed) {[m
+[31m-        return res.status(409).json({[m
+[31m-          status: 'fail',[m
+[31m-          message: 'Email is already in use'[m
+[31m-        })[m
+[31m-      }[m
+[31m-    const passwordHash = bcrypt.hashSync(password, 10)[m
+[31m-    await User.create({[m
+[31m-        username,[m
+[31m-        password: passwordHash,[m
+[31m-        email,[m
+[31m-        noHp,[m
+[31m-    })[m
+[31m-    return res.status(201).json({[m
+[31m-        status: 'success',[m
+[31m-        message: 'Register Accepted'[m
+[31m-    })[m
+[31m-}[m
+[31m-[m
+[31m-const login = async (req, res) => {[m
+[31m-    const { email, password } = req.body;[m
+[31m-    if (!email || !password) {[m
+[31m-        return res.status(400).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'Invalid input data'[m
+[31m-        })[m
+[31m-    }[m
+[31m-    const user = await User.findOne({email})[m
+[31m-    if (!user) {[m
+[31m-        return res.status(404).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'Email Not Registered'[m
+[31m-        })[m
+[31m-    }[m
+[31m-    const comparePassword = bcrypt.compareSync(password, user.password)[m
+[31m-    if(!comparePassword) {[m
+[31m-        return res.status(401).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'Email and Password incorrect'[m
+[31m-          })[m
+[31m-    }[m
+[31m-    let data = {[m
+[31m-        _id: user._id,[m
+[31m-        username: user.username,[m
+[31m-        email: user.email,[m
+[31m-        isAdmin: user.isAdmin,[m
+[31m-    }[m
+[31m-    const token = jwt.sign({data}, 'shhh',{[m
+[31m-        expiresIn: '1d'[m
+[31m-    } )[m
+[31m-    return res.status(200).json({[m
+[31m-        status: 'success',[m
+[31m-        message: 'Loggedin',[m
+[31m-        token[m
+[31m-    })[m
+[31m-}[m
+[31m-[m
+[31m-module.exports = { register, login }[m
+\ No newline at end of file[m
+[1mdiff --git a/controllers/usersController.js b/controllers/usersController.js[m
+[1mdeleted file mode 100644[m
+[1mindex 83be04f..0000000[m
+[1m--- a/controllers/usersController.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,52 +0,0 @@[m
+[31m-const User = require('../models/User');[m
+[31m-[m
+[31m-const getAllUser = async (req, res) => {[m
+[31m-    const users = await User.find({})[m
+[31m-    return res.status(200).json(users)[m
+[31m-}[m
+[31m-[m
+[31m-const getUserById = async (req, res) => {[m
+[31m-    const { id } = req.params[m
+[31m-    const user = await User.findById(id)[m
+[31m-    if (!user) {[m
+[31m-        return res.status(404).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'User Not Found'[m
+[31m-        })[m
+[31m-    }[m
+[31m-    return res.status(200).json(user)[m
+[31m-}[m
+[31m-[m
+[31m-const updateUserById = async (req, res) => {[m
+[31m-    const { id } = req.params;[m
+[31m-    const user = await User.findById(id)[m
+[31m-    if (!user) {[m
+[31m-        return res.status(404).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'User Not Found'[m
+[31m-        })[m
+[31m-    }[m
+[31m-    await user.updateOne(req.body, {new: true})[m
+[31m-    return res.status(201).json({[m
+[31m-        status: 'success',[m
+[31m-        message: 'User updated successfully'[m
+[31m-    })[m
+[31m-}[m
+[31m-[m
+[31m-const deleteUserById = async (req, res) => {[m
+[31m-    const { id } = req.params;[m
+[31m-    const user = await User.findById(id)[m
+[31m-    if (!user) {[m
+[31m-        return res.status(404).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'User Not Found'[m
+[31m-        })[m
+[31m-    }[m
+[31m-    await user.deleteOne();[m
+[31m-    return res.status(201).json({[m
+[31m-        status: 'success',[m
+[31m-        message: 'User has been successfully deleted'[m
+[31m-    })[m
+[31m-}[m
+[31m-[m
+[31m-module.exports = { getAllUser, getUserById, updateUserById, deleteUserById }[m
+\ No newline at end of file[m
+[1mdiff --git a/eslint.config.mjs b/eslint.config.mjs[m
+[1mdeleted file mode 100644[m
+[1mindex be04075..0000000[m
+[1m--- a/eslint.config.mjs[m
+[1m+++ /dev/null[m
+[36m@@ -1,9 +0,0 @@[m
+[31m-import globals from "globals";[m
+[31m-import pluginJs from "@eslint/js";[m
+[31m-[m
+[31m-[m
+[31m-export default [[m
+[31m-  {files: ["**/*.js"], languageOptions: {sourceType: "commonjs"}},[m
+[31m-  {languageOptions: { globals: {...globals.browser, ...globals.node} }},[m
+[31m-  pluginJs.configs.recommended,[m
+[31m-];[m
+\ No newline at end of file[m
+[1mdiff --git a/middlewares/isValidObjectId.js b/middlewares/isValidObjectId.js[m
+[1mdeleted file mode 100644[m
+[1mindex e50ed47..0000000[m
+[1m--- a/middlewares/isValidObjectId.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,20 +0,0 @@[m
+[31m-const mongoose = require('mongoose')[m
+[31m-[m
+[31m-const validasiObjectId = (req, res, next) => {[m
+[31m-        const paramId = ['id'].find((param => req.params[param]))[m
+[31m-[m
+[31m-        if (!paramId) {[m
+[31m-            return next()[m
+[31m-        }[m
+[31m-[m
+[31m-        const id = req.params[paramId][m
+[31m-        if (!mongoose.Types.ObjectId.isValid(id)) {[m
+[31m-            return res.status(404).json({[m
+[31m-                status: 'fail',[m
+[31m-                message: 'Invalid ID',[m
+[31m-            });[m
+[31m-        }[m
+[31m-        next()[m
+[31m-    }[m
+[31m-[m
+[31m-module.exports = validasiObjectId[m
+\ No newline at end of file[m
+[1mdiff --git a/middlewares/verifyToken.js b/middlewares/verifyToken.js[m
+[1mdeleted file mode 100644[m
+[1mindex d8b145b..0000000[m
+[1m--- a/middlewares/verifyToken.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,33 +0,0 @@[m
+[31m-const jwt = require('jsonwebtoken')[m
+[31m-const User = require('../models/User')[m
+[31m-const verifyToken = async (req, res, next) => {[m
+[31m-    const token = req.headers.authorization;[m
+[31m-    if (!token) {[m
+[31m-        return res.status(401).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'You Are Not Authenticated'[m
+[31m-        })[m
+[31m-    }[m
+[31m-    try {[m
+[31m-        const jwtToken = token.split(' ').pop();[m
+[31m-        const data = jwt.verify(jwtToken, 'shhh');[m
+[31m-        // console.log(data.data);[m
+[31m-        const user = await User.findById(data.data._id);[m
+[31m-        // console.log(user);[m
+[31m-        if (!user) {[m
+[31m-            return res.status(404).json({[m
+[31m-              status: 'fail',[m
+[31m-              message: 'User Not Found',[m
+[31m-            });[m
+[31m-          }[m
+[31m-          req.user = user[m
+[31m-          next()[m
+[31m-    } catch (err) {[m
+[31m-        return res.status(403).json({[m
+[31m-            status: 'fail',[m
+[31m-            message: 'Incorrect Credentials'[m
+[31m-        })[m
+[31m-    }[m
+[31m-}[m
+[31m-[m
+[31m-module.exports = {verifyToken}[m
+\ No newline at end of file[m
+[1mdiff --git a/models/User.js b/models/User.js[m
+[1mdeleted file mode 100644[m
+[1mindex cbe5ffb..0000000[m
+[1m--- a/models/User.js[m
+[1m+++ /dev/null[m
+[36m@@ -1,30 +0,0 @@[m
+[31m-const mongoose = require('mongoose')[m
+[31m-const { Schema } = mongoose;[m
+[31m-[m
+[31m-const userSchema = new Schema({[m
+[31m-    username: {[m
+[31m-        type: String,[m
+[31m-        required: true,[m
+[31m-    }, [m
+[31m-    password: {[m
+[31m-        type: String,[m
+[31m-        required: true,[m
+[31m-    },[m
+[31m-    email: {[m
+[31m-        type: String,[m
+[31m-        required: true,[m
+[31m-    },[m
+[31m-    noHp: {[m
+[31m-        type: Number,[m
+[31m-    },[m
+[31m-    isAdmin: {[m
+[31m-        type: Boolean,[m
+[31m-        default: false,[m
+[31m-    }[m
+[31m-},{[m
+[31m-    timestamps: true,[m
+[31m-})[m
+[31m-[m
+[31m-const User = mongoose.model('User',userSchema);[m
+[31m-[m
+[31m-module.exports = User;[m
+\ No newline at end of file[m
+[1mdiff --git a/node_modules/.bin/acorn b/node_modules/.bin/acorn[m
+[1mdeleted file mode 100644[m
+[1mindex 679bd16..0000000[m
+[1m--- a/node_modules/.bin/acorn[m
+[1m+++ /dev/null[m
+[36m@@ -1,16 +0,0 @@[m
+[31m-#!/bin/sh[m
+[31m-basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")[m
+[31m-[m
+[31m-case `uname` in[m
+[31m-    *CYGWIN*|*MINGW*|*MSYS*)[m
+[31m-        if command -v cygpath > /dev/null 2>&1; then[m
+[31m-            basedir=`cygpath -w "$basedir"`[m
+[31m-        fi[m
+[31m-    ;;[m
+[31m-esac[m
+[31m-[m
+[31m-if [ -x "$basedir/node" ]; then[m
+[31m-  exec "$basedir/node"  "$basedir/../acorn/bin/acorn" "$@"[m
+[31m-else [m
+[31m-  exec node  "$basedir/../acorn/bin/acorn" "$@"[m
+[31m-fi[m
+[1mdiff --git a/node_modules/.bin/acorn.cmd b/node_modules/.bin/acorn.cmd[m
+[1mdeleted file mode 100644[m
+[1mindex a9324df..0000000[m
+[1m--- a/node_modules/.bin/acorn.cmd[m
+[1m+++ /dev/null[m
+[36m@@ -1,17 +0,0 @@[m
+[31m-@ECHO off[m
+[31m-GOTO start[m
+[31m-:find_dp0[m
+[31m-SET dp0=%~dp0[m
+[31m-EXIT /b[m
+[31m-:start[m
+[31m-SETLOCAL[m
+[31m-CALL :find_dp0[m
+[31m-[m
+[31m-IF EXIST "%dp0%\node.exe" ([m
+[31m-  SET "_prog=%dp0%\node.exe"[m
+[31m-) ELSE ([m
+[31m-  SET "_prog=node"[m
+[31m-  SET PATHEXT=%PATHEXT:;.JS;=;%[m
+[31m-)[m
+[31m-[m
+[31m-endLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & "%_prog%"  "%dp0%\..\acorn\bin\acorn" %*[m
+[1mdiff --git a/node_modules/.bin/acorn.ps1 b/node_modules/.bin/acorn.ps1[m
+[1mdeleted file mode 100644[m
+[1mindex 6f6dcdd..0000000[m
+[1m--- a/node_modules/.bin/acorn.ps1[m
+[1m+++ /dev/null[m
+[36m@@ -1,28 +0,0 @@[m
+[31m-#!/usr/bin/env pwsh[m
+[31m-$basedir=Split-Path $MyInvocation.MyCommand.Definition -Parent[m
+[31m-[m
+[31m-$exe=""[m
+[31m-if ($PSVersionTable.PSVersion -lt "6.0" -or $IsWindows) {[m
+[31m-  # Fix case when both the Windows and Linux builds of Node[m
+[31m-  # are installed in the same directory[m
+[31m-  $exe=".exe"[m
+[31m-}[m
+[31m-$ret=0[m
+[31m-if (Test-Path "$basedir/node$exe") {[m
+[31m-  # Support pipeline input[m
+[31m-  if ($MyInvocation.ExpectingInput) {[m
+[31m-    $input | & "$basedir/node$exe"  "$basedir/../acorn/bin/acorn" $args[m
+[31m-  } else {[m
+[31m-    & "$basedir/node$exe"  "$basedir/../acorn/bin/acorn" $args[m
+[31m-  }[m
+[31m-  $ret=$LASTEXITCODE[m
+[31m-} else {[m
+[31m-  # Support pipeline input[m
+[31m-  if ($MyInvocation.ExpectingInput) {[m
+[31m-    $input | & "node$exe"  "$basedir/../acorn/bin/acorn" $args[m
+[31m-  } else {[m
+[31m-    & "node$exe"  "$basedir/../acorn/bin/acorn" $args[m
+[31m-  }[m
+[31m-  $ret=$LASTEXITCODE[m
+[31m-}[m
+[31m-exit $ret[m
+[1mdiff --git a/node_modules/.bin/color-support b/node_modules/.bin/color-support[m
+[1mdeleted file mode 100644[m
+[1mindex f77f9d5..0000000[m
+[1m--- a/node_modules/.bin/color-support[m
+[1m+++ /dev/null[m
+[36m@@ -1,16 +0,0 @@[m
+[31m-#!/bin/sh[m
+[31m-basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")[m
+[31m-[m
+[31m-case `uname` in[m
+[31m-    *CYGWIN*|*MINGW*|*MSYS*)[m
+[31m-        if command -v cygpath > /dev/null 2>&1; then[m
+[31m-            basedir=`cygpath -w "$basedir"`[m
+[31m-        fi[m
+[31m-    ;;[m
+[31m-esac[m
+[31m-[m
+[31m-if [ -x "$basedir/node" ]; then[m
+[31m-  exec "$basedir/node"  "$basedir/../color-support/bin.js" "$@"[m
+[31m-else [m
+[31m-  exec node  "$basedir/../color-support/bin.js" "$@"[m
+[31m-fi[m
+[1mdiff --git a/node_modules/.bin/color-support.cmd b/node_modules/.bin/color-support.cmd[m
+[1mdeleted file mode 100644[m
+[1mindex 005f9a5..0000000[m
+[1m--- a/node_modules/.bin/color-support.cmd[m
+[1m+++ /dev/null[m
+[36m@@ -1,17 +0,0 @@[m
+[31m-@ECHO off[m
+[31m-GOTO start[m
+[31m-:find_dp0[m
+[31m-SET dp0=%~dp0[m
+[31m-EXIT /b[m
+[31m-:start[m
+[31m-SETLOCAL[m
+[31m-CALL :find_dp0[m
+[31m-[m
+[31m-IF EXIST "%dp0%\node.exe" ([m
+[31m-  SET "_prog=%dp0%\node.exe"[m
+[31m-) ELSE ([m
+[31m-  SET "_prog=node"[m
+[31m-  SET PATHEXT=%PATHEXT:;.JS;=;%[m
+[31m-)[m
+[31m-[m
+[31m-endLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & "%_prog%"  "%dp0%\..\color-support\bin.js" %*[m
+[1mdiff --git a/node_modules/.bin/color-support.ps1 b/node_modules/.bin/color-support.ps1[m
+[1mdeleted file mode 100644[m
+[1mindex f5c9fe4..0000000[m
+[1m--- a/node_modules/.bin/color-support.ps1[m
+[1m+++ /dev/null[m
+[36m@@ -1,28 +0,0 @@[m
+[31m-#!/usr/bin/env pwsh[m
+[31m-$basedir=Split-Path $MyInvocation.MyCommand.Definition -Parent[m
+[31m-[m
+[31m-$exe=""[m
+[31m-if ($PSVersionTable.PSVersion -lt "6.0" -or $IsWindows) {[m
+[31m-  # Fix case when both the Windows and Linux builds of Node[m
+[31m-  # are installed in the same directory[m
+[31m-  $exe=".exe"[m
+[31m-}[m
+[31m-$ret=0[m
+[31m-if (Test-Path "$basedir/node$exe") {[m
+[31m-  # Support pipeline input[m
+[31m-  if ($MyInvocation.ExpectingInput) {[m
+[31m-    $input | & "$basedir/node$exe"  "$basedir/../color-support/bin.js" $args[m
+[31m-  } else {[m
+[31m-    & "$basedir/node$exe"  "$basedir/../color-support/bin.js" $args[m
+[31m-  }[m
+[31m-  $ret=$LASTEXITCODE[m
+[31m-} else {[m
+[31m-  # Support pipeline input[m
+[31m-  if ($MyInvocation.ExpectingInput) {[m
+[31m-    $input | & "node$exe"  "$basedir/../color-support/bin.js" $args[m
+[31m-  } else {[m
+[31m-    & "node$exe"  "$basedir/../color-support/bin.js" $args[m
+[31m-  }[m
+[31m-  $ret=$LASTEXITCODE[m
+[31m-}[m
+[31m-exit $ret[m
+[1mdiff --git a/node_modules/.bin/eslint b/node_modules/.bin/eslint[m
+[1mdeleted file mode 100644[m
+[1mindex d450ee1..0000000[m
+[1m--- a/node_modules/.bin/eslint[m
+[1m+++ /dev/null[m
+[
