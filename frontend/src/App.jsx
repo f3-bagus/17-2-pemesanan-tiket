@@ -5,26 +5,29 @@ import Sidebar from "./admin/components/Sidebar";
 import Navbar from "./admin/components/Navbar";
 import Movie from "./admin/pages/Movie";
 import Users from "./admin/pages/Users";
+import NavbarComponent from "./user/components/NavbarComponent";
+import HomePage from "./user/pages/HomePages";
 
 function App() {
-  return (
-    <>
-      <Router>
-        <div className="container-scroller">
-          <Sidebar />
-          <Navbar />
-          <Routes>
-            <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route path="/admin/schedule" element={<Schedule />} />
-            <Route path="/admin/movie" element={<Movie />} />
-            <Route path="/admin/users" element={<Users />} />
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/" element={<Dashboard />} />
-          </Routes>
-        </div>
-      </Router>
-    </>
-  );
+ return (
+  <>
+   <Router>
+    <div className="container-scroller">
+     <Sidebar />
+     <Navbar />
+     <Routes>
+      <Route path="/admin/dashboard" element={<Dashboard />} />
+      <Route path="/admin/schedule" element={<Schedule />} />
+      <Route path="/admin/movie" element={<Movie />} />
+      <Route path="/admin/users" element={<Users />} />
+      <Route path="/admin" element={<Dashboard />} />
+      <Route path="/" element={<Dashboard />} />
+      <Route path="/home" element={<HomePage />} />
+     </Routes>
+    </div>
+   </Router>
+  </>
+ );
 }
 
 export default App;
