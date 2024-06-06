@@ -30,4 +30,26 @@ const verifyToken = async (req, res, next) => {
     }
 }
 
-module.exports = {verifyToken}
+const isAdmin = (req, res, next) => {
+        if (req.user.isAdmin) {
+            next()
+        }else {
+            return res.status(403).json({
+                status: 'fail',
+                message: 'You Are Not Authorized'
+            })
+        }
+}
+
+const verifyUser = (req, res, next) => {
+        if (req.user._id === req.params.id||req.user.isAdmin) {
+            next()
+        }else {
+            return res.status(403).json({
+                status: 'fail',
+                message: 'You Are Not Authorized'
+            })
+        }
+}
+
+module.exports = {verifyToken, isAdmin, verifyUser}
