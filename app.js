@@ -24,7 +24,7 @@ mongoose.connect(process.env.DB_NAME).then(() => {
 });
 
 // Rute-rute film
-app.use('/api', filmRoutes);
+app.use('/api/admin/dashboard', filmRoutes);
 
 // Rute-rute lain
 app.use('/api/admin/dashboard/users', usersRouter);

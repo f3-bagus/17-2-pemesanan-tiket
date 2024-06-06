@@ -25,7 +25,8 @@ exports.getFilms = async (req, res) => {
 // Get a single film by ID
 exports.getFilmById = async (req, res) => {
   try {
-    const film = await Film.findOne({ id_film: req.params.id });
+    const film = await Film.findOne({ _id: req.params.id });
+    console.log(film);
     if (!film) return res.status(404).json({ error: 'Film not found' });
     res.status(200).json(film);
   } catch (err) {
@@ -37,7 +38,7 @@ exports.getFilmById = async (req, res) => {
 exports.updateFilmById = async (req, res) => {
   try {
     const film = await Film.findOneAndUpdate(
-      { id_film: req.params.id },
+      { _id: req.params.id },
       req.body,
       { new: true }
     );
@@ -51,7 +52,7 @@ exports.updateFilmById = async (req, res) => {
 // Delete a film by ID
 exports.deleteFilmById = async (req, res) => {
   try {
-    const film = await Film.findOneAndDelete({ id_film: req.params.id });
+    const film = await Film.findOneAndDelete({ _id: req.params.id });
     if (!film) return res.status(404).json({ error: 'Film not found' });
     res.status(200).json({ message: 'Film deleted successfully' });
   } catch (err) {
