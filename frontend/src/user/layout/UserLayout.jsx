@@ -3,12 +3,14 @@ import NavbarComponents from "../components/NavbarComponent";
 import { Outlet } from "react-router-dom";
 
 const UserLayout = () => {
-  return (
-    <>
-      <NavbarComponents />
-        <div><Outlet /></div>
-    </>
-  );
+ return (
+  <>
+   <NavbarComponents />
+   <div>
+    <Outlet />
+   </div>
+  </>
+ );
 };
 
 export default UserLayout;
