@@ -1,8 +1,11 @@
 import { Container, Col, Row } from "react-bootstrap";
 import HeroImage from "../assets/img/hero/hero1.png";
+import NavbarComponents from "../components/NavbarComponent";
+
 const HomePage = () => {
  return (
   <div className="homepage">
+    <NavbarComponents />
    <header className="w-100 min-vh-100 d-flex align-items-center">
     <Container>
      <Row className="header-box d-flex align-items-center">

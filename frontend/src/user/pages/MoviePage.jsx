@@ -1,5 +1,11 @@
-const MoviePage = () => {
- return <div>MoviePage</div>;
-};
+import React from 'react'
 
-export default MoviePage;
+const MoviePage = () => {
+  return (
+    <div>
+      
+    </div>
+  )
+}
+
+export default MoviePage

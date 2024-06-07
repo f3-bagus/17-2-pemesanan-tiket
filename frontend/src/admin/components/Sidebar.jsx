@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -8,15 +8,18 @@ const Sidebar = () => {
   const isActive = (path) => {
     return location.pathname === path;
   };
-  
+
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
-      <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+      <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-con tent-center fixed-top">
         <NavLink className="sidebar-brand brand-logo" to="/admin/dashboard">
-          <img src="/assets/images/logo.svg" alt="logo" />
+            <s className="text-body-warning text-decoration-none ">FLICK BOX</s>
         </NavLink>
-        <NavLink className="sidebar-brand brand-logo-mini" to="/admin/dashboard">
-          <img src="/assets/images/logo-mini.svg" alt="logo" />
+        <NavLink
+          className="sidebar-brand brand-logo-mini"
+          to="/admin/dashboard"
+        >
+          <img src="/logo1-wb.png" alt="logo" />
         </NavLink>
       </div>
       <ul className="nav">
@@ -73,7 +76,11 @@ const Sidebar = () => {
         <li className="nav-item nav-category">
           <span className="nav-link">Navigation</span>
         </li>
-        <li className={`nav-item menu-items ${isActive("/admin/dashboard") ? 'active' : ''}`}>
+        <li
+          className={`nav-item menu-items ${
+            isActive("/admin/dashboard") ? "active" : ""
+          }`}
+        >
           <NavLink
             className="nav-link"
             activeClassName="active"
@@ -85,7 +92,11 @@ const Sidebar = () => {
             <span className="menu-title">Dashboard</span>
           </NavLink>
         </li>
-        <li className={`nav-item menu-items ${isActive("/admin/schedule") ? 'active' : ''}`}>
+        <li
+          className={`nav-item menu-items ${
+            isActive("/admin/schedule") ? "active" : ""
+          }`}
+        >
           <NavLink
             className="nav-link"
             activeClassName="active"
@@ -97,7 +108,11 @@ const Sidebar = () => {
             <span className="menu-title">Schedules</span>
           </NavLink>
         </li>
-        <li className={`nav-item menu-items ${isActive("/admin/movie") ? 'active' : ''}`}>
+        <li
+          className={`nav-item menu-items ${
+            isActive("/admin/movie") ? "active" : ""
+          }`}
+        >
           <NavLink
             className="nav-link"
             activeClassName="active"
@@ -109,7 +124,11 @@ const Sidebar = () => {
             <span className="menu-title">Movies</span>
           </NavLink>
         </li>
-        <li className={`nav-item menu-items ${isActive("/admin/users") ? 'active' : ''}`}>
+        <li
+          className={`nav-item menu-items ${
+            isActive("/admin/users") ? "active" : ""
+          }`}
+        >
           <NavLink
             className="nav-link"
             activeClassName="active"

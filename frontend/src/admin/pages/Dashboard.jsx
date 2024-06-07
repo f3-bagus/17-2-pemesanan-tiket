@@ -1,9 +1,14 @@
 import React from "react";
 import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 const Dashboard = () => {
   return (
     <>
+      <div className="container-scroller">
+        <Navbar />
+        <Sidebar />
         <div className="main-panel">
           <div className="content-wrapper">
             <div className="row">
@@ -41,9 +46,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </div>
-                    <h6 className="text-muted font-weight-normal">
-                      Movie
-                    </h6>
+                    <h6 className="text-muted font-weight-normal">Movie</h6>
                   </div>
                 </div>
               </div>
@@ -62,9 +65,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                     </div>
-                    <h6 className="text-muted font-weight-normal">
-                      Users
-                    </h6>
+                    <h6 className="text-muted font-weight-normal">Users</h6>
                   </div>
                 </div>
               </div>
@@ -73,6 +74,7 @@ const Dashboard = () => {
           </div>
           <Footer />
         </div>
+      </div>
     </>
   );
 };
