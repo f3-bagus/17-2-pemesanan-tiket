@@ -1,16 +1,28 @@
 const mongoose = require('mongoose');
+const moment = require('moment-timezone')
 const { Schema } = mongoose
 
 const bookingSchema = new Schema({
-    movie: { 
-        type: Number, ref: 'Film', required: true
+    filmId: { 
+        type: mongoose.Schema.ObjectId,
+        ref: 'Film', 
     },
-    showtime: {
-        type: mongoose.Schema.ObjectId, ref: 'Schedule'
+    scheduleId: {
+        type: mongoose.Schema.ObjectId, 
+        ref: 'Schedule',
     },
-    seats: {
-        type: mongoose.Schema.ObjectId, ref: 'Seat'
+    seatId: {
+        type: mongoose.Schema.ObjectId, 
+        ref: 'Seat',
+    },
+    totalPrice: {
+        type: Number
+    },
+    createdAt: { 
+        type: String,
+        default: () => moment().tz('Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss') 
     }
+
 })
 
 const Booking = mongoose.model('Booking', bookingSchema)

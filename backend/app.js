@@ -10,6 +10,8 @@ const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const schedulesRouter = require('./routes/schedules');
 const filmRoutes = require('./routes/filmRoutes');
+const seatsRouter = require('./routes/seats')
+const bookingRouter = require('./routes/bookings')
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -30,6 +32,8 @@ app.use('/api/admin/dashboard', filmRoutes);
 app.use('/api/admin/dashboard/users', usersRouter);
 app.use('/api/admin/dashboard/schedules', schedulesRouter);
 app.use('/api', authRouter);
+app.use('/api/seats', seatsRouter)
+app.use('/api/bookings', bookingRouter)
 
 // Middleware untuk menangani respons "Page Not Found"
 app.use((req, res) => {
