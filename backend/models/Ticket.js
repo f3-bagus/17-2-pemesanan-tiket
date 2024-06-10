@@ -16,7 +16,7 @@ const ticketSchema = new Schema({
     },
     bookingId: {
         type: String,
-        de
+        ref: 'Booking',
     }
 })
 
