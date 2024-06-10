@@ -1,0 +1,129 @@
+* {
+ font-family: "Poppins", sans-serif;
+}
+
+:root {
+ --primary-color: #222831;
+ --secondary-color: #fd7014;
+ --color-text: #eeeeee;
+ --navbar-color: #393e46;
+ --navbar-color-text: #ffffff;
+}
+
+/* ----- NAVBAR STYLE ----- */
+.navbar {
+ position: fixed;
+ padding: 15px 0 15px 0;
+ width: 100%;
+ -o-transition: all 0.2s ease;
+ -webkit-transition: all 0.2s ease;
+ -moz-transition: all 0.2s ease;
+ -ms-transition: all 0.2s ease;
+ transition: all 0.2s ease;
+ z-index: 9999;
+}
+
+.navbar.color-active {
+ background-color: var(--navbar-color);
+ padding: 20px 0 20px 0;
+ border-bottom: 2px solid #fd71141b;
+}
+
+.navbar .nav-link a {
+ padding: 5px 10px 5px 10px;
+ font-weight: 500;
+ text-decoration: none;
+ color: white;
+}
+.navbar .nav-link a:hover {
+ color: var(--secondary-color);
+}
+
+.navbar .nav-link .active {
+ background-color: var(--secondary-color);
+}
+
+.custom-navbar .nav-link .active:hover {
+ color: var(--navbar-color);
+}
+
+/* ----- STYLE HOME PAGE HEADER ----- */
+header {
+ background-color: var(--primary-color);
+}
+
+/* ----- STYLE HOME PAGE HEADER ----- */
+.homepage .header-box h1 {
+ font-size: 3.2 rem;
+ font-weight: 600;
+ color: white;
+}
+
+.homepage .header-box h1 span {
+ font-weight: 700;
+}
+
+.homepage .header-box p {
+ line-height: 2;
+ color: white;
+ font-weight: 500;
+}
+
+.homepage .header-box img {
+ width: 100%;
+}
+
+@media screen and (max-width: 992px) {
+ .homepage .header-box {
+  padding-top: 8rem;
+ }
+
+ .homepage .header-box img {
+  width: 400px;
+  display: block;
+  margin-inline: auto;
+ }
+}
+
+@media screen and (max-width: 575px) {
+ .homepage .header-box h1 {
+  font-size: 3rem;
+ }
+}
+
+@media screen and (max-width: 475px) {
+ .homepage .header-box h1 {
+  font-size: 2.4rem;
+ }
+ .homepage .header-box p {
+  font-size: 14px;
+ }
+ .homepage .header-box img {
+  width: 300px;
+ }
+}
+
+@media screen and (max-width: 375px) {
+ .homepage .header-box h1 {
+  font-size: 2rem;
+ }
+ .homepage .header-box p {
+  font-size: 12px;
+ }
+}
+
+/* ----- STYLE HOME PAGE MOVIE ----- */
+.homepage .movies {
+ background-color: var(--color-text);
+ padding-bottom: 100px;
+}
+
+.homepage .movies .row:nth-child(1) {
+ padding-top: 150px;
+ padding-bottom: 100px;
+}
+
+.homepage .movies .row:nth-child(1) h1,
+.homepage .movies .row:nth-child(1) p {
+ color: #222831;
+}
