@@ -9,9 +9,10 @@ const port = process.env.PORT || 5000;
 const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const schedulesRouter = require('./routes/schedules');
-const filmRoutes = require('./routes/filmRoutes');
+const filmsRouter = require('./routes/filmRoutes');
 const seatsRouter = require('./routes/seats')
-const bookingRouter = require('./routes/bookings')
+const bookingsRouter = require('./routes/bookings');
+const paymentsRouter = require('./routes/payments')
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -25,15 +26,13 @@ mongoose.connect(process.env.DB_NAME).then(() => {
     console.log('Database is not connected', err.message);
 });
 
-// Rute-rute film
-app.use('/api/films', filmRoutes);
-
-// Rute-rute lain
+app.use('/api/films', filmsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/schedules', schedulesRouter);
 app.use('/api', authRouter);
 app.use('/api/seats', seatsRouter)
-app.use('/api/bookings', bookingRouter)
+app.use('/api/bookings', bookingsRouter)
+app.use('/api', paymentsRouter)
 
 // Middleware untuk menangani respons "Page Not Found"
 app.use((req, res) => {

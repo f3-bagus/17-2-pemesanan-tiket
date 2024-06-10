@@ -5,15 +5,19 @@ const { Schema } = mongoose;
 const paymentSchema = new Schema({
     userId: {
         type: mongoose.Schema.ObjectId,
-        ref: 'User', 
+        ref: 'User',
     },
-    booking: {
+    bookingId: {
         type: mongoose.Schema.ObjectId,
-        ref: 'Booking', 
+        ref: 'Booking',
     },
     uploadImage: {
         type: String,
         required: true,
+    },
+    status: {
+        type: Boolean,
+        default: false
     },
     createdAt: { 
         type: String,
