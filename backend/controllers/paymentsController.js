@@ -10,7 +10,7 @@ const createNewPayment = async (req, res) => {
         }
         const payment = new Payment({
             uploadImage: req.body.uploadImage,
-            userId: req.user._id,
+            user: req.user.username,
             bookingId: booking._id
         });
         await payment.save();
