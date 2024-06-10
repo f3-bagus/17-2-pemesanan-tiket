@@ -12,7 +12,7 @@ const bookingSchema = new Schema({
         ref: 'Schedule',
     },
     seatId: {
-        type: mongoose.Schema.ObjectId, 
+        type: mongoose.Schema.ObjectId,
         ref: 'Seat',
     },
     totalPrice: {

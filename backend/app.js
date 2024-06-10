@@ -26,11 +26,11 @@ mongoose.connect(process.env.DB_NAME).then(() => {
 });
 
 // Rute-rute film
-app.use('/api/admin/dashboard', filmRoutes);
+app.use('/api/films', filmRoutes);
 
 // Rute-rute lain
-app.use('/api/admin/dashboard/users', usersRouter);
-app.use('/api/admin/dashboard/schedules', schedulesRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/schedules', schedulesRouter);
 app.use('/api', authRouter);
 app.use('/api/seats', seatsRouter)
 app.use('/api/bookings', bookingRouter)

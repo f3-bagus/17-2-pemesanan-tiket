@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const validasiObjectId = (req, res, next) => {
-        const paramId = ['id'].find((param => req.params[param]))
+        const paramId = ['id','bookingId'].find((param => req.params[param]))
 
         if (!paramId) {
             return next()
