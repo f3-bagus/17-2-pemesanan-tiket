@@ -12,15 +12,15 @@
 
 /* ----- NAVBAR STYLE ----- */
 .navbar {
- position: fixed;
- padding: 15px 0 15px 0;
- width: 100%;
- -o-transition: all 0.2s ease;
- -webkit-transition: all 0.2s ease;
- -moz-transition: all 0.2s ease;
- -ms-transition: all 0.2s ease;
- transition: all 0.2s ease;
- z-index: 9999;
+ position: fixed !important;
+ padding: 15px 0 15px 0 !important;
+ width: 100% !important;
+ -o-transition: all 0.2s ease !important;
+ -webkit-transition: all 0.2s ease !important;
+ -moz-transition: all 0.2s ease !important;
+ -ms-transition: all 0.2s ease !important;
+ transition: all 0.2s ease !important;
+ z-index: 9999 !important;
 }
 
 .navbar.color-active {

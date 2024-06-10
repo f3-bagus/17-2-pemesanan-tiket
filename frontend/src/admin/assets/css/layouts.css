@@ -1,0 +1,137 @@
+.navbar.fixed-top + .page-body-wrapper {
+    padding-top: var(--navbar-height);
+  }
+  
+  .sidebar-icon-only {
+    @media (min-width: 992px) {
+      .navbar {
+        left: var(--sidebar-width-icon);
+      }
+      .navbar .navbar-menu-wrapper {
+        width: 100%;
+      }
+      .sidebar {
+        width: var(--sidebar-width-icon);
+      }
+      .sidebar .sidebar-brand-wrapper {
+        width: var(--sidebar-width-icon);
+      }
+      .sidebar .sidebar-brand-wrapper .brand-logo {
+        display: none;
+      }
+      .sidebar .sidebar-brand-wrapper .brand-logo-mini {
+        display: inline-block;
+      }
+      .sidebar .nav {
+        overflow: visible;
+      }
+      .sidebar .nav .nav-item {
+        position: relative;
+        padding: 0;
+      }
+      .sidebar .nav .nav-item .profile-name {
+        display: none;
+      }
+      .sidebar .nav .nav-item .mdi-dots-vertical {
+        display: none;
+      }
+      .sidebar .nav .nav-item.account-dropdown {
+        display: none;
+      }
+      .sidebar .nav .nav-item .nav-link {
+        text-align: center;
+      }
+      .sidebar .nav .nav-item .nav-link .menu-title,
+      .sidebar .nav .nav-item .nav-link .badge,
+      .sidebar .nav .nav-item .nav-link .menu-sub-title {
+        display: none;
+      }
+      .sidebar .nav .nav-item .nav-link i.menu-icon {
+        margin-right: 0;
+        margin-left: 0;
+      }
+      .sidebar .nav .nav-item .nav-link i.menu-arrow {
+        display: none;
+      }
+      .sidebar .nav .nav-item.nav-profile {
+        display: none;
+      }
+      .sidebar .nav .nav-item.nav-category {
+        display: none;
+      }
+      .sidebar .nav .nav-item.nav-doc {
+        margin: 0;
+      }
+      .sidebar .nav .nav-item.nav-doc i {
+        display: block;
+      }
+      .sidebar .nav .nav-item .collapse {
+        display: none;
+      }
+      .sidebar .nav .nav-item.hover-open .nav-link .menu-title {
+        display: flex;
+        align-items: center;
+        background: var(--icon-only-menu-bg-light);
+        padding: 0.5rem 1.4rem;
+        left: var(--sidebar-width-icon);
+        position: absolute;
+        text-align: left;
+        top: 0;
+        bottom: 0;
+        width: var(--icon-only-collapse-width);
+        z-index: 1;
+        line-height: 1.8;
+      }
+      .sidebar.sidebar-dark .nav .nav-item.hover-open .nav-link .menu-title {
+        background: var(--sidebar-dark-menu-active-bg);
+      }
+      .sidebar .nav .nav-item.hover-open .nav-link .menu-title:after {
+        display: none;
+      }
+      .sidebar .nav .nav-item.hover-open .collapse,
+      .sidebar .nav .nav-item.hover-open .collapsing {
+        display: block;
+        padding: 0.5rem 0;
+        background: var(--icon-only-menu-bg-light);
+        border-radius: 0 0 5px 0;
+        position: absolute;
+        left: var(--sidebar-width-icon);
+        width: var(--icon-only-collapse-width);
+      }
+      .sidebar.sidebar-dark .nav .nav-item.hover-open .collapse,
+      .sidebar.sidebar-dark .nav .nav-item.hover-open .collapsing {
+        background: var(--sidebar-dark-bg);
+      }
+      .sidebar .nav .sub-menu {
+        padding: var(--sidebar-icon-only-submenu-padding);
+      }
+      .sidebar .nav .sub-menu .nav-item .nav-link {
+        text-align: left;
+        padding-left: 20px;
+      }
+      .sidebar .nav .sub-menu .nav-item .nav-link:before {
+        content: "";
+        display: inline-block;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: var(--sidebar-dark-submenu-color);
+        position: absolute;
+        left: 0;
+      }
+      .sidebar .nav .sub-menu .nav-item .nav-link:hover:before {
+        background-color: white;
+      }
+      .sidebar .nav .sidebar-actions {
+        display: none;
+      }
+      .sidebar-rtl .sidebar .nav .nav-item.profile {
+        padding-right: 0;
+      }
+      .page-body-wrapper {
+        width: calc(100% - var(--sidebar-width-icon));
+        transition: all var(--action-transition-duration) var(--action-transition-timing-function);
+      }
+    }
+  }
+  
