@@ -3,16 +3,12 @@ const moment = require('moment-timezone')
 const { Schema } = mongoose;
 
 const paymentSchema = new Schema({
-    user: {
-        type: String
+    balanceUser: {
+        type: Number
     },
     bookingId: {
         type: mongoose.Schema.ObjectId,
         ref: 'Booking',
-    },
-    uploadImage: {
-        type: String,
-        required: true,
     },
     status: {
         type: Boolean,

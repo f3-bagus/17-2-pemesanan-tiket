@@ -13,6 +13,7 @@ const filmsRouter = require('./routes/filmRoutes');
 const seatsRouter = require('./routes/seats')
 const bookingsRouter = require('./routes/bookings');
 const paymentsRouter = require('./routes/payments')
+const ticketsRouter = require('./routes/tickets')
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -33,6 +34,7 @@ app.use('/api', authRouter);
 app.use('/api/seats', seatsRouter)
 app.use('/api/bookings', bookingsRouter)
 app.use('/api', paymentsRouter)
+app.use('/api/tickets', ticketsRouter)
 
 // Middleware untuk menangani respons "Page Not Found"
 app.use((req, res) => {

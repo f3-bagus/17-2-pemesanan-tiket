@@ -18,6 +18,10 @@ const userSchema = new Schema({
     noHp: {
         type: Number,
     },
+    balance: {
+        type: Number,
+        default: 100000
+    },
     isAdmin: {
         type: Boolean,
         default: false,
