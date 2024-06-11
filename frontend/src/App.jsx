@@ -1,35 +1,27 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Dashboard from "./admin/pages/Dashboard";
-import Schedule from "./admin/pages/Schedule";
-import Movie from "./admin/pages/Movie";
-import Users from "./admin/pages/Users";
-import HomePage from "./user/pages/HomePages";
-import MoviePage from "./user/pages/MoviePage";
-import TheaterPage from "./user/pages/TheaterPages";
-import TicketPage from "./user/pages/TicketPages";
-import AccountPage from "./user/pages/AccountPages";
-import Login from "./auth/Login";
+import AdminApp from "./admin/AdminApp";
+import UserApp from "./user/UserApp";
+import Login from "./auth/Login"; // Assuming these are the correct paths
 import Register from "./auth/Register";
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/admin/schedule" element={<Schedule />} />
-        <Route path="/admin/movie" element={<Movie />} />
-        <Route path="/admin/users" element={<Users />} />
-        <Route path="/admin" element={<Dashboard />} />
-        <Route path="/" element={<HomePage />} />
-        <Route path="/movie" element={<MoviePage />} />
-        <Route path="/theater" element={<TheaterPage />} />
-        <Route path="/ticket" element={<TicketPage />} />
-        <Route path="/account" element={<AccountPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </Router>
-  );
+ return (
+  <Router>
+   <Routes>
+    {/* Rute untuk aplikasi Admin */}
+    <Route path="/admin/*" element={<AdminApp />} />
+
+    {/* Rute untuk aplikasi User */}
+    <Route path="/*" element={<UserApp />} />
+
+    {/* Rute untuk halaman Login */}
+    <Route path="/login" element={<Login />} />
+
+    {/* Rute untuk halaman Register */}
+    <Route path="/register" element={<Register />} />
+   </Routes>
+  </Router>
+ );
 }
 
 export default App;
