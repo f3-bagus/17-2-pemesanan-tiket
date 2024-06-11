@@ -1,5 +1,5 @@
 /* -------------------------------------- LOGIN DAN REGISTER -------------------------------------- */
-.login-register {
+/* .login-register {
  font-family: "Inter", sans-serif;
  background-color: #fff;
  color: #ffffff;
@@ -147,12 +147,12 @@
 
 .login-register .input-group-text .fas {
  color: #0a0358;
-}
+} */
 
 /* RESPONSIVE */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
  .login-register .container {
   margin-top: 30px;
   padding: 20px;
  }
-}
+} */
