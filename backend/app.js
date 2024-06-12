@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors');
 const port = process.env.PORT || 5000;
@@ -20,6 +21,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname,'public')))
 
 mongoose.connect(process.env.DB_NAME).then(() => {
     console.log('Database connected');
