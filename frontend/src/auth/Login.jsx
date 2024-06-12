@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserContext';
-// import './css/loginregister.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const Login = () => {
