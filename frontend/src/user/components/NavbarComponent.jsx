@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Navbar, Container, Nav } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import "../css/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const NavbarComponents = () => {
+ let navigate = useNavigate();
+
  const [changeColor, setChangeColor] = useState(false);
 
  const changeBackgroundColor = () => {
@@ -64,7 +66,12 @@ const NavbarComponents = () => {
       </Nav>
 
       <div className="text-center">
-       <button className="btn btn-outline-light rounded-1">Sign In</button>
+       <button
+        className="btn btn-outline-light rounded-1"
+        onClick={() => navigate("/login")}
+       >
+        Sign In
+       </button>
       </div>
      </Navbar.Collapse>
     </Container>

@@ -1,6 +1,7 @@
 import { Container, Col, Row, Card } from "react-bootstrap";
 import HeroImage from "../assets/img/hero/hero1.png";
 import NavbarComponents from "../components/NavbarComponent";
+import { useNavigate } from "react-router-dom";
 
 import poster1 from "../assets/img/movie/movie-1.jpeg";
 import poster2 from "../assets/img/movie/movie-2.jpeg";
@@ -15,6 +16,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/main.css";
 
 const HomePage = () => {
+ let navigate = useNavigate();
+
  const posterMovies = [
   { id: 1, image: poster1 },
   { id: 2, image: poster2 },
@@ -36,8 +39,8 @@ const HomePage = () => {
         Get Your Own <br /> <span>Favourite Movie Ticket</span> <br /> Here!
        </h1>
        <p className="mb-4">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis
-        quis natus quisquam animi. Maiores, vel.
+        Discover new movies and book your tickets today. <br />
+        Enjoy an unforgettable cinema experience.
        </p>
        <button className="btn btn-light btn-lg rounded-1 me-2 mb-xs-0 mb-2">
         Buy Ticket
@@ -72,7 +75,12 @@ const HomePage = () => {
          />
          <div className="overlay rounded">
           <button className="btn btn-light mb-2">Watch Trailer</button>
-          <button className="btn btn-warning">Get Ticket</button>
+          <button
+           className="btn btn-warning "
+           onClick={() => navigate("/movie")}
+          >
+           Get Ticket
+          </button>
          </div>
         </Card>
        </Col>

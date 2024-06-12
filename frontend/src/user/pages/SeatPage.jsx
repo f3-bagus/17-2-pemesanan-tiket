@@ -1,12 +1,12 @@
 import NavbarComponents from "../components/NavbarComponent";
 
-const AccountPages = () => {
+const SeatPage = () => {
  return (
   <div>
    <NavbarComponents />
-   AccountPages
+   SeatPage
   </div>
  );
 };
 
-export default AccountPages;
+export default SeatPage;

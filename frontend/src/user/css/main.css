@@ -336,4 +336,10 @@ header {
  border: none;
 }
 
+.movie-poster .overlay .btn-warning:hover {
+ background-color: var(--secondary-color);
+ border: none;
+ color: var(--primary-color);
+}
+
 /* ----- END STYLE HOME PAGE MOVIE ----- */

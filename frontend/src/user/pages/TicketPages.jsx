@@ -1,5 +1,12 @@
+import NavbarComponents from "../components/NavbarComponent";
+
 const TicketPages = () => {
- return <div>TicketPages</div>;
+ return (
+  <div>
+   <NavbarComponents />
+   TicketPages
+  </div>
+ );
 };
 
 export default TicketPages;

@@ -1,12 +1,12 @@
 import NavbarComponents from "../components/NavbarComponent";
 
-const AccountPages = () => {
+const PaymentPage = () => {
  return (
   <div>
    <NavbarComponents />
-   AccountPages
+   PaymentPage
   </div>
  );
 };
 
-export default AccountPages;
+export default PaymentPage;
