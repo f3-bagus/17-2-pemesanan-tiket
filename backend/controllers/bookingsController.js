@@ -1,11 +1,11 @@
-const Booking = require("../models/Booking");
-const Seat = require("../models/Seat");
-const Film = require("../models/filmModel");
+const Booking = require('../models/BookingModel');
+const Seat = require("../models/SeatModel");
+const Film = require("../models/FilmModel");
 
 const getAllBooking = async (req, res) => {
-    const bookings = await Booking.find({})
-    return res.status(200).json(bookings)
-}
+  const bookings = await Booking.find({});
+  return res.status(200).json(bookings);
+};
 
 const createBooking = async (req, res) => {
   const { filmId, scheduleId, seatId } = req.body;

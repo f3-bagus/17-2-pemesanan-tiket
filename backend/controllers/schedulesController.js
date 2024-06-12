@@ -1,4 +1,4 @@
-const Schedule = require('../models/Schedule')
+const Schedule = require('../models/ScheduleModel')
 
 const getAllSchedule = async (req, res) => {
     const schedules = await Schedule.find({})
