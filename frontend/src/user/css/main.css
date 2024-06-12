@@ -278,6 +278,38 @@ header {
  }
 }
 
+/* ----- STYLE HOME PAGE PROMO ----- */
+.homepage .promo {
+ background-color: var(--color-text);
+}
+
+.homepage .promo h1 {
+ color: #222831;
+}
+
+.swiper {
+ width: 100%;
+ height: 100%;
+}
+
+.swiper-slide {
+ text-align: center;
+ font-size: 18px;
+ background: #fff;
+
+ /* Center slide text vertically */
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+
+.swiper-slide img {
+ display: block;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+}
+
 /* ----- STYLE HOME PAGE MOVIE ----- */
 .homepage .movies {
  background-color: var(--color-text);
@@ -342,4 +374,70 @@ header {
  color: var(--primary-color);
 }
 
+/* STYLE FAQ */
+.faq {
+ padding-top: 50px;
+ padding-bottom: 100px;
+ background-color: var(--primary-color);
+}
+.faq h2 {
+ color: var(--color-text);
+}
+
+.faq .accordion .accordion-button {
+ color: var(--primary-color);
+}
+
+.faq .accordion .accordion-button:focus {
+ border: none;
+ box-shadow: none;
+}
+
+/* ----------- FOOTER STYLE ----------- */
+.footer {
+ background-color: var(--secondary-color);
+ font-weight: 500;
+}
+
+.footer .social {
+ display: flex;
+ align-items: center;
+ gap: 10px;
+}
+
+.footer .social i {
+ font-size: 25px;
+ width: 40px;
+ height: 40px;
+ cursor: pointer;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ text-decoration: none;
+ position: relative;
+ -o-transition: all 0.3s ease;
+ -webkit-transition: all 0.3s ease;
+ -moz-transition: all 0.3s ease;
+ -ms-transition: all 0.3s ease;
+ transition: all 0.3s ease;
+ background-color: #eeeeee;
+ border-radius: 50%;
+}
+
+.footer .social i:hover {
+ color: var(--secondary-color);
+}
+
+.footer .row:nth-child(2) {
+ margin-top: 50px;
+}
 /* ----- END STYLE HOME PAGE MOVIE ----- */
+/* -------------------------------------------------------------------------------------------- */
+
+/* -------------------------------------- MOVIEPAGE USERS -------------------------------------- */
+
+/* -------------------------------------------------------------------------------------------- */
+
+/* -------------------------------------- TICKETPAGE USERS -------------------------------------- */
+
+/* -------------------------------------------------------------------------------------------- */

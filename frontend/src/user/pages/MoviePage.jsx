@@ -1,11 +1,12 @@
-import React from "react";
-import NavbarComponents from "../components/NavbarComponent";
-
+import { Container, Row, Col } from "react-bootstrap";
 const MoviePage = () => {
  return (
-  <div>
-   <NavbarComponents />
-   Moviepage
+  <div className="moviepage">
+   <Container className="min-vh-100">
+    <Row>
+     <Col></Col>
+    </Row>
+   </Container>
   </div>
  );
 };

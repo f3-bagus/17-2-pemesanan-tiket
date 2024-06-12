@@ -1,10 +1,13 @@
-import NavbarComponents from "../components/NavbarComponent";
+import { Container, Row, Col } from "react-bootstrap";
 
 const AccountPages = () => {
  return (
   <div>
-   <NavbarComponents />
-   AccountPages
+   <Container className="min-vh-100">
+    <Row>
+     <Col>AccountPages</Col>
+    </Row>
+   </Container>
   </div>
  );
 };
