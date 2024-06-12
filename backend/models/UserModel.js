@@ -22,6 +22,10 @@ const userSchema = new Schema({
         type: Number,
         default: 100000
     },
+    image: {
+        url: String, 
+        filename: String
+    },
     isAdmin: {
         type: Boolean,
         default: false,

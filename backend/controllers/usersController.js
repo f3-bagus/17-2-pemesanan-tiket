@@ -49,4 +49,16 @@ const deleteUserById = async (req, res) => {
   });
 };
 
-module.exports = { getAllUser, getUserById, updateUserById, deleteUserById };
+const getProfile = async (req, res) => {
+  const user = await User.findById(req.user._id);
+  return res.status(200).json({
+      image: user.image,
+      username: user.username,
+      password: user.password,
+      email: user.email,
+      telephone: user.noHp,
+      saldo: user.balance,
+  })
+}
+
+module.exports = { getAllUser, getUserById, updateUserById, deleteUserById, getProfile };

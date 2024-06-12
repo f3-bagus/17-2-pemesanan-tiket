@@ -30,7 +30,7 @@ mongoose.connect(process.env.DB_NAME).then(() => {
 });
 
 app.use('/api/films', filmsRouter);
-app.use('/api/users', usersRouter);
+app.use('/api', usersRouter);
 app.use('/api/schedules', schedulesRouter);
 app.use('/api', authRouter);
 app.use('/api/seats', seatsRouter)
