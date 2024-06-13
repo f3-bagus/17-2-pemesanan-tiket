@@ -61,4 +61,18 @@ const getProfile = async (req, res) => {
   })
 }
 
-module.exports = { getAllUser, getUserById, updateUserById, deleteUserById, getProfile };
+const updateProfile = async (req, res) => {
+  const user = await User.findByIdAndUpdate({_id: req.user._id}, req.body, {new: true});
+  if (!user) {
+    return res.status(400).json({
+      status: 'fail',
+      message: 'failed updated'
+    })
+  }
+  return res.status(200).json({
+    status: 'success',
+    message: 'updated successfully'
+  })
+}
+
+module.exports = { getAllUser, getUserById, updateUserById, deleteUserById, getProfile, updateProfile };
