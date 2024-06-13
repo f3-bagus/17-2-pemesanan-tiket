@@ -42,7 +42,7 @@ const isAdmin = (req, res, next) => {
 };
 
 const verifyUser = (req, res, next) => {
-  if (req.user._id === req.params.id || req.user.isAdmin) {
+  if (req.user._id) {
     next();
   } else {
     return res.status(403).json({
