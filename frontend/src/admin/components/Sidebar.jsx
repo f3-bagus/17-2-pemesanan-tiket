@@ -1,5 +1,9 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import logo from '../assets/images/logo.svg'; // Pastikan path ini benar\
+import pict from "../assets/images/faces/face1.jpg"
+
+import "../assets/css/style.css";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -11,16 +15,13 @@ const Sidebar = () => {
 
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
-      <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-con tent-center fixed-top">
-        <NavLink className="sidebar-brand brand-logo" to="/admin/dashboard">
-            <s className="text-body-warning text-decoration-none ">FLICK BOX</s>
-        </NavLink>
-        <NavLink
-          className="sidebar-brand brand-logo-mini"
-          to="/admin/dashboard"
-        >
-          <img src="/logo1-wb.png" alt="logo" />
-        </NavLink>
+      <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
+        <a className="sidebar-brand brand-logo" href="index.html">
+          <img src={logo} alt="logo" />
+        </a>
+        <a className="sidebar-brand brand-logo-mini" href="index.html">
+          <img src="/logo-w.svg" alt="logo" />
+        </a>
       </div>
       <ul className="nav">
         <li className="nav-item profile">
@@ -29,13 +30,13 @@ const Sidebar = () => {
               <div className="count-indicator">
                 <img
                   className="img-xs rounded-circle"
-                  src="/assets/images/faces/face15.jpg"
+                  src={pict}
                   alt="profile"
                 />
                 <span className="count bg-success"></span>
               </div>
               <div className="profile-name">
-                <h5 className="mb-0 font-weight-normal">Henry Klein</h5>
+                <h5 className="mb-0 font-weight-normal text-light " style={{ fontSize: '0.9rem' }}>Henry Klein</h5>
               </div>
             </div>
             <a href="#" id="profile-dropdown" data-toggle="dropdown">
@@ -83,7 +84,7 @@ const Sidebar = () => {
         >
           <NavLink
             className="nav-link"
-            activeClassName="active"
+            activeclassname="active"
             to="/admin/dashboard"
           >
             <span className="menu-icon">
@@ -99,7 +100,7 @@ const Sidebar = () => {
         >
           <NavLink
             className="nav-link"
-            activeClassName="active"
+            activeclassname="active"
             to="/admin/schedule"
           >
             <span className="menu-icon">
@@ -115,7 +116,7 @@ const Sidebar = () => {
         >
           <NavLink
             className="nav-link"
-            activeClassName="active"
+            activeclassname="active"
             to="/admin/movie"
           >
             <span className="menu-icon">
