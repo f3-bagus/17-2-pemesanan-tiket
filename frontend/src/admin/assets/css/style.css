@@ -23452,7 +23452,7 @@ code {
 }
 
 /* Footer */
-.footer {
+.footer-admin {
   background: #000000;
   padding: 20px 1rem;
   transition: all 0.25s ease;
@@ -23462,12 +23462,12 @@ code {
   font-size: calc(0.875rem - 0.05rem);
   font-weight: 300;
 }
-.footer a {
+.footer-admin a {
   color: #00d25b;
   font-size: inherit;
 }
 @media (max-width: 991px) {
-  .footer {
+  .footer-admin {
     margin-left: 0;
     width: 100%;
   }
