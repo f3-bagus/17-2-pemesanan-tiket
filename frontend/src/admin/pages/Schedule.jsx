@@ -28,7 +28,7 @@ const Schedule = () => {
 
     // Fetch data dari API menggunakan axios
     axios
-      .get("http://localhost:3000/api/admin/dashboard/schedules")
+      .get("http://localhost:3000/api/schedules")
       .then((response) => {
         console.log("Data jadwal:", response.data); // Tambahkan log ini
         setSchedules(response.data); // Set data jadwal ke state

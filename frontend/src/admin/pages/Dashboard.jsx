@@ -85,7 +85,7 @@ const Dashboard = () => {
 
     // Fetch schedules count from API using axios
     axios
-      .get("http://localhost:3000/api/admin/dashboard/schedules")
+      .get("http://localhost:3000/api/schedules")
       .then((response) => {
         const count = response.data.length;
         // Assuming API returns an object with a count property
@@ -97,7 +97,7 @@ const Dashboard = () => {
 
     // Fetch users count from API using axios
     axios
-      .get("http://localhost:3000/api/admin/dashboard/users")
+      .get("http://localhost:3000/api")
       .then((response) => {
         // Assuming API returns an object with a count property
         setUsersCount(response.data.count); // Update usersCount state with the count from API response
