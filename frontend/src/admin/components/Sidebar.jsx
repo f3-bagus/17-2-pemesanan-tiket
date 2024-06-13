@@ -1,5 +1,9 @@
 import React from "react";
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation } from "react-router-dom";
+import logo from '../assets/images/logo.svg'; // Pastikan path ini benar\
+import pict from "../assets/images/faces/face1.jpg"
+
+import "../assets/css/style.css";
 
 const Sidebar = () => {
   const location = useLocation();
@@ -8,16 +12,16 @@ const Sidebar = () => {
   const isActive = (path) => {
     return location.pathname === path;
   };
-  
+
   return (
     <nav className="sidebar sidebar-offcanvas" id="sidebar">
       <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-        <NavLink className="sidebar-brand brand-logo" to="/admin/dashboard">
-          <img src="/assets/images/logo.svg" alt="logo" />
-        </NavLink>
-        <NavLink className="sidebar-brand brand-logo-mini" to="/admin/dashboard">
-          <img src="/assets/images/logo-mini.svg" alt="logo" />
-        </NavLink>
+        <a className="sidebar-brand brand-logo" href="index.html">
+          <img src={logo} alt="logo" />
+        </a>
+        <a className="sidebar-brand brand-logo-mini" href="index.html">
+          <img src="/logo-w.svg" alt="logo" />
+        </a>
       </div>
       <ul className="nav">
         <li className="nav-item profile">
@@ -26,13 +30,13 @@ const Sidebar = () => {
               <div className="count-indicator">
                 <img
                   className="img-xs rounded-circle"
-                  src="/assets/images/faces/face15.jpg"
+                  src={pict}
                   alt="profile"
                 />
                 <span className="count bg-success"></span>
               </div>
               <div className="profile-name">
-                <h5 className="mb-0 font-weight-normal">Henry Klein</h5>
+                <h5 className="mb-0 font-weight-normal text-light " style={{ fontSize: '0.9rem' }}>Henry Klein</h5>
               </div>
             </div>
             <a href="#" id="profile-dropdown" data-toggle="dropdown">
@@ -73,10 +77,14 @@ const Sidebar = () => {
         <li className="nav-item nav-category">
           <span className="nav-link">Navigation</span>
         </li>
-        <li className={`nav-item menu-items ${isActive("/admin/dashboard") ? 'active' : ''}`}>
+        <li
+          className={`nav-item menu-items ${
+            isActive("/admin/dashboard") ? "active" : ""
+          }`}
+        >
           <NavLink
             className="nav-link"
-            activeClassName="active"
+            activeclassname="active"
             to="/admin/dashboard"
           >
             <span className="menu-icon">
@@ -85,10 +93,14 @@ const Sidebar = () => {
             <span className="menu-title">Dashboard</span>
           </NavLink>
         </li>
-        <li className={`nav-item menu-items ${isActive("/admin/schedule") ? 'active' : ''}`}>
+        <li
+          className={`nav-item menu-items ${
+            isActive("/admin/schedule") ? "active" : ""
+          }`}
+        >
           <NavLink
             className="nav-link"
-            activeClassName="active"
+            activeclassname="active"
             to="/admin/schedule"
           >
             <span className="menu-icon">
@@ -97,10 +109,14 @@ const Sidebar = () => {
             <span className="menu-title">Schedules</span>
           </NavLink>
         </li>
-        <li className={`nav-item menu-items ${isActive("/admin/movie") ? 'active' : ''}`}>
+        <li
+          className={`nav-item menu-items ${
+            isActive("/admin/movie") ? "active" : ""
+          }`}
+        >
           <NavLink
             className="nav-link"
-            activeClassName="active"
+            activeclassname="active"
             to="/admin/movie"
           >
             <span className="menu-icon">
@@ -109,7 +125,11 @@ const Sidebar = () => {
             <span className="menu-title">Movies</span>
           </NavLink>
         </li>
-        <li className={`nav-item menu-items ${isActive("/admin/users") ? 'active' : ''}`}>
+        <li
+          className={`nav-item menu-items ${
+            isActive("/admin/users") ? "active" : ""
+          }`}
+        >
           <NavLink
             className="nav-link"
             activeClassName="active"
