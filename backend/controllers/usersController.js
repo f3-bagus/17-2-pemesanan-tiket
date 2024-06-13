@@ -1,4 +1,5 @@
 const User = require("../models/UserModel");
+const fs = require('fs')
 
 const getAllUser = async (req, res) => {
   const users = await User.find({});
@@ -75,4 +76,35 @@ const updateProfile = async (req, res) => {
   })
 }
 
-module.exports = { getAllUser, getUserById, updateUserById, deleteUserById, getProfile, updateProfile };
+const changeAvatar = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    if (req.file) {
+      if (user.image && user.image.url) {
+        fs.unlink(user.image.url, (err) => {
+          if (err) {
+            console.error('Failed to delete old image:', err);
+          }
+        });
+      }
+      const image = {
+        url: req.file.path,
+        filename: req.file.filename,
+      };
+      user.image = image;
+      await user.save();
+
+      return res.status(200).json({ message: 'Avatar updated successfully', image: user.image });
+    } else {
+      return res.status(400).json({ message: 'No image files provided' });
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+module.exports = { getAllUser, getUserById, updateUserById, deleteUserById, getProfile, updateProfile, changeAvatar };
