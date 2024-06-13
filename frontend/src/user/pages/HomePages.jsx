@@ -3,20 +3,7 @@ import HeroImage from "../assets/img/hero/hero1.png";
 
 import FaqComponents from "../components/FaqComponent";
 import { useNavigate } from "react-router-dom";
-
-import poster1 from "../assets/img/movie/movie-1.jpeg";
-import poster2 from "../assets/img/movie/movie-2.jpeg";
-import poster3 from "../assets/img/movie/movie-3.jpeg";
-import poster4 from "../assets/img/movie/movie-4.jpeg";
-import poster5 from "../assets/img/movie/movie-5.jpeg";
-import poster6 from "../assets/img/movie/movie-6.jpeg";
-import poster7 from "../assets/img/movie/movie-7.jpeg";
-import poster8 from "../assets/img/movie/movie-8.jpeg";
-
-import promo1 from "../assets/img/promo/promo1.png";
-import promo2 from "../assets/img/promo/promo2.png";
-import promo3 from "../assets/img/promo/promo3.png";
-import promo4 from "../assets/img/promo/promo4.png";
+import { promos, posterMovies } from "../data/index";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/main.css";
@@ -33,23 +20,6 @@ import FaqComponent from "../components/FaqComponent";
 const HomePage = () => {
  let navigate = useNavigate();
 
- const promos = [
-  { id: 1, image: promo1 },
-  { id: 2, image: promo2 },
-  { id: 3, image: promo3 },
-  { id: 4, image: promo4 },
- ];
-
- const posterMovies = [
-  { id: 1, image: poster1 },
-  { id: 2, image: poster2 },
-  { id: 3, image: poster3 },
-  { id: 4, image: poster4 },
-  { id: 5, image: poster5 },
-  { id: 6, image: poster6 },
-  { id: 7, image: poster7 },
-  { id: 8, image: poster8 },
- ];
  return (
   <div className="homepage">
    {/* HERO SECTION */}
@@ -140,14 +110,14 @@ const HomePage = () => {
      <Row>
       {posterMovies.map((movie) => (
        <Col key={movie.id} className="position-relative movie-poster">
-        <Card className="mb-4 rounded">
+        <Card className="mb-4 rounded-4">
          <Card.Img
           variant="top"
           src={movie.image}
           alt="poster-film"
-          className="w-100"
+          className="w-100 rounded-4"
          />
-         <div className="overlay rounded">
+         <div className="overlay rounded-4">
           <button className="btn btn-light mb-2">Watch Trailer</button>
           <button
            className="btn btn-warning "

@@ -187,6 +187,7 @@
  -ms-transition: all 0.2s ease !important;
  transition: all 0.2s ease !important;
  z-index: 9999 !important;
+ background-color: #222831e9;
 }
 
 .user-navbar.color-active {
@@ -435,7 +436,40 @@ header {
 /* -------------------------------------------------------------------------------------------- */
 
 /* -------------------------------------- MOVIEPAGE USERS -------------------------------------- */
+.user-movie {
+ background-color: var(--color-text);
+}
 
+.user-movie .row:nth-child(1) {
+ padding-top: 130px;
+}
+
+.icon-duration {
+ display: flex;
+ align-items: center;
+}
+
+.icon-duration i,
+.icon-age i,
+.icon-price i {
+ margin-right: 10px;
+ align-items: center;
+ font-size: 20px;
+ padding-bottom: 10px; /* Ubah nilai ini sesuai kebutuhan */
+}
+
+.poster-card {
+ background: none;
+ border: none;
+}
+
+.icon-age {
+ display: flex;
+}
+
+.icon-price {
+ display: flex;
+}
 /* -------------------------------------------------------------------------------------------- */
 
 /* -------------------------------------- TICKETPAGE USERS -------------------------------------- */
