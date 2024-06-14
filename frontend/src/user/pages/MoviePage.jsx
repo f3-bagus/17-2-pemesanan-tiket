@@ -46,11 +46,11 @@ const MoviePage = ({ match }) => {
        <h6>{movie.duration}</h6>
       </div>
       <div className="icon-age">
-       <i class="fa-solid fa-shield"></i>
+       <i className="fa-solid fa-shield"></i>
        <h6>{movie.age}</h6>
       </div>
       <div className="icon-price">
-       <i class="fa-solid fa-ticket"></i>
+       <i className="fa-solid fa-ticket"></i>
        <h6>{movie.price}</h6>
       </div>
       <p>

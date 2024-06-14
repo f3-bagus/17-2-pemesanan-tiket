@@ -29,7 +29,7 @@ export const posterMovies = [
   duration: "112 minutes",
   director: "Kimo Stamboel",
   writer: "Laila Nurazizah",
-  price: "Rp 45000,-",
+  price: 45000,
   cast: "Aulia Sarah, Maudy Effrosina, Jourdy Pranata",
   synopsis:
    "Mila, bersama dengan sepupunya, Yuda, dan sahabat mereka, Arya dan Jito, pergi menuju ke sebuah desa terpencil di tengah hutan yang dikenal sebagai Desa Penari. Mila percaya bahwa jika dia mengembalikan sebuah gelang antik milik Badarawuhi, sesosok entitas gaib yang menguasai desa tersebut, dapat menyembuhkan penyakit ibunya. Namun, setelah Mila berhasil mengembalikan gelang tersebut, keadaan justru malah semakin memburuk.",
