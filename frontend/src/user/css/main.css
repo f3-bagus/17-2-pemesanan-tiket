@@ -175,7 +175,52 @@
  --navbar-color: #393e46;
  --navbar-color-text: #ffffff;
 }
+btn-orange {
+ color: #fff;
+ background-color: #fd7014;
+ border-color: #fd7014;
+}
 
+.btn-orange:hover {
+ color: #222831;
+ background-color: #ff8431;
+ border-color: #ff8431;
+}
+
+.btn-orange:focus,
+.btn-orange.focus {
+ background-color: #fd7014;
+ box-shadow: 0 0 0 0.2rem rgba(193, 132, 66, 0.5);
+}
+
+.btn-orange:disabled,
+.btn-orange.disabled {
+ background-color: #fd7014;
+ border-color: #fd7014;
+}
+
+.btn-outline-orange {
+ color: #222831;
+ background-color: none;
+ border: #fd7014 solid 2px;
+}
+.btn-outline-orange:hover {
+ color: #222831;
+ background-color: #ff8431;
+ border-color: #ff8431;
+}
+
+.btn-outline-orange:focus,
+.btn-outline-orange.focus {
+ background-color: #fd7014;
+ box-shadow: 0 0 0 0.2rem rgba(193, 132, 66, 0.5);
+}
+
+.btn-outline-orange:disabled,
+.btn-outline-orange.disabled {
+ background-color: #fd7014;
+ border-color: #fd7014;
+}
 /* ----- NAVBAR STYLE ----- */
 .user-navbar {
  position: fixed !important;
@@ -435,9 +480,49 @@ header {
 /* -------------------------------------------------------------------------------------------- */
 
 /* -------------------------------------- MOVIEPAGE USERS -------------------------------------- */
+.user-movie {
+ background-color: var(--color-text);
+}
 
+.user-movie .row:nth-child(1) {
+ padding-top: 130px;
+}
+
+.icon-duration {
+ display: flex;
+ align-items: center;
+}
+
+.icon-duration i,
+.icon-age i,
+.icon-price i {
+ margin-right: 10px;
+ align-items: center;
+ font-size: 20px;
+ padding-bottom: 10px; /* Ubah nilai ini sesuai kebutuhan */
+}
+
+.poster-card {
+ background: none;
+ border: none;
+}
+
+.icon-age {
+ display: flex;
+}
+
+.icon-price {
+ display: flex;
+}
 /* -------------------------------------------------------------------------------------------- */
 
-/* -------------------------------------- TICKETPAGE USERS -------------------------------------- */
-
+/* -------------------------------------- SEAT USERS -------------------------------------- */
+.user-seat {
+ padding-top: 130px;
+}
+/* -------------------------------------------------------------------------------------------- */
+/* -------------------------------------- PAYMENTPAGE USERS -------------------------------------- */
+.user-payment {
+ padding-top: 130px;
+}
 /* -------------------------------------------------------------------------------------------- */
