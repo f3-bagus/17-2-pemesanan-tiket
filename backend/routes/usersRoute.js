@@ -3,6 +3,7 @@ const router = express.Router();
 const usersController = require("../controllers/usersController");
 const validasiObjectId = require("../middlewares/isValidObjectId");
 const { verifyToken, verifyUser } = require('../middlewares/verifyToken');
+const upload = require('../utils/multer')
 
 router.route("/users").get(verifyToken, usersController.getAllUser);
 router
@@ -14,5 +15,10 @@ router
 router.route('/profile')
   .get(verifyToken, usersController.getProfile)
   .put(verifyToken, verifyUser, usersController.updateProfile)
+<<<<<<< HEAD
+=======
+
+router.route('/profile/avatar').put(verifyToken, verifyUser,upload.single('image'), usersController.changeAvatar)
+>>>>>>> main
 
 module.exports = router;

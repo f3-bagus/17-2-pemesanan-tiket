@@ -1,30 +1,27 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Dashboard from "./admin/pages/Dashboard";
-import Schedule from "./admin/pages/Schedule";
-import Sidebar from "./admin/components/Sidebar";
-import Navbar from "./admin/components/Navbar";
-import Movie from "./admin/pages/Movie";
-import Users from "./admin/pages/Users";
+import AdminApp from "./admin/AdminApp";
+import UserApp from "./user/UserApp";
+import Login from "./auth/Login"; // Assuming these are the correct paths
+import Register from "./auth/Register";
 
 function App() {
-  return (
-    <>
-      <Router>
-        <div className="container-scroller">
-          <Sidebar />
-          <Navbar />
-          <Routes>
-            <Route path="/admin/dashboard" element={<Dashboard />} />
-            <Route path="/admin/schedule" element={<Schedule />} />
-            <Route path="/admin/movie" element={<Movie />} />
-            <Route path="/admin/users" element={<Users />} />
-            <Route path="/admin" element={<Dashboard />} />
-            <Route path="/" element={<Dashboard />} />
-          </Routes>
-        </div>
-      </Router>
-    </>
-  );
+ return (
+  <Router>
+   <Routes>
+    {/* Rute untuk aplikasi Admin */}
+    <Route path="/admin/*" element={<AdminApp />} />
+
+    {/* Rute untuk aplikasi User */}
+    <Route path="/*" element={<UserApp />} />
+
+    {/* Rute untuk halaman Login */}
+    <Route path="/login" element={<Login />} />
+
+    {/* Rute untuk halaman Register */}
+    <Route path="/register" element={<Register />} />
+   </Routes>
+  </Router>
+ );
 }
 
 export default App;
