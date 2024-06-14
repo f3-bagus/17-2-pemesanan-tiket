@@ -8,15 +8,15 @@ import AddMovieModal from "../components/AddMovieModal";
 import EditMovieModal from "../components/EditMovieModal";
 
 const Movie = () => {
-  const [films, setFilms] = useState([]); // State untuk menyimpan data film
-  const [loading, setLoading] = useState(true); // State untuk status loading
-  const [error, setError] = useState(null); // State untuk menangani error
-  const [showAddModal, setShowAddModal] = useState(false); // State untuk menampilkan modal tambah film
-  const [showEditModal, setShowEditModal] = useState(false); // State untuk menampilkan modal edit film
-  const [selectedMovieId, setSelectedMovieId] = useState(null); // State untuk menyimpan id film yang akan di-edit
+  const [films, setFilms] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   useEffect(() => {
-    // Load CSS
+    // Load CSS files
     const cssPromises = [
       loadCSS("../assets/css/app.css"),
       loadCSS("../assets/css/bootstrap.css"),
@@ -24,26 +24,26 @@ const Movie = () => {
       loadCSS("../assets/css/Chart.min.css"),
     ];
 
-    // Wait until all files are loaded
+    // Wait until all CSS files are loaded
     Promise.all([...cssPromises])
-      .then(() => console.log("Semua file telah dimuat dengan sukses"))
-      .catch((error) => console.error("Kesalahan saat memuat file:", error));
+      .then(() => console.log("All CSS files loaded successfully"))
+      .catch((error) => console.error("Error loading CSS files:", error));
 
-    // Fetch data dari API menggunakan axios
+    // Fetch movies from API using axios
     axios
       .get("http://localhost:3000/api/films")
       .then((response) => {
-        console.log("Data film:", response.data); // Tambahkan log ini
-        setFilms(response.data); // Set data film ke state
-        setLoading(false); // Set status loading ke false
+        console.log("Film data:", response.data);
+        setFilms(response.data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error("Kesalahan saat mengambil data:", error);
-        setError(error); // Set error ke state
-        setLoading(false); // Set status loading ke false
+        console.error("Error fetching data:", error);
+        setError(error);
+        setLoading(false);
       });
 
-    // Cleanup files when component unmounts
+    // Clean up CSS files on component unmount
     return () => {
       cleanUpFiles([
         "app.css",
@@ -54,50 +54,61 @@ const Movie = () => {
     };
   }, []);
 
-  // Fungsi untuk menambah data film
   const handleAdd = (newFilm) => {
+    const token = sessionStorage.getItem("token");
     axios
-      .post("http://localhost:3000/api/films", newFilm)
+      .post("http://localhost:3000/api/films", newFilm, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
-        console.log("Film berhasil ditambahkan:", response.data);
-        setShowAddModal(false); // Tutup modal setelah berhasil tambah
-        reloadMovies(); // Memuat ulang daftar film
+        console.log("Film added successfully:", response.data);
+        setShowAddModal(false);
+        reloadMovies();
       })
       .catch((error) => {
-        console.error("Gagal menambahkan film:", error);
+        console.error("Failed to add film:", error);
       });
   };
 
-  // Fungsi untuk mengedit data film
   const handleEdit = (id, updatedFilm) => {
+    const token = sessionStorage.getItem("token");
     axios
-      .put(`http://localhost:3000/api/films/${id}`, updatedFilm)
+      .put(`http://localhost:3000/api/films/${id}`, updatedFilm, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
-        console.log("Film berhasil diubah:", response.data);
-        setShowEditModal(false); // Tutup modal setelah berhasil edit
-        reloadMovies(); // Memuat ulang daftar film
+        console.log("Film updated successfully:", response.data);
+        setShowEditModal(false);
+        reloadMovies();
       })
       .catch((error) => {
-        console.error("Gagal mengedit film:", error);
+        console.error("Failed to edit film:", error);
       });
   };
 
-  // Fungsi untuk menghapus data film
   const handleDelete = (id) => {
-    if (window.confirm("Apakah Anda yakin ingin menghapus film ini?")) {
+    const token = sessionStorage.getItem("token");
+    if (window.confirm("Are you sure you want to delete this movie?")) {
       axios
-        .delete(`http://localhost:3000/api/films/${id}`)
+        .delete(`http://localhost:3000/api/films/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
-          console.log("Film berhasil dihapus:", id);
-          reloadMovies(); // Memuat ulang daftar film setelah berhasil hapus
+          console.log("Film deleted successfully:", id);
+          reloadMovies();
         })
         .catch((error) => {
-          console.error("Gagal menghapus film:", error);
+          console.error("Failed to delete film:", error);
         });
     }
   };
 
-  // Fungsi untuk memuat ulang data film setelah perubahan
   const reloadMovies = () => {
     axios
       .get("http://localhost:3000/api/films")
@@ -105,13 +116,9 @@ const Movie = () => {
         setFilms(response.data);
       })
       .catch((error) => {
-        console.error("Kesalahan saat memuat ulang data film:", error);
+        console.error("Error reloading movies:", error);
       });
   };
-
-  // Menampilkan pesan loading atau error
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Terjadi kesalahan: {error.message}</p>;
 
   return (
     <>
@@ -136,7 +143,7 @@ const Movie = () => {
                 <div className="col-lg-12">
                   <div className="card rounded shadow border-0">
                     <div className="card-body p-5 bg-dark rounded">
-                      <div className="table-responsive">
+                      <div className="table-responsive" style={{ maxWidth: "1000px", overflowX: "auto" }}>
                         <table className="table table-striped table-dark">
                           <thead>
                             <tr>
@@ -156,60 +163,54 @@ const Movie = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {films.map((film, index) => {
-                              return (
-                                <tr key={film.id_film}>
-                                  <td>{index + 1}</td>
-                                  <td>{film.nama_film}</td>
-                                  <td>{film.durasi}</td>
-                                  <td>{film.genre}</td>
-                                  <td
+                            {films.map((film, index) => (
+                              <tr key={film._id}>
+                                <td>{index + 1}</td>
+                                <td>{film.name_film}</td>
+                                <td>{film.duration}</td>
+                                <td>{film.genre}</td>
+                                <td style={{
+                                  maxWidth: "300px",
+                                  overflow: "hidden",
+                                  textOverflow: "ellipsis",
+                                  whiteSpace: "nowrap",
+                                }}>{film.synopsis}</td>
+                                <td>
+                                  <img
+                                    src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+                                    alt="poster"
                                     style={{
-                                      maxWidth: "300px",
-                                      overflow: "hidden",
-                                      textOverflow: "ellipsis",
-                                      whiteSpace: "nowrap",
+                                      width: "100px",
+                                      height: "auto",
+                                      borderRadius: "8px",
+                                    }}
+                                  />
+                                </td>
+                                <td>{film.director}</td>
+                                <td>{film.writer}</td>
+                                <td>{film.cast}</td>
+                                <td>{film.distributor}</td>
+                                <td>{film.age}</td>
+                                <td>{film.price}</td>
+                                <td>
+                                  <button
+                                    className="btn btn-warning btn-sm"
+                                    onClick={() => {
+                                      setSelectedMovieId(film._id);
+                                      setShowEditModal(true);
                                     }}
                                   >
-                                    {film.sinopsis}
-                                  </td>
-                                  <td>
-                                    <img
-                                      src={film.gambar}
-                                      alt="poster"
-                                      style={{
-                                        width: "10vh",
-                                        height: "100%",
-                                        borderRadius: "0",
-                                      }}
-                                    />
-                                  </td>
-                                  <td>{film.sutradara}</td>
-                                  <td>{film.penulis}</td>
-                                  <td>{film.pemeran}</td>
-                                  <td>{film.distributor}</td>
-                                  <td>{film.usia}</td>
-                                  <td>{film.harga}</td>
-                                  <td>
-                                    <button
-                                      className="btn btn-warning btn-sm"
-                                      onClick={() => {
-                                        setSelectedMovieId(film.id_film);
-                                        setShowEditModal(true);
-                                      }}
-                                    >
-                                      Edit
-                                    </button>
-                                    <button
-                                      className="btn btn-danger btn-sm"
-                                      onClick={() => handleDelete(film.id_film)}
-                                    >
-                                      Delete
-                                    </button>
-                                  </td>
-                                </tr>
-                              );
-                            })}
+                                    Edit
+                                  </button>
+                                  <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => handleDelete(film._id)}
+                                  >
+                                    Delete
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
                           </tbody>
                         </table>
                       </div>
@@ -223,21 +224,21 @@ const Movie = () => {
         </div>
       </div>
 
-      {/* Modal untuk tambah film */}
+      {/* Modal for adding a new movie */}
       <AddMovieModal
         showModal={showAddModal}
         setShowModal={setShowAddModal}
-        reloadMovies={reloadMovies} // Sertakan properti reloadMovies di sini
+        reloadMovies={reloadMovies}
         handleAdd={handleAdd}
       />
 
-      {/* Modal untuk edit film */}
+      {/* Modal for editing a movie */}
       {selectedMovieId && (
         <EditMovieModal
           showModal={showEditModal}
           setShowModal={setShowEditModal}
           movieId={selectedMovieId}
-          reloadMovies={reloadMovies} // Sertakan properti reloadMovies di sini
+          reloadMovies={reloadMovies}
           handleEdit={handleEdit}
         />
       )}

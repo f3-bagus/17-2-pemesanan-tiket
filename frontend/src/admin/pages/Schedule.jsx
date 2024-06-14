@@ -52,13 +52,18 @@ const Schedule = () => {
   }, []);
 
   // Fungsi untuk menambah data jadwal
+
   const handleAdd = (newSchedule) => {
     axios
-      .post("http://localhost:3000/api/schedules", newSchedule)
+      .post("http://localhost:3000/api/schedules", newSchedule, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      })
       .then((response) => {
         console.log("Jadwal berhasil ditambahkan:", response.data);
-        setShowAddModal(false); // Tutup modal setelah berhasil tambah
-        reloadSchedules(); // Memuat ulang daftar jadwal
+        setShowAddModal(false); 
+        reloadSchedules(); 
       })
       .catch((error) => {
         console.error("Gagal menambahkan jadwal:", error);
@@ -118,7 +123,7 @@ const Schedule = () => {
                             {schedules.map((schedule, index) => (
                               <tr key={schedule._id}>
                                 <td>{index + 1}</td>
-                                <td>{schedule.date}</td>
+                                <td>{schedule.date}</td> 
                                 <td>{schedule.showTimes.join(", ")}</td>
                                 <td>
                                   <button className="btn btn-warning btn-sm">
