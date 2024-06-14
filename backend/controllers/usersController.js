@@ -58,6 +58,7 @@ const getProfile = async (req, res) => {
       password: user.password,
       email: user.email,
       telephone: user.noHp,
+      isAdmin: user.isAdmin,
       saldo: user.balance,
   })
 }
