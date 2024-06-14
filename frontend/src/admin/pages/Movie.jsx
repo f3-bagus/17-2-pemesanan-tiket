@@ -192,7 +192,7 @@ const Movie = () => {
                                   <td>{film.harga}</td>
                                   <td>
                                     <button
-                                      className="btn btn-primary btn-sm"
+                                      className="btn btn-warning btn-sm"
                                       onClick={() => {
                                         setSelectedMovieId(film.id_film);
                                         setShowEditModal(true);
