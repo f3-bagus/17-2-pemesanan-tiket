@@ -160,8 +160,8 @@ const Movie = () => {
                               return (
                                 <tr key={film.id_film}>
                                   <td>{index + 1}</td>
-                                  <td>{film.nama_film}</td>
-                                  <td>{film.durasi}</td>
+                                  <td>{film.name_film}</td>
+                                  <td>{film.duration}</td>
                                   <td>{film.genre}</td>
                                   <td
                                     style={{
@@ -175,7 +175,7 @@ const Movie = () => {
                                   </td>
                                   <td>
                                     <img
-                                      src={film.gambar}
+                                      src={"localhost:3000/" + film.images[0].url}
                                       alt="poster"
                                       style={{
                                         width: "10vh",
