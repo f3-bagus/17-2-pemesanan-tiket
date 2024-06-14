@@ -76,6 +76,9 @@ const updateProfile = async (req, res) => {
   })
 }
 
+<<<<<<< HEAD
+module.exports = { getAllUser, getUserById, updateUserById, deleteUserById, getProfile, updateProfile };
+=======
 const changeAvatar = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
@@ -103,8 +106,8 @@ const changeAvatar = async (req, res) => {
       return res.status(400).json({ message: 'No image files provided' });
     }
   } catch (error) {
-    console.error(error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
 module.exports = { getAllUser, getUserById, updateUserById, deleteUserById, getProfile, updateProfile, changeAvatar };
+>>>>>>> main
