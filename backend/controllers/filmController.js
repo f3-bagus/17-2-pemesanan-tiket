@@ -32,7 +32,6 @@ exports.getFilms = async (req, res) => {
 exports.getFilmById = async (req, res) => {
   try {
     const film = await Film.findOne({ _id: req.params.id });
-    console.log(film);
     if (!film) return res.status(404).json({ error: "Film not found" });
     res.status(200).json(film);
   } catch (err) {
