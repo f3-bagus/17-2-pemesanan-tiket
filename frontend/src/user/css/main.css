@@ -175,7 +175,8 @@
  --navbar-color: #393e46;
  --navbar-color-text: #ffffff;
 }
-btn-orange {
+
+.btn-orange {
  color: #fff;
  background-color: #fd7014;
  border-color: #fd7014;
@@ -232,6 +233,7 @@ btn-orange {
  -ms-transition: all 0.2s ease !important;
  transition: all 0.2s ease !important;
  z-index: 9999 !important;
+ background-color: #222831ca;
 }
 
 .user-navbar.color-active {
@@ -408,17 +410,6 @@ header {
  margin: 5px;
 }
 
-.movie-poster .overlay .btn-warning {
- background-color: var(--secondary-color);
- border: none;
-}
-
-.movie-poster .overlay .btn-warning:hover {
- background-color: var(--secondary-color);
- border: none;
- color: var(--primary-color);
-}
-
 /* STYLE FAQ */
 .faq {
  padding-top: 50px;
@@ -474,7 +465,7 @@ header {
 }
 
 .footer .row:nth-child(2) {
- margin-top: 50px;
+ margin-top: 25px;
 }
 /* ----- END STYLE HOME PAGE MOVIE ----- */
 /* -------------------------------------------------------------------------------------------- */
@@ -514,6 +505,12 @@ header {
 .icon-price {
  display: flex;
 }
+
+.user-movie .row:nth-child(3) .accordion-button {
+ background-color: #fd7014;
+ color: #ffffff;
+}
+
 /* -------------------------------------------------------------------------------------------- */
 
 /* -------------------------------------- SEAT USERS -------------------------------------- */
