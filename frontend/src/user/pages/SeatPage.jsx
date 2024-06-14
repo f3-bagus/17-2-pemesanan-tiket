@@ -12,6 +12,10 @@ const SeatPage = () => {
  const [selectedSeats, setSelectedSeats] = useState([]);
  let navigate = useNavigate();
 
+ const handleBack = () => {
+  navigate(-1); // Go back to the previous page
+ };
+
  const handleSeatClick = (seat) => {
   if (selectedSeats.includes(seat)) {
    setSelectedSeats(selectedSeats.filter((s) => s !== seat));
@@ -27,9 +31,18 @@ const SeatPage = () => {
  return (
   <div className="user-seat">
    <Container className="min-vh-100 pb-5">
+    <div className="back-button d-flex align-items-center mb-3">
+     <Button
+      variant="light"
+      onClick={handleBack}
+      style={{ border: "none", background: "none" }}
+     >
+      <i className="fa-solid fa-arrow-left"></i>
+     </Button>
+     <h4 className="ml-2 mb-0">Select Your Seat</h4>
+    </div>
     <Row className="justify-content-md-center">
      <Col md="8">
-      <h2>Select Your Seat</h2>
       <div className="d-flex flex-wrap">
        {seatsData.map((seat, index) => (
         <div key={index} className="m-1" style={{ textAlign: "center" }}>

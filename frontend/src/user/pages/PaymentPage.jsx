@@ -8,27 +8,32 @@ import {
  Button,
  Alert,
  Image,
- ListGroup,
 } from "react-bootstrap";
 import { posterMovies } from "../data/index";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const PaymentPage = () => {
  const location = useLocation();
+ const navigate = useNavigate();
  const { selectedSeats } = location.state || { selectedSeats: [] };
+ const initialBalance = 500000;
  const user = {
   name: "Alaska",
-  balance: 50000,
+  balance: initialBalance,
  };
 
  const movieId = 1; // Ganti dengan ID yang ingin diambil
  const movie = posterMovies.find((m) => m.id === movieId);
 
  const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
+ const [balance, setBalance] = useState(user.balance);
+
+ const totalAmount = movie.price * selectedSeats.length;
+ const totalPrice = totalAmount + 1;
 
  const handlePayment = () => {
-  const totalAmount = movie.price;
-  if (user.balance >= totalAmount) {
+  if (balance >= totalPrice) {
+   setBalance(balance - totalPrice);
    setIsPaymentSuccessful(true);
    // Kurangi saldo pengguna (logika backend seharusnya di sini)
   } else {
@@ -36,62 +41,90 @@ const PaymentPage = () => {
   }
  };
 
+ const handleBack = () => {
+  navigate(-1); // Go back to the previous page
+ };
+
  return (
   <div className="user-payment">
    <Container className="pb-5">
+    <div className="back-button d-flex align-items-center mb-3">
+     <Button
+      variant="light"
+      onClick={handleBack}
+      style={{ border: "none", background: "none" }}
+     >
+      <i className="fa-solid fa-arrow-left"></i>
+     </Button>
+     <h4 className="ml-2 mb-0">Order Summary</h4>
+    </div>
     <Row className="justify-content-md-center">
-     <Col md="8">
+     <Col md="6">
       <Card>
        <Card.Body>
-        <Card.Title>Movie Detail</Card.Title>
+        <h5 className="pb-3">Movie Detail</h5>
         <Row>
          <Col md="4">
-          <Image src={movie.image} fluid />
+          <Image className="rounded-3" src={movie.image} fluid />
          </Col>
          <Col md="8">
-          <ListGroup variant="flush">
-           <ListGroup.Item>
+          <div>
+           <h4>
             <strong>{movie.title}</strong>
-           </ListGroup.Item>
-           <ListGroup.Item>
-            <strong>Cinema </strong> CGV - 23 Paskal Shopping Center
-           </ListGroup.Item>
-           <ListGroup.Item>
-            <strong>Date & Time </strong> Friday, 14 Jun 2024 - 19:25
-           </ListGroup.Item>
-           <ListGroup.Item>
-            <strong>Studio </strong> REGULAR
-           </ListGroup.Item>
-           <ListGroup.Item>
-            <strong>Seats </strong> <br />
-            {selectedSeats.join(", ")}
-           </ListGroup.Item>
-          </ListGroup>
+           </h4>
+           <p className="d-flex justify-content-between">
+            <strong>Cinema</strong> <span>CGV - Pakuwon Mall Jogja</span>
+           </p>
+           <p className="d-flex justify-content-between">
+            <strong>Date & Time</strong>{" "}
+            <span>Friday, 14 Jun 2024 - 19:25</span>
+           </p>
+           <p className="d-flex justify-content-between">
+            <strong>Studio</strong> <span>REGULAR</span>
+           </p>
+           <p className="d-flex justify-content-between">
+            <strong>Seats</strong> <span>{selectedSeats.join(", ")}</span>
+           </p>
+          </div>
          </Col>
         </Row>
-        <hr />
-        <Card.Title>Payment Detail</Card.Title>
-        <ListGroup variant="flush">
-         <ListGroup.Item>
-          <strong>Ticket price:</strong> Rp{movie.price.toFixed(3)}
-         </ListGroup.Item>
-         <ListGroup.Item>
-          <strong>Convenience fee:</strong> Rp1
-         </ListGroup.Item>
-         <ListGroup.Item>
-          <strong>Admin Fee:</strong> Free
-         </ListGroup.Item>
-         <ListGroup.Item>
-          <strong>Total:</strong> Rp{(movie.price + 1).toFixed(3)}
-         </ListGroup.Item>
-        </ListGroup>
+        <br />
+        <h5 className="pb-3">Payment Detail</h5>
+        <div>
+         <p className="d-flex justify-content-between">
+          <strong>Ticket price</strong> <span>Rp {totalAmount.toFixed(2)}</span>
+         </p>
+         <p className="d-flex justify-content-between">
+          <strong>Admin Fee</strong> <span>Free</span>
+         </p>
+         <p className="d-flex justify-content-between">
+          <strong>Convenience fee</strong> <span>Rp 1</span>
+         </p>
+         <hr />
+         <p className="d-flex justify-content-between">
+          <strong>Total</strong> <span>Rp {totalPrice.toFixed(2)}</span>
+         </p>
+         <p className="d-flex justify-content-between">
+          <strong>Balance</strong> <span>Rp {balance.toFixed(2)}</span>
+         </p>
+        </div>
         {isPaymentSuccessful ? (
-         <Alert variant="success" className="mt-3">
-          Pembayaran Berhasil!
-         </Alert>
+         <>
+          <Alert variant="success" className="mt-3">
+           Pembayaran Berhasil!
+          </Alert>
+          <p className="d-flex justify-content-between">
+           <strong>Remaining Balance</strong>{" "}
+           <span>Rp {balance.toFixed(2)}</span>
+          </p>
+         </>
         ) : (
-         <Button variant="primary" className="mt-3" onClick={handlePayment}>
-          Bayar Sekarang
+         <Button
+          className="btn btn-warning btn-lg mt-3"
+          style={{ width: "100%" }}
+          onClick={handlePayment}
+         >
+          Pay Now
          </Button>
         )}
        </Card.Body>

@@ -11,12 +11,14 @@ import promo1 from "../assets/img/promo/promo1.png";
 import promo2 from "../assets/img/promo/promo2.png";
 import promo3 from "../assets/img/promo/promo3.png";
 import promo4 from "../assets/img/promo/promo4.png";
+import promo5 from "../assets/img/promo/promo5.png";
 
 export const promos = [
  { id: 1, image: promo1 },
  { id: 2, image: promo2 },
  { id: 3, image: promo3 },
  { id: 4, image: promo4 },
+ { id: 5, image: promo5 },
 ];
 
 export const posterMovies = [
@@ -31,6 +33,7 @@ export const posterMovies = [
   writer: "Laila Nurazizah",
   price: 45000,
   cast: "Aulia Sarah, Maudy Effrosina, Jourdy Pranata",
+  trailer: "dkbwPpPJCLo",
   synopsis:
    "Mila, bersama dengan sepupunya, Yuda, dan sahabat mereka, Arya dan Jito, pergi menuju ke sebuah desa terpencil di tengah hutan yang dikenal sebagai Desa Penari. Mila percaya bahwa jika dia mengembalikan sebuah gelang antik milik Badarawuhi, sesosok entitas gaib yang menguasai desa tersebut, dapat menyembuhkan penyakit ibunya. Namun, setelah Mila berhasil mengembalikan gelang tersebut, keadaan justru malah semakin memburuk.",
  },
