@@ -1,4 +1,3 @@
-// src/components/PaymentPage.jsx
 import React, { useState } from "react";
 import {
  Container,

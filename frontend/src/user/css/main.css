@@ -520,9 +520,44 @@ header {
 /* -------------------------------------------------------------------------------------------- */
 
 /* --------------------------------------- SEAT USERS ----------------------------------------- */
-.user-seat {
- padding-top: 130px;
+.user-seat .main-container {
+    padding-top: 130px; 
 }
+
+.user-seat .seat-selection-container {
+    background-color: #fff;
+  }
+  
+  .user-seat .price-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .user-seat .screen {
+    background-color: #ccc;
+    height: 20px;
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .user-seat .legend {
+    font-size: 12px;
+  }
+  
+  .user-seat .movie-details {
+    background-color: #f8f9fa;
+  }
+  
+  .user-seat .movie-details h5 {
+    margin-top: 10px;
+  }
+  
+  .user-seat .movie-details p {
+    margin: 5px 0;
+  }
+        
+    
 /* -------------------------------------------------------------------------------------------- */
 /* ------------------------------------- PAYMENTPAGE USERS ------------------------------------ */
 .user-payment {
