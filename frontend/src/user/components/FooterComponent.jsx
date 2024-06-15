@@ -1,6 +1,22 @@
-import { Container, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Container, Row, Col, Button } from "react-bootstrap";
+
 const FooterComponent = () => {
+ const handleInstagramClick = () => {
+  window.open("https://www.instagram.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+ };
+ const handleTiktokClick = () => {
+  window.open("https://www.tiktok.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+ };
+ const handleXClick = () => {
+  window.open("https://www.x.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+ };
+ const handleYoutubeClick = () => {
+  window.open("https://www.youtube.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+ };
+ const handleFacebookClick = () => {
+  window.open("https://www.facebook.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+ };
+
  return (
   <div className="footer pt-5">
    <Container>
@@ -15,19 +31,54 @@ const FooterComponent = () => {
      <Col lg="3" className="mt-lg-0 mt-4">
       <h6 className="fw-bold mb-3">Stay Tune in Our Social Media</h6>
       <div className="social mt-3">
-       <i class="fa-brands fa-instagram"></i>
-       <i class="fa-brands fa-x-twitter"></i>
-       <i class="fa-brands fa-tiktok"></i>
-       <i class="fa-brands fa-youtube"></i>
-       <i class="fa-brands fa-facebook"></i>
+       <Button
+        className="px-0"
+        variant="light"
+        onClick={handleInstagramClick}
+        style={{ border: "none", background: "none" }}
+       >
+        <i className="fa-brands fa-instagram"></i>
+       </Button>
+       <Button
+        className="px-0"
+        variant="light"
+        onClick={handleXClick}
+        style={{ border: "none", background: "none" }}
+       >
+        <i class="fa-brands fa-x-twitter"></i>
+       </Button>
+       <Button
+        className="px-0"
+        variant="light"
+        onClick={handleTiktokClick}
+        style={{ border: "none", background: "none" }}
+       >
+        <i class="fa-brands fa-tiktok"></i>
+       </Button>
+       <Button
+        className="px-0"
+        variant="light"
+        onClick={handleYoutubeClick}
+        style={{ border: "none", background: "none" }}
+       >
+        <i class="fa-brands fa-youtube"></i>
+       </Button>
+       <Button
+        className="px-0"
+        variant="light"
+        onClick={handleFacebookClick}
+        style={{ border: "none", background: "none" }}
+       >
+        <i class="fa-brands fa-facebook"></i>
+       </Button>
       </div>
      </Col>
     </Row>
     <Row>
      <Col>
       <p className="text-center px-md-0 px-1">
-       &copy; Copyright {new Date().getFullYear()} by 17-2 Capstone Project
-       Gamelab, All Right Reserved
+       &copy; Copyright {new Date().getFullYear()} FlickBox by 17-2 CP Gamelab,
+       All Right Reserved
       </p>
      </Col>
     </Row>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
  Container,
  Row,
@@ -8,12 +8,15 @@ import {
  Accordion,
  Modal,
 } from "react-bootstrap";
-import { posterMovies } from "../data/index";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
-const MoviePage = ({ match }) => {
+const MoviePage = () => {
  let navigate = useNavigate();
+ const { id } = useParams();
 
+ const [film, setFilm] = useState(null);
+ const [schedules, setSchedules] = useState([]);
  const [show, setShow] = useState(false);
 
  const handleShow = () => setShow(true);
@@ -23,9 +26,27 @@ const MoviePage = ({ match }) => {
   navigate(-1); // Go back to the previous page
  };
 
- const movieId = 1; // Replace with the ID you want to retrieve
+ const handleNavigateToSeatPage = (movieId) => {
+  console.log("Navigating to SeatPage with movieId:", movieId);
+  console.log("Film object being passed:", film);
+  navigate(`/seats/${movieId}`, { state: { movie: film } });
+ };
 
- const movie = posterMovies.find((m) => m.id === movieId);
+ useEffect(() => {
+  const fetchFilm = async () => {
+   try {
+    const response = await axios.get(`http://localhost:3000/api/films/${id}`);
+    console.log("Fetched film data:", response.data);
+    setFilm(response.data);
+   } catch (error) {
+    console.error("Error fetching film:", error);
+   }
+  };
+
+  fetchFilm();
+ }, [id]);
+
+ if (!film) return <div>Loading...</div>;
 
  const date = new Date().toLocaleDateString("en-GB", {
   weekday: "long",
@@ -54,8 +75,8 @@ const MoviePage = ({ match }) => {
        <Card.Img
         className="w-100 rounded-4"
         variant="top"
-        src={movie.image}
-        alt={movie.title}
+        src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+        alt={film.name_film}
        />
       </Card>
       <div className="d-grid gap-2 pt-3">
@@ -68,35 +89,35 @@ const MoviePage = ({ match }) => {
       </div>
      </Col>
      <Col md={6}>
-      <h1 className="fw-bold">{movie.title}</h1>
-      <h5>{movie.genre}</h5>
+      <h1 className="fw-bold">{film.name_film}</h1>
+      <h5>{film.genre}</h5>
       <div className="icon-duration">
        <i className="fa-regular fa-clock"></i>
-       <h6>{movie.duration}</h6>
+       <h6>{film.duration}</h6>
       </div>
       <div className="icon-age">
        <i className="fa-solid fa-shield"></i>
-       <h6>{movie.age}</h6>
+       <h6>{film.age}</h6>
       </div>
       <div className="icon-price">
        <i className="fa-solid fa-ticket"></i>
-       <h6>{movie.price}</h6>
+       <h6>Rp {film.price.toFixed(2)}</h6>
       </div>
       <p>
        <strong>Director</strong> <br />
-       {movie.director}
+       {film.director}
       </p>
       <p>
        <strong>Writer</strong> <br />
-       {movie.writer}
+       {film.writer}
       </p>
       <p>
        <strong>Cast</strong> <br />
-       {movie.cast}
+       {film.cast}
       </p>
       <p>
        <strong>Synopsis</strong> <br />
-       {movie.synopsis}
+       {film.synopsis}
       </p>
      </Col>
     </Row>
@@ -113,7 +134,7 @@ const MoviePage = ({ match }) => {
         {times.map((time, index) => (
          <button
           className="btn btn-outline-dark m-1"
-          onClick={() => navigate("/seat-picker")}
+          onClick={() => handleNavigateToSeatPage(id)}
           key={index}
          >
           {time}
@@ -126,14 +147,12 @@ const MoviePage = ({ match }) => {
 
     {/* Trailer Modal */}
     <Modal show={show} onHide={handleClose} size="lg" centered>
-     <Modal.Header closeButton>
-      <Modal.Title>Watch Trailer</Modal.Title>
-     </Modal.Header>
+     <Modal.Header closeButton></Modal.Header>
      <Modal.Body>
       <div className="embed-responsive embed-responsive-16by9">
        <iframe
         className="embed-responsive-item"
-        src={`https://www.youtube.com/embed/${movie.trailer}`}
+        src={`https://www.youtube.com/embed/${film.trailer}`}
         allowFullScreen
         title="Trailer"
        ></iframe>

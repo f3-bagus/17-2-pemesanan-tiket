@@ -1,24 +1,44 @@
-import { Container, Col, Row, Card } from "react-bootstrap";
+import { Container, Col, Row, Card, Modal } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import HeroImage from "../assets/img/hero/hero1.png";
-
 import FaqComponents from "../components/FaqComponent";
 import { useNavigate } from "react-router-dom";
-import { promos, posterMovies } from "../data/index";
-
+import { promos } from "../data/index";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/main.css";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-// import required modules
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
-import FaqComponent from "../components/FaqComponent";
 
 const HomePage = () => {
  let navigate = useNavigate();
+
+ const [films, setFilms] = useState([]);
+ const [show, setShow] = useState(false);
+ const [selectedFilm, setSelectedFilm] = useState(null);
+
+ const handleShow = (film) => {
+  setSelectedFilm(film);
+  setShow(true);
+ };
+
+ const handleClose = () => setShow(false);
+
+ useEffect(() => {
+  const fetchFilms = async () => {
+   try {
+    const response = await axios.get("http://localhost:3000/api/films");
+    setFilms(response.data);
+   } catch (error) {
+    console.error("Error fetching films:", error);
+   }
+  };
+
+  fetchFilms();
+ }, []);
 
  return (
   <div className="homepage">
@@ -107,20 +127,25 @@ const HomePage = () => {
       </Col>
      </Row>
      <Row>
-      {posterMovies.map((movie) => (
-       <Col key={movie.id} className="position-relative movie-poster">
+      {films.map((film) => (
+       <Col key={film._id} className="position-relative movie-poster">
         <Card className="mb-4 rounded-4">
          <Card.Img
           variant="top"
-          src={movie.image}
+          src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
           alt="poster-film"
           className="w-100 rounded-4"
          />
          <div className="overlay rounded-4">
-          <button className="btn btn-light mb-2">Watch Trailer</button>
           <button
-           className="btn btn-orange "
-           onClick={() => navigate("/movie")}
+           className="btn btn-light mb-2"
+           onClick={() => handleShow(film)}
+          >
+           Watch Trailer
+          </button>
+          <button
+           className="btn btn-orange"
+           onClick={() => navigate(`/movie/${film._id}`)} // Navigate to MoviePage with the film ID
           >
            Get Ticket
           </button>
@@ -129,6 +154,22 @@ const HomePage = () => {
        </Col>
       ))}
      </Row>
+     {/* Trailer Modal */}
+     <Modal show={show} onHide={handleClose} size="lg" centered>
+      <Modal.Header closeButton></Modal.Header>
+      <Modal.Body>
+       {selectedFilm && (
+        <div className="embed-responsive embed-responsive-16by9">
+         <iframe
+          className="embed-responsive-item"
+          src={selectedFilm.linkTrailer}
+          allowFullScreen
+          title="Trailer"
+         ></iframe>
+        </div>
+       )}
+      </Modal.Body>
+     </Modal>
     </Container>
    </div>
 
