@@ -3,13 +3,14 @@ const { Schema } = mongoose;
 const moment = require('moment-timezone');
 
 const scheduleSchema = new Schema({
-    date: {
+    startDate: {
         type: String,
         default: moment().tz('Asia/Jakarta').format('YYYY-MM-DD'),
     },
-    showTimes: [{
+    endDate: {
         type: String,
-    }]
+        default: moment().tz('Asia/Jakarta').format('YYYY-MM-DD'),
+    }
 });
 
 const Schedule = mongoose.model('Schedule', scheduleSchema);
