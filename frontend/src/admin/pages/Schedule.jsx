@@ -28,7 +28,7 @@ const Schedule = () => {
 
     // Fetch data dari API menggunakan axios
     axios
-      .get("http://localhost:3000/api/admin/dashboard/schedules")
+      .get("http://localhost:3000/api/schedules")
       .then((response) => {
         console.log("Data jadwal:", response.data); // Tambahkan log ini
         setSchedules(response.data); // Set data jadwal ke state
@@ -52,13 +52,18 @@ const Schedule = () => {
   }, []);
 
   // Fungsi untuk menambah data jadwal
+
   const handleAdd = (newSchedule) => {
     axios
-      .post("http://localhost:3000/api/admin/dashboard/schedules", newSchedule)
+      .post("http://localhost:3000/api/schedules", newSchedule, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      })
       .then((response) => {
         console.log("Jadwal berhasil ditambahkan:", response.data);
-        setShowAddModal(false); // Tutup modal setelah berhasil tambah
-        reloadSchedules(); // Memuat ulang daftar jadwal
+        setShowAddModal(false); 
+        reloadSchedules(); 
       })
       .catch((error) => {
         console.error("Gagal menambahkan jadwal:", error);
@@ -68,7 +73,7 @@ const Schedule = () => {
   // Fungsi untuk memuat ulang data jadwal setelah perubahan
   const reloadSchedules = () => {
     axios
-      .get("http://localhost:3000/api/admin/dashboard/schedules")
+      .get("http://localhost:3000/api/schedules")
       .then((response) => {
         setSchedules(response.data);
       })
@@ -111,14 +116,23 @@ const Schedule = () => {
                               <th>No</th>
                               <th>Date</th>
                               <th>Show Times</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>
                             {schedules.map((schedule, index) => (
                               <tr key={schedule._id}>
                                 <td>{index + 1}</td>
-                                <td>{schedule.date}</td>
+                                <td>{schedule.date}</td> 
                                 <td>{schedule.showTimes.join(", ")}</td>
+                                <td>
+                                  <button className="btn btn-warning btn-sm">
+                                    Edit
+                                  </button>
+                                  <button className="btn btn-danger btn-sm">
+                                    Delete
+                                  </button>
+                                </td>
                               </tr>
                             ))}
                           </tbody>

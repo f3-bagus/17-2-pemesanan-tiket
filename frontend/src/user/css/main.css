@@ -176,6 +176,61 @@
  --navbar-color-text: #ffffff;
 }
 
+.back-button {
+ display: flex;
+ align-items: center;
+}
+
+.back-button i {
+ font-size: 25px;
+}
+
+.btn-orange {
+ color: #fff;
+ background-color: #fd7014;
+ border-color: #fd7014;
+}
+
+.btn-orange:hover {
+ color: #222831;
+ background-color: #ff8431;
+ border-color: #ff8431;
+}
+
+.btn-orange:focus,
+.btn-orange.focus {
+ background-color: #fd7014;
+ box-shadow: 0 0 0 0.2rem rgba(193, 132, 66, 0.5);
+}
+
+.btn-orange:disabled,
+.btn-orange.disabled {
+ background-color: #fd7014;
+ border-color: #fd7014;
+}
+
+.btn-outline-orange {
+ color: #222831;
+ background-color: none;
+ border: #fd7014 solid 2px;
+}
+.btn-outline-orange:hover {
+ color: #222831;
+ background-color: #ff8431;
+ border-color: #ff8431;
+}
+
+.btn-outline-orange:focus,
+.btn-outline-orange.focus {
+ background-color: #fd7014;
+ box-shadow: 0 0 0 0.2rem rgba(193, 132, 66, 0.5);
+}
+
+.btn-outline-orange:disabled,
+.btn-outline-orange.disabled {
+ background-color: #fd7014;
+ border-color: #fd7014;
+}
 /* ----- NAVBAR STYLE ----- */
 .user-navbar {
  position: fixed !important;
@@ -187,6 +242,7 @@
  -ms-transition: all 0.2s ease !important;
  transition: all 0.2s ease !important;
  z-index: 9999 !important;
+ background-color: #222831ca;
 }
 
 .user-navbar.color-active {
@@ -363,17 +419,6 @@ header {
  margin: 5px;
 }
 
-.movie-poster .overlay .btn-warning {
- background-color: var(--secondary-color);
- border: none;
-}
-
-.movie-poster .overlay .btn-warning:hover {
- background-color: var(--secondary-color);
- border: none;
- color: var(--primary-color);
-}
-
 /* STYLE FAQ */
 .faq {
  padding-top: 50px;
@@ -429,15 +474,189 @@ header {
 }
 
 .footer .row:nth-child(2) {
- margin-top: 50px;
+ margin-top: 25px;
 }
 /* ----- END STYLE HOME PAGE MOVIE ----- */
-/* -------------------------------------------------------------------------------------------- */
+/* --------------------------------------------------------------------------------------------- */
 
 /* -------------------------------------- MOVIEPAGE USERS -------------------------------------- */
+.user-movie {
+ background-color: var(--color-text);
+ padding-top: 130px;
+}
+
+.icon-duration {
+ display: flex;
+ align-items: center;
+}
+
+.icon-duration i,
+.icon-age i,
+.icon-price i {
+ margin-right: 10px;
+ align-items: center;
+ font-size: 20px;
+ padding-bottom: 10px; /* Ubah nilai ini sesuai kebutuhan */
+}
+
+.poster-card {
+ background: none;
+ border: none;
+}
+
+.icon-age {
+ display: flex;
+}
+
+.icon-price {
+ display: flex;
+}
+
+.user-movie .row:nth-child(4) .accordion-button {
+ background-color: #fd7014;
+ color: #ffffff;
+}
 
 /* -------------------------------------------------------------------------------------------- */
 
-/* -------------------------------------- TICKETPAGE USERS -------------------------------------- */
+/* --------------------------------------- SEAT USERS ----------------------------------------- */
+.user-seat .main-container {
+    padding-top: 130px; 
+}
 
+.user-seat .seat-selection-container {
+    background-color: #fff;
+  }
+  
+  .user-seat .price-box {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .user-seat .screen {
+    background-color: #ccc;
+    height: 20px;
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .user-seat .legend {
+    font-size: 12px;
+  }
+  
+  .user-seat .movie-details {
+    background-color: #f8f9fa;
+  }
+  
+  .user-seat .movie-details h5 {
+    margin-top: 10px;
+  }
+  
+  .user-seat .movie-details p {
+    margin: 5px 0;
+  }
+        
+    
+/* -------------------------------------------------------------------------------------------- */
+/* ------------------------------------- PAYMENTPAGE USERS ------------------------------------ */
+.user-payment {
+ padding-top: 130px;
+}
+/* --------------------------------------------------------------------------------------------- */
+/* -------------------------------------- TICKETPAGE USERS -------------------------------------- */
+.ticket-page-container {
+ background-color: #f8f9fa;
+ padding: 50px;
+}
+
+.ticket-page-ticket-container {
+ min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+}
+
+.ticket-page-my-tickets-header {
+ font-size: 2.5rem;
+ margin-bottom: 10px;
+ text-align: left;
+ width: 100%;
+}
+
+.ticket-page-ticket-empty {
+ text-align: center;
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+
+.ticket-page-ticket-image {
+ width: 400px;
+ height: auto;
+ margin-bottom: 10px;
+ margin-top: 60px;
+}
+
+.ticket-page-ticket-text {
+ font-size: 1.25rem;
+ color: #555;
+ margin-top: 60px;
+}
+
+.ticket-page-sort-container {
+ display: flex;
+ align-items: center;
+}
+
+.ticket-page-sort-by-text {
+ margin-right: 20px;
+ white-space: nowrap;
+}
+
+.ticket-page-sort-dropdown {
+ margin-right: 10px;
+ width: 250px;
+}
+
+.ticket-page-search-bar {
+ background-color: #ffffff;
+ border: 1px solid #ced4da;
+ border-radius: 25px;
+ padding: 0.375rem 0.75rem;
+ width: 250px;
+ display: flex;
+ align-items: center;
+ box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.ticket-page-search-input {
+ border: none;
+ outline: none;
+ width: 100%;
+ padding: 6px 10px;
+ font-size: 1rem;
+ color: #0a0358;
+ background-color: #ffffff;
+ border-radius: 25px 0 0 25px;
+}
+
+.ticket-page-search-input::placeholder {
+ color: #0a0358;
+}
+
+.ticket-page-search-bar .ticket-page-search-icon {
+ background-color: #ffbb00;
+ border: none;
+ padding: 5px 10px;
+ border-radius: 0 25px 25px 0;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+}
+
+.ticket-page-search-bar .ticket-page-fa-search {
+ color: #ffffff;
+}
 /* -------------------------------------------------------------------------------------------- */

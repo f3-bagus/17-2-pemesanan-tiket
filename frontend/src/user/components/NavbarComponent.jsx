@@ -44,7 +44,7 @@ const NavbarComponents = () => {
        width="35"
        className="d-inline-block align-top"
        alt="Logo"
-      />{" "}
+      />
       FLICKBOX
      </Navbar.Brand>
      <Navbar.Toggle aria-controls="basic-user-navbar-nav" />

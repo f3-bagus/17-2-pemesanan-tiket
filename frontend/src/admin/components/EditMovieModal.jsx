@@ -3,38 +3,49 @@ import axios from "axios";
 
 const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
   const [formData, setFormData] = useState({
-    id_film: "",
-    nama_film: "",
-    durasi: "",
+    name_film: "",
+    duration: "",
     genre: "",
-    sinopsis: "",
-    gambar: "",
-    sutradara: "",
-    penulis: "",
-    pemeran: "",
+    synopsis: "",
+    images: { url: "", filename: "" },
+    director: "",
+    writer: "",
+    cast: "",
     distributor: "",
-    usia: "",
-    harga: "",
+    age: "",
+    price: "",
   });
 
   useEffect(() => {
     // Fetch movie data based on movieId
-    axios.get(`http://localhost:3000/api/films/${movieId}`)
+    axios
+      .get(`http://localhost:3000/api/films/${movieId}`)
       .then((response) => {
-        const { id_film, nama_film, durasi, genre, sinopsis, gambar, sutradara, penulis, pemeran, distributor, usia, harga } = response.data;
-        setFormData({
-          id_film,
-          nama_film,
-          durasi,
+        const {
+          name_film,
+          duration,
           genre,
-          sinopsis,
-          gambar,
-          sutradara,
-          penulis,
-          pemeran,
+          synopsis,
+          images,
+          director,
+          writer,
+          cast,
           distributor,
-          usia: usia.toString(), // Ensure usia is a string for input type number
-          harga: harga.toString(), // Ensure harga is a string for input type number
+          age,
+          price,
+        } = response.data;
+        setFormData({
+          name_film,
+          duration,
+          genre,
+          synopsis,
+          images: images.length > 0 ? images[0] : { url: "", filename: "" },
+          director,
+          writer,
+          cast,
+          distributor,
+          age,
+          price: price.toString(), // Ensure price is a string for input type number
         });
       })
       .catch((error) => {
@@ -48,10 +59,16 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = sessionStorage.getItem("token"); // Ambil token dari sessionStorage
     try {
       const response = await axios.put(
         `http://localhost:3000/api/films/${movieId}`,
-        formData
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Tambahkan header Authorization
+          },
+        }
       );
       console.log("Data successfully updated:", response.data);
       reloadMovies(); // Panggil fungsi reloadMovies untuk memuat ulang data film
@@ -63,34 +80,32 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
   };
 
   return (
-    <div className={`modal ${showModal ? "d-block" : ""}`} tabIndex="-1" role="dialog">
+    <div
+      className={`modal ${showModal ? "d-block" : ""}`}
+      tabIndex="-1"
+      role="dialog"
+    >
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Edit Movie</h5>
-            <button type="button" className="close" onClick={() => setShowModal(false)}>
+            <button
+              type="button"
+              className="close"
+              onClick={() => setShowModal(false)}
+            >
               <span>&times;</span>
             </button>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
               <div className="form-group">
-                <label>ID Film</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="id_film"
-                  value={formData.id_film}
-                  disabled
-                />
-              </div>
-              <div className="form-group">
                 <label>Title</label>
                 <input
                   type="text"
                   className="form-control"
-                  name="nama_film"
-                  value={formData.nama_film}
+                  name="name_film"
+                  value={formData.name_film}
                   onChange={handleChange}
                   required
                 />
@@ -100,8 +115,8 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                 <input
                   type="text"
                   className="form-control"
-                  name="durasi"
-                  value={formData.durasi}
+                  name="duration"
+                  value={formData.duration}
                   onChange={handleChange}
                   required
                 />
@@ -121,8 +136,8 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                 <label>Synopsis</label>
                 <textarea
                   className="form-control"
-                  name="sinopsis"
-                  value={formData.sinopsis}
+                  name="synopsis"
+                  value={formData.synopsis}
                   onChange={handleChange}
                   rows="3"
                   required
@@ -133,8 +148,8 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                 <input
                   type="text"
                   className="form-control"
-                  name="gambar"
-                  value={formData.gambar}
+                  name="images.url"
+                  value={formData.images.url}
                   onChange={handleChange}
                   required
                 />
@@ -144,8 +159,8 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                 <input
                   type="text"
                   className="form-control"
-                  name="sutradara"
-                  value={formData.sutradara}
+                  name="director"
+                  value={formData.director}
                   onChange={handleChange}
                   required
                 />
@@ -155,8 +170,8 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                 <input
                   type="text"
                   className="form-control"
-                  name="penulis"
-                  value={formData.penulis}
+                  name="writer"
+                  value={formData.writer}
                   onChange={handleChange}
                   required
                 />
@@ -166,8 +181,8 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                 <input
                   type="text"
                   className="form-control"
-                  name="pemeran"
-                  value={formData.pemeran}
+                  name="cast"
+                  value={formData.cast}
                   onChange={handleChange}
                   required
                 />
@@ -186,10 +201,10 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
               <div className="form-group">
                 <label>Age Rating</label>
                 <input
-                  type="number"
+                  type="string"
                   className="form-control"
-                  name="usia"
-                  value={formData.usia}
+                  name="age"
+                  value={formData.age}
                   onChange={handleChange}
                   required
                 />
@@ -199,15 +214,19 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                 <input
                   type="number"
                   className="form-control"
-                  name="harga"
-                  value={formData.harga}
+                  name="price"
+                  value={formData.price}
                   onChange={handleChange}
                   required
                 />
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowModal(false)}
+              >
                 Close
               </button>
               <button type="submit" className="btn btn-primary">
