@@ -20,16 +20,17 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
   useEffect(() => {
     if (showModal) {
       // Fetch data films ketika modal dibuka
-      axios.get("http://localhost:3000/api/films")
-        .then(response => {
+      axios
+        .get("http://localhost:3000/api/films")
+        .then((response) => {
           const films = response.data;
-          const highestId = Math.max(...films.map(film => film.id_film), 0);
-          setFormData(formData => ({
+          const highestId = Math.max(...films.map((film) => film.id_film), 0);
+          setFormData((formData) => ({
             ...formData,
-            id_film: highestId + 1
+            id_film: highestId + 1,
           }));
         })
-        .catch(error => {
+        .catch((error) => {
           console.error("Error fetching films:", error);
         });
     }
@@ -41,10 +42,12 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
+    // Ambil token dari sessionStorage
+    const token = sessionStorage.getItem("token");
+
     // Validasi data sebelum dikirim
     const validData = {
-      id_film: formData.id_film,
       nama_film: formData.nama_film,
       durasi: formData.durasi,
       genre: formData.genre,
@@ -63,7 +66,12 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
     try {
       const response = await axios.post(
         "http://localhost:3000/api/films",
-        validData
+        validData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log("Data successfully added:", response.data);
       reloadMovies(); // Panggil fungsi reloadMovies untuk memuat ulang data film
@@ -87,29 +95,25 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
   };
 
   return (
-    <div className={`modal ${showModal ? "d-block" : ""}`} tabIndex="-1" role="dialog">
+    <div
+      className={`modal ${showModal ? "d-block" : ""}`}
+      tabIndex="-1"
+      role="dialog"
+    >
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Add New Movie</h5>
-            <button type="button" className="close" onClick={() => setShowModal(false)}>
+            <button
+              type="button"
+              className="close"
+              onClick={() => setShowModal(false)}
+            >
               <span>&times;</span>
             </button>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="modal-body">
-              <div className="form-group">
-                <label>ID Film</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  name="id_film"
-                  value={formData.id_film}
-                  onChange={handleChange}
-                  readOnly
-                  required
-                />
-              </div>
               <div className="form-group">
                 <label>Title</label>
                 <input
@@ -233,7 +237,11 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowModal(false)}
+              >
                 Close
               </button>
               <button type="submit" className="btn btn-primary">

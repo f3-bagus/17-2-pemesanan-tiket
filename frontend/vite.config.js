@@ -3,9 +3,12 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig({
- plugins: [react()],
- root: ".", // Tetapkan root ke direktori proyek Anda
- build: {
+  optimizeDeps: {
+    exclude: ['@fortawesome/fontawesome-svg-core'],
+  },
+  plugins: [react()],
+  root: ".", // Tetapkan root ke direktori proyek Anda
+  build: {
   rollupOptions: {
    input: {
     admin: path.resolve(__dirname, "src/admin/index.html"),
