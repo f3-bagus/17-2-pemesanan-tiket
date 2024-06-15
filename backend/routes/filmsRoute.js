@@ -9,6 +9,8 @@ const upload = require('../utils/multer')
 router.route('/')
     .post(verifyToken,isAdmin,upload.array('images',5), filmController.createFilm)
     .get(filmController.getFilms);
+
+router.get('/admin', filmController.getFilms)
     
 router.route('/:id')
     .get(validasiObjectId, filmController.getFilmById)
