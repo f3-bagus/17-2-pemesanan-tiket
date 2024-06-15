@@ -1,0 +1,28 @@
+register = POST = localhost:3000/api/register
+login = POST = localhost:3000/api/auth/login
+
+===================== ADMIN =====================
+getAllFilm = GET =  localhost:3000/api/admin/films
+createFilm = POST = localhost:3000/api/films
+updateFilm = PUT = localhost:3000/api/films/:id
+deleteFilm = DELETE = localhost:3000/api/films/:id
+
+getAllUser = GET = localhost:3000/api/users
+getUserById = GET = localhost:3000/api/users/:id
+updateUser = PUT = localhost:3000/api/users/:id
+deleteUser = DELETE = localhost:3000/api/users/:id
+
+===================== USER ======================
+getProfile = GET = localhost:3000/api/profile
+updateProfile = PUT = localhost:3000/api/profile
+changeProfile = PUT = localhost:3000/api/profile/ava
+
+getAllFilm = GET = localhost:3000/api/films
+getFilmById = GET = localhost:3000/api/films/:id
+createSchedule = POST = localhost:3000/api/films/:id
+getSeatBooking = GET = localhost:3000/api/films/:id/seat-picker
+createSeat = localhost:3000/api/films/:id/seat-picker
+getBookingOrderByUser = GET = localhost:3000/api/films/:id/order
+createBookingOrder = POST = localhost:3000/api/films/:id/order
+
+getAllTicketByUser = GET = localhost:3000/api/tickets
