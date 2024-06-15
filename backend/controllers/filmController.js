@@ -1,5 +1,7 @@
 const Film = require('../models/FilmModel');
+const Booking = require('../models/BookingModel')
 const fs = require("fs");
+
 
 // Create a new film
 exports.createFilm = async (req, res) => {
@@ -38,6 +40,7 @@ exports.getFilmById = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 // Update a film by ID
 exports.updateFilmById = async (req, res) => {
@@ -81,3 +84,18 @@ exports.deleteFilmById = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.createSchedule = async (req, res) => {
+  try {
+    const film = await Film.findOne({ _id: req.params.id });
+    if (!film) return res.status(404).json({ error: "Film not found" });
+    const schedule = new Booking(req.body)
+    schedule.filmId = film
+    schedule.costumer = req.user.username
+    await film.save()
+    await schedule.save()
+    return res.status(201).json({status: 'success', message: 'Schedule added successfully'})
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+}

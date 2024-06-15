@@ -4,8 +4,8 @@ const bookingsController = require("../controllers/bookingsController");
 const { verifyToken } = require('../middlewares/verifyToken');
 
 router
-  .route("/")
-  .post(verifyToken ,bookingsController.createBooking)
-  .get(verifyToken ,bookingsController.getAllBooking);
+  .route("/:id/order")
+  .post(verifyToken ,bookingsController.createBookingOrder)
+  .get(verifyToken ,bookingsController.getBookingOrderByUser);
 
 module.exports = router;
