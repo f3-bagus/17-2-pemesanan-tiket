@@ -27,39 +27,25 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Melakukan POST ke endpoint login
       const response = await axios.post("http://localhost:3000/api/auth/login", form);
-
-      // Mendapatkan token dari response
       const token = response.data.token;
-
-      // Menyimpan token di sessionStorage
       sessionStorage.setItem("token", token);
 
-      // Melakukan GET ke /api/profile dengan header Authorization
+      // Fetch user profile details
       const profileResponse = await axios.get("http://localhost:3000/api/profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
-      // Mendapatkan data username dari response
       const { username } = profileResponse.data;
 
-      // Menyimpan user data di context
       dispatch({
         type: "LOGIN",
-        payload: { email: form.email, username: username },
+        payload: { user: { email: form.email, username: username } },
       });
 
-      // Cek username untuk menentukan navigasi
-      if (username === "admin") {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
+      navigate("/");
     } catch (error) {
-      // Tangani error yang terjadi
       if (error.response) {
         setError(error.response.data.message || "Login failed! Please try again.");
       } else {
@@ -112,7 +98,7 @@ const Login = () => {
               </button>
             </div>
           </div>
-          <button type="submit" className="btn-primary">Login</button>
+          <button type="submit" className="btn btn-primary">Login</button>
         </form>
         <p>Don't have an account? <Link to="/register" className="link-primary">Register here</Link></p>
       </div>
