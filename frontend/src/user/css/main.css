@@ -233,16 +233,16 @@
 }
 /* ----- NAVBAR STYLE ----- */
 .user-navbar {
- position: fixed !important;
- padding: 15px 0 15px 0 !important;
- width: 100% !important;
- -o-transition: all 0.2s ease !important;
- -webkit-transition: all 0.2s ease !important;
- -moz-transition: all 0.2s ease !important;
- -ms-transition: all 0.2s ease !important;
- transition: all 0.2s ease !important;
- z-index: 9999 !important;
- background-color: #222831ca;
+ position: fixed;
+ padding: 15px 0 15px 0;
+ width: 100%;
+ -o-transition: all 0.2s ease;
+ -webkit-transition: all 0.2s ease;
+ -moz-transition: all 0.2s ease;
+ -ms-transition: all 0.2s ease;
+ transition: all 0.2s ease;
+ z-index: 9999;
+ background-color: #222831;
 }
 
 .user-navbar.color-active {
@@ -521,41 +521,41 @@ header {
 
 /* --------------------------------------- SEAT USERS ----------------------------------------- */
 .user-seat .main-container {
-  padding-top: 130px;
- }
- 
- .user-seat .seat-selection-container {
-  background-color: #fff;
- }
- 
- .user-seat .price-box {
-  background-color: #f8f9fa;
-  border: 1px solid #ddd;
-  border-radius: 5px;
- }
- 
- .user-seat .screen {
-  background-color: #ccc;
-  height: 20px;
-  width: 80%;
-  margin: 0 auto;
- }
- 
- .user-seat .legend {
-  font-size: 12px;
- }
- 
- .user-seat .movie-details {
-  background-color: #f8f9fa;
- }
- 
- .user-seat .movie-details h5 {
-  margin-top: 10px;
- }
- 
- .user-seat .movie-details p {
-  margin: 5px 0;
- }
+ padding-top: 130px;
+}
+
+.user-seat .seat-selection-container {
+ background-color: #fff;
+}
+
+.user-seat .price-box {
+ background-color: #f8f9fa;
+ border: 1px solid #ddd;
+ border-radius: 5px;
+}
+
+.user-seat .screen {
+ background-color: #ccc;
+ height: 20px;
+ width: 80%;
+ margin: 0 auto;
+}
+
+.user-seat .legend {
+ font-size: 12px;
+}
+
+.user-seat .movie-details {
+ background-color: #f8f9fa;
+}
+
+.user-seat .movie-details h5 {
+ margin-top: 10px;
+}
+
+.user-seat .movie-details p {
+ margin: 5px 0;
+}
 /* -------------------------------------------------------------------------------------------- */
 
 /* ------------------------------------- PAYMENTPAGE USERS ------------------------------------ */

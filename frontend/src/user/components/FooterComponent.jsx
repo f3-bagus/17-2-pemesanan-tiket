@@ -5,16 +5,16 @@ const FooterComponent = () => {
   window.open("https://www.instagram.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
  };
  const handleTiktokClick = () => {
-  window.open("https://www.tiktok.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+  window.open("https://www.tiktok.com", "_blank");
  };
  const handleXClick = () => {
-  window.open("https://www.x.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+  window.open("https://www.x.com", "_blank");
  };
  const handleYoutubeClick = () => {
-  window.open("https://www.youtube.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+  window.open("https://www.youtube.com", "_blank");
  };
  const handleFacebookClick = () => {
-  window.open("https://www.facebook.com", "_blank"); // Menggunakan window.open untuk membuka dalam tab baru
+  window.open("https://www.facebook.com", "_blank");
  };
 
  return (

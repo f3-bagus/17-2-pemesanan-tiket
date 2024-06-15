@@ -48,17 +48,24 @@ const MoviePage = () => {
 
  if (!film) return <div>Loading...</div>;
 
- const date = new Date().toLocaleDateString("en-GB", {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
- });
+ const getFormattedDate = (offset = 0) => {
+  const date = new Date();
+  date.setDate(date.getDate() + offset);
+  return date.toLocaleDateString("en-GB", {
+   weekday: "long",
+   year: "numeric",
+   month: "long",
+   day: "numeric",
+  });
+ };
+
+ const dates = [getFormattedDate(), getFormattedDate(1), getFormattedDate(2)];
 
  const times = ["12:10", "14:25", "16:40", "17:15", "18:55"];
 
  return (
   <div className="user-movie">
+   {/* MOVIE DETAILS */}
    <Container className="min-vh-100">
     <div className="back-button d-flex align-items-center">
      <Button
@@ -121,28 +128,32 @@ const MoviePage = () => {
       </p>
      </Col>
     </Row>
+
+    {/* TIME PICKER */}
     <Row className="justify-content-md-center">
      <Col md={9}>
-      <h3 className="fw-bold">Available Tickets</h3>
+      <h3 className="fw-bold pt-4">Available Tickets</h3>
      </Col>
     </Row>
     <Row className="justify-content-md-center pt-2 pb-5">
-     <Accordion defaultActiveKey="0" className="w-75">
-      <Accordion.Item eventKey="0">
-       <Accordion.Header>{date}</Accordion.Header>
-       <Accordion.Body>
-        {times.map((time, index) => (
-         <button
-          className="btn btn-outline-dark m-1"
-          onClick={() => handleNavigateToSeatPage(id)}
-          key={index}
-         >
-          {time}
-         </button>
-        ))}
-       </Accordion.Body>
-      </Accordion.Item>
-     </Accordion>
+     {dates.map((date, index) => (
+      <Accordion key={index} defaultActiveKey="0" className="w-75 pb-3">
+       <Accordion.Item eventKey={index.toString()}>
+        <Accordion.Header>{date}</Accordion.Header>
+        <Accordion.Body>
+         {times.map((time, timeIndex) => (
+          <button
+           className="btn btn-outline-dark m-1"
+           onClick={() => handleNavigateToSeatPage(id)}
+           key={timeIndex}
+          >
+           {time}
+          </button>
+         ))}
+        </Accordion.Body>
+       </Accordion.Item>
+      </Accordion>
+     ))}
     </Row>
 
     {/* Trailer Modal */}
