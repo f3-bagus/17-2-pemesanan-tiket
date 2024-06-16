@@ -9,11 +9,10 @@ const cors = require("cors");
 const port = process.env.PORT || 5000;
 const usersRouter = require("./routes/usersRoute");
 const authRouter = require("./routes/auth");
-const schedulesRouter = require("./routes/schedulesRoute");
+// const schedulesRouter = require("./routes/schedulesRoute");
 const filmsRouter = require("./routes/filmsRoute");
 const seatsRouter = require("./routes/seatsRoute");
 const bookingsRouter = require("./routes/bookingsRoute");
-const paymentsRouter = require("./routes/paymentsRoute");
 const ticketsRouter = require("./routes/ticketsRoute");
 
 app.use(cors());
@@ -34,11 +33,10 @@ mongoose
 
 app.use("/api/films", filmsRouter);
 app.use("/api", usersRouter);
-app.use("/api/schedules", schedulesRouter);
+// app.use("/api/schedules", schedulesRouter);
 app.use("/api", authRouter);
-app.use("/api/seats", seatsRouter);
-app.use("/api/bookings", bookingsRouter);
-app.use("/api", paymentsRouter);
+app.use("/api/films", seatsRouter);
+app.use("/api/films", bookingsRouter);
 app.use("/api/tickets", ticketsRouter);
 
 // Middleware untuk menangani respons "Page Not Found"

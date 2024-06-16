@@ -10,6 +10,9 @@ const ticketSchema = new Schema({
         type: String,
         default: 'FlickBox',
     },
+    costumer:{
+        type: String
+    },
     ticketPrice: {
         type: Number,
         default: 35000
@@ -19,7 +22,7 @@ const ticketSchema = new Schema({
         default: 'Indonesia',
     },
     seat: {
-        type: Array,
+        type: String,
     },
     film: {
         type: String,

@@ -7,9 +7,15 @@ const bookingSchema = new Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'Film', 
     },
-    scheduleId: {
-        type: mongoose.Schema.ObjectId, 
-        ref: 'Schedule',
+    costumer: {
+        type: String
+    },
+    date: {
+        type: String,
+        default: moment().tz('Asia/Jakarta').format('YYYY-MM-DD'),
+    },
+    time: {
+        type: String,
     },
     seatId: {
         type: mongoose.Schema.ObjectId,

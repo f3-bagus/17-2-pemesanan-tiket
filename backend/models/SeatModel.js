@@ -9,10 +9,6 @@ const seatSchema = new Schema({
       number: Number,
     },
   ],
-  status: {
-    type: Boolean,
-    default: false,
-  },
   createdAt: {
     type: String,
     default: () => moment().tz("Asia/Jakarta").format("YYYY-MM-DD HH:mm:ss"),

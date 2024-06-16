@@ -3,6 +3,7 @@ const moment = require('moment-timezone');
 
 const filmSchema = new mongoose.Schema({
   name_film: { type: String, required: true },
+  linkTrailer: { type: String, required: true },
   duration: { type: String, required: true },
   genre: { type: String, required: true },
   synopsis: { type: String, required: true },
