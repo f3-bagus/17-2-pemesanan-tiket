@@ -521,40 +521,60 @@ header {
 
 /* --------------------------------------- SEAT USERS ----------------------------------------- */
 .user-seat .main-container {
- padding-top: 130px;
+    padding-top: 130px;
 }
-
+   
 .user-seat .seat-selection-container {
- background-color: #fff;
+    background-color: #fff;
 }
-
+   
 .user-seat .price-box {
- background-color: #f8f9fa;
- border: 1px solid #ddd;
- border-radius: 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
-
+   
 .user-seat .screen {
- background-color: #ccc;
- height: 20px;
- width: 80%;
- margin: 0 auto;
+    background-color: #ccc;
+    height: 20px;
+    width: 80%;
+    margin: 0px auto 1px auto;
 }
-
+   
 .user-seat .legend {
- font-size: 12px;
+    font-size: 15px;
+    margin-top: 30px;
 }
-
+   
 .user-seat .movie-details {
- background-color: #f8f9fa;
+    background-color: #f8f9fa;
 }
-
+   
 .user-seat .movie-details h5 {
- margin-top: 10px;
+    margin-top: 10px;
 }
-
+   
 .user-seat .movie-details p {
- margin: 5px 0;
+    margin: 5px 0;
+}
+   
+.seat-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0px; 
+}
+     
+.seat-row .seat {
+    margin-right: 0px; 
+    margin-top: 20px;
+}
+     
+.user-seat .seat-selection-box .seat-row:nth-child(2n) {
+    margin-bottom: 20px; 
+}
+     
+.user-seat .seat-selection-box .seat-row:nth-child(odd) .seat:nth-child(5n) {
+    margin-right: 100x; 
 }
 /* -------------------------------------------------------------------------------------------- */
 
@@ -563,7 +583,8 @@ header {
  padding-top: 130px;
 }
 /* --------------------------------------------------------------------------------------------- */
-/* -------------------------------------- TICKETPAGE USERS -------------------------------------- */
+
+/* ------------------------------------- TICKETPAGE USERS -------------------------------------- */
 .ticket-page-container {
  background-color: #f8f9fa;
  padding: 50px;
