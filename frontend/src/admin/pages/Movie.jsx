@@ -16,32 +16,39 @@ const Movie = () => {
   const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   useEffect(() => {
-    // Load CSS files
-    const cssPromises = [
-      loadCSS("../assets/css/app.css"),
-      loadCSS("../assets/css/bootstrap.css"),
-      loadCSS("../assets/css/perfect-scrollbar.css"),
-      loadCSS("../assets/css/Chart.min.css"),
-    ];
+    // Function to load CSS files
+    const loadCSSFiles = async () => {
+      try {
+        const cssPromises = [
+          loadCSS("../assets/css/app.css"),
+          loadCSS("../assets/css/bootstrap.css"),
+          loadCSS("../assets/css/perfect-scrollbar.css"),
+          loadCSS("../assets/css/Chart.min.css"),
+        ];
 
-    // Wait until all CSS files are loaded
-    Promise.all([...cssPromises])
-      .then(() => console.log("All CSS files loaded successfully"))
-      .catch((error) => console.error("Error loading CSS files:", error));
+        await Promise.all(cssPromises);
+        console.log("All CSS files loaded successfully");
+      } catch (error) {
+        console.error("Error loading CSS files:", error);
+      }
+    };
 
-    // Fetch movies from API using axios
-    axios
-      .get("http://localhost:3000/api/films")
-      .then((response) => {
+    // Fetch movies from API
+    const fetchMovies = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/films");
         console.log("Film data:", response.data);
         setFilms(response.data);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Error fetching data:", error);
         setError(error);
         setLoading(false);
-      });
+      }
+    };
+
+    loadCSSFiles();
+    fetchMovies();
 
     // Clean up CSS files on component unmount
     return () => {
@@ -135,7 +142,7 @@ const Movie = () => {
                     className="btn btn-success"
                     onClick={() => setShowAddModal(true)}
                   >
-                    <span className="mdi mdi-plus"></span>Add New Movie
+                    <span className="mdi mdi-plus"></span> Add New Movie
                   </button>
                 </div>
               </div>
@@ -143,7 +150,10 @@ const Movie = () => {
                 <div className="col-lg-12">
                   <div className="card rounded shadow border-0">
                     <div className="card-body p-5 bg-dark rounded">
-                      <div className="table-responsive" style={{ maxWidth: "1000px", overflowX: "auto" }}>
+                      <div
+                        className="table-responsive"
+                        style={{ maxWidth: "1070px", overflowX: "auto" }}
+                      >
                         <table className="table table-striped table-dark">
                           <thead>
                             <tr>
@@ -163,54 +173,72 @@ const Movie = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {films.map((film, index) => (
-                              <tr key={film._id}>
-                                <td>{index + 1}</td>
-                                <td>{film.name_film}</td>
-                                <td>{film.duration}</td>
-                                <td>{film.genre}</td>
-                                <td style={{
-                                  maxWidth: "300px",
-                                  overflow: "hidden",
-                                  textOverflow: "ellipsis",
-                                  whiteSpace: "nowrap",
-                                }}>{film.synopsis}</td>
-                                <td>
-                                  <img
-                                    src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
-                                    alt="poster"
-                                    style={{
-                                      width: "100px",
-                                      height: "auto",
-                                      borderRadius: "8px",
-                                    }}
-                                  />
-                                </td>
-                                <td>{film.director}</td>
-                                <td>{film.writer}</td>
-                                <td>{film.cast}</td>
-                                <td>{film.distributor}</td>
-                                <td>{film.age}</td>
-                                <td>{film.price}</td>
-                                <td>
-                                  <button
-                                    className="btn btn-warning btn-sm"
-                                    onClick={() => {
-                                      setSelectedMovieId(film._id);
-                                      setShowEditModal(true);
-                                    }}
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    className="btn btn-danger btn-sm"
-                                    onClick={() => handleDelete(film._id)}
-                                  >
-                                    Delete
-                                  </button>
+                            {loading ? (
+                              <tr>
+                                <td colSpan="13" className="text-center">
+                                  Loading...
                                 </td>
                               </tr>
-                            ))}
+                            ) : error ? (
+                              <tr>
+                                <td colSpan="13" className="text-center">
+                                  Error: {error.message}
+                                </td>
+                              </tr>
+                            ) : (
+                              films.map((film, index) => (
+                                <tr key={film._id}>
+                                  <td>{index + 1}</td>
+                                  <td>{film.name_film}</td>
+                                  <td>{film.duration}</td>
+                                  <td>{film.genre}</td>
+                                  <td
+                                    style={{
+                                      maxWidth: "300px",
+                                      overflow: "hidden",
+                                      textOverflow: "ellipsis",
+                                      whiteSpace: "nowrap",
+                                    }}
+                                  >
+                                    {film.synopsis}
+                                  </td>
+                                  <td>
+                                    <img
+                                      src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+                                      alt="poster"
+                                      style={{
+                                        width: "100px",
+                                        height: "auto",
+                                        borderRadius: "8px",
+                                      }}
+                                    />
+                                  </td>
+                                  <td>{film.director}</td>
+                                  <td>{film.writer}</td>
+                                  <td>{film.cast}</td>
+                                  <td>{film.distributor}</td>
+                                  <td>{film.age}</td>
+                                  <td>{film.price}</td>
+                                  <td>
+                                    <button
+                                      className="btn btn-warning btn-sm"
+                                      onClick={() => {
+                                        setSelectedMovieId(film._id);
+                                        setShowEditModal(true);
+                                      }}
+                                    >
+                                      Edit
+                                    </button>
+                                    <button
+                                      className="btn btn-danger btn-sm"
+                                      onClick={() => handleDelete(film._id)}
+                                    >
+                                      Delete
+                                    </button>
+                                  </td>
+                                </tr>
+                              ))
+                            )}
                           </tbody>
                         </table>
                       </div>

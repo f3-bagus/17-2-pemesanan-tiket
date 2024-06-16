@@ -1,13 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import moment from "moment-timezone";
 
-const AddScheduleModal = ({ showModal, setShowModal, handleAdd }) => {
+const AddScheduleModal = ({ showModal, setShowModal, handleAdd, handleEdit, editSchedule }) => {
   const [date, setDate] = useState(moment().tz("Asia/Jakarta").format("YYYY-MM-DD"));
   const [showTimes, setShowTimes] = useState([""]);
 
+  useEffect(() => {
+    if (editSchedule) {
+      setDate(editSchedule.date);
+      setShowTimes(editSchedule.showTimes);
+    }
+  }, [editSchedule]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleAdd({ date, showTimes });
+    if (editSchedule) {
+      handleEdit({ _id: editSchedule._id, date, showTimes });
+    } else {
+      handleAdd({ date, showTimes });
+    }
   };
 
   const handleAddShowTime = () => {
@@ -25,7 +36,7 @@ const AddScheduleModal = ({ showModal, setShowModal, handleAdd }) => {
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title">Add New Schedule</h5>
+            <h5 className="modal-title">{editSchedule ? "Edit Schedule" : "Add New Schedule"}</h5>
             <button type="button" className="close" onClick={() => setShowModal(false)}>
               <span>&times;</span>
             </button>

@@ -3,16 +3,22 @@ import axios from "axios";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import AddUserModal from "../components/AddUserModal";
+import EditUserModal from "../components/EditUserModal";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(null); // Variabel untuk menunjukkan modal edit aktif
   const [error, setError] = useState("");
 
   useEffect(() => {
-    // Ambil token dari session storage
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = () => {
     const token = sessionStorage.getItem("token");
 
-    // Lakukan request GET ke API
     axios
       .get("http://localhost:3000/api/users", {
         headers: {
@@ -20,13 +26,71 @@ const Users = () => {
         },
       })
       .then((response) => {
-        setUsers(response.data); // Set data pengguna ke state
+        setUsers(response.data);
       })
       .catch((error) => {
         setError("Failed to fetch users");
         console.error("Error fetching users:", error);
       });
-  }, []);
+  };
+
+  const handleAdd = (newUser) => {
+    const token = sessionStorage.getItem("token");
+    axios
+      .post("http://localhost:3000/api/register", newUser, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("User added successfully:", response.data);
+        setShowAddModal(false);
+        fetchUsers(); // Fetch users again to update the table
+      })
+      .catch((error) => {
+        console.error("Failed to add user:", error);
+      });
+  };
+
+  const handleEdit = (userId, updatedData) => {
+    const token = sessionStorage.getItem("token");
+    axios
+      .put(`http://localhost:3000/api/users/${userId}`, updatedData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("User edited successfully:", response.data);
+        setShowEditModal(null);
+        fetchUsers(); // Fetch users again to update the table
+      })
+      .catch((error) => {
+        console.error("Failed to edit user:", error);
+      });
+  };
+
+  const handleDelete = (userId) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+    if (!confirmDelete) {
+      return;
+    }
+
+    const token = sessionStorage.getItem("token");
+    axios
+      .delete(`http://localhost:3000/api/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("User deleted successfully:", response.data);
+        fetchUsers(); // Fetch users again to update the table
+      })
+      .catch((error) => {
+        console.error("Failed to delete user:", error);
+      });
+  };
 
   return (
     <div className="container-scroller">
@@ -38,7 +102,10 @@ const Users = () => {
             <div className="page-header">
               <h2 className="page-title">Users</h2>
               <div className="page-header-actions">
-                <button className="btn btn-success">
+                <button
+                  className="btn btn-success"
+                  onClick={() => setShowAddModal(true)}
+                >
                   <span className="mdi mdi-plus"></span> Add New User
                 </button>
               </div>
@@ -56,6 +123,8 @@ const Users = () => {
                             <th>Email</th>
                             <th>Password</th>
                             <th>No Hp</th>
+                            <th>Balance</th>
+                            <th>Role</th>
                             <th>Action</th>
                           </tr>
                         </thead>
@@ -66,13 +135,21 @@ const Users = () => {
                                 <td>{index + 1}</td>
                                 <td>{user.username}</td>
                                 <td>{user.email}</td>
-                                <td>*******</td> {/* Jangan tampilkan password asli */}
+                                <td>*******</td>
                                 <td>{user.noHp}</td>
+                                <td>{user.balance}</td>
+                                <td>{user.isAdmin ? "Admin" : "User"}</td>
                                 <td>
-                                  <button className="btn btn-warning btn-sm">
+                                  <button
+                                    className="btn btn-warning btn-sm"
+                                    onClick={() => setShowEditModal(user)}
+                                  >
                                     Edit
                                   </button>
-                                  <button className="btn btn-danger btn-sm">
+                                  <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => handleDelete(user._id)}
+                                  >
                                     Delete
                                   </button>
                                 </td>
@@ -80,7 +157,7 @@ const Users = () => {
                             ))
                           ) : (
                             <tr>
-                              <td colSpan="7" className="text-center">
+                              <td colSpan="8" className="text-center">
                                 {error || "Loading..."}
                               </td>
                             </tr>
@@ -96,6 +173,8 @@ const Users = () => {
           <Footer />
         </div>
       </div>
+      <AddUserModal showModal={showAddModal} setShowModal={setShowAddModal} handleAdd={handleAdd} />
+      <EditUserModal showModal={showEditModal !== null} setShowModal={setShowEditModal} handleEdit={handleEdit} user={showEditModal} />
     </div>
   );
 };

@@ -7,13 +7,13 @@ import { loadCSS, cleanUpFiles } from "../utils/loadFiles";
 import AddScheduleModal from "../components/AddScheduleModal";
 
 const Schedule = () => {
-  const [schedules, setSchedules] = useState([]); // State untuk menyimpan data jadwal
-  const [loading, setLoading] = useState(true); // State untuk status loading
-  const [error, setError] = useState(null); // State untuk menangani error
-  const [showAddModal, setShowAddModal] = useState(false); // State untuk menampilkan modal tambah jadwal
+  const [schedules, setSchedules] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [editSchedule, setEditSchedule] = useState(null);
 
   useEffect(() => {
-    // Load CSS
     const cssPromises = [
       loadCSS("../assets/css/app.css"),
       loadCSS("../assets/css/bootstrap.css"),
@@ -21,26 +21,23 @@ const Schedule = () => {
       loadCSS("../assets/css/Chart.min.css"),
     ];
 
-    // Wait until all files are loaded
     Promise.all([...cssPromises])
       .then(() => console.log("Semua file telah dimuat dengan sukses"))
       .catch((error) => console.error("Kesalahan saat memuat file:", error));
 
-    // Fetch data dari API menggunakan axios
     axios
       .get("http://localhost:3000/api/schedules")
       .then((response) => {
-        console.log("Data jadwal:", response.data); // Tambahkan log ini
-        setSchedules(response.data); // Set data jadwal ke state
-        setLoading(false); // Set status loading ke false
+        console.log("Data jadwal:", response.data);
+        setSchedules(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Kesalahan saat mengambil data:", error);
-        setError(error); // Set error ke state
-        setLoading(false); // Set status loading ke false
+        setError(error);
+        setLoading(false);
       });
 
-    // Cleanup files when component unmounts
     return () => {
       cleanUpFiles([
         "app.css",
@@ -51,8 +48,6 @@ const Schedule = () => {
     };
   }, []);
 
-  // Fungsi untuk menambah data jadwal
-
   const handleAdd = (newSchedule) => {
     axios
       .post("http://localhost:3000/api/schedules", newSchedule, {
@@ -62,15 +57,50 @@ const Schedule = () => {
       })
       .then((response) => {
         console.log("Jadwal berhasil ditambahkan:", response.data);
-        setShowAddModal(false); 
-        reloadSchedules(); 
+        setShowAddModal(false);
+        reloadSchedules();
       })
       .catch((error) => {
         console.error("Gagal menambahkan jadwal:", error);
       });
   };
 
-  // Fungsi untuk memuat ulang data jadwal setelah perubahan
+  const handleEdit = (updatedSchedule) => {
+    axios
+      .put(`http://localhost:3000/api/schedules/${updatedSchedule._id}`, updatedSchedule, {
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      })
+      .then((response) => {
+        console.log("Jadwal berhasil diperbarui:", response.data);
+        setShowAddModal(false);
+        setEditSchedule(null);
+        reloadSchedules();
+      })
+      .catch((error) => {
+        console.error("Gagal memperbarui jadwal:", error);
+      });
+  };
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete this schedule?")) {
+      axios
+        .delete(`http://localhost:3000/api/schedules/${id}`, {
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+          },
+        })
+        .then((response) => {
+          console.log("Jadwal berhasil dihapus:", response.data);
+          reloadSchedules();
+        })
+        .catch((error) => {
+          console.error("Gagal menghapus jadwal:", error);
+        });
+    }
+  };
+
   const reloadSchedules = () => {
     axios
       .get("http://localhost:3000/api/schedules")
@@ -81,10 +111,6 @@ const Schedule = () => {
         console.error("Kesalahan saat memuat ulang data jadwal:", error);
       });
   };
-
-  // Menampilkan pesan loading atau error
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Terjadi kesalahan: {error.message}</p>;
 
   return (
     <>
@@ -99,7 +125,10 @@ const Schedule = () => {
                 <div className="page-header-actions">
                   <button
                     className="btn btn-success"
-                    onClick={() => setShowAddModal(true)}
+                    onClick={() => {
+                      setShowAddModal(true);
+                      setEditSchedule(null);
+                    }}
                   >
                     <span className="mdi mdi-plus"></span>Add New Schedule
                   </button>
@@ -123,13 +152,22 @@ const Schedule = () => {
                             {schedules.map((schedule, index) => (
                               <tr key={schedule._id}>
                                 <td>{index + 1}</td>
-                                <td>{schedule.date}</td> 
+                                <td>{schedule.date}</td>
                                 <td>{schedule.showTimes.join(", ")}</td>
                                 <td>
-                                  <button className="btn btn-warning btn-sm">
+                                  <button
+                                    className="btn btn-warning btn-sm mr-2"
+                                    onClick={() => {
+                                      setShowAddModal(true);
+                                      setEditSchedule(schedule);
+                                    }}
+                                  >
                                     Edit
                                   </button>
-                                  <button className="btn btn-danger btn-sm">
+                                  <button
+                                    className="btn btn-danger btn-sm"
+                                    onClick={() => handleDelete(schedule._id)}
+                                  >
                                     Delete
                                   </button>
                                 </td>
@@ -143,17 +181,18 @@ const Schedule = () => {
                 </div>
               </div>
             </div>
-            <Footer />
           </div>
         </div>
       </div>
 
-      {/* Modal untuk tambah jadwal */}
       <AddScheduleModal
         showModal={showAddModal}
         setShowModal={setShowAddModal}
         handleAdd={handleAdd}
+        handleEdit={handleEdit}
+        editSchedule={editSchedule}
       />
+      <Footer />
     </>
   );
 };
