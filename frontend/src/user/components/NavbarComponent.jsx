@@ -50,7 +50,7 @@ const NavbarComponents = () => {
      </Navbar.Brand>
      <Navbar.Toggle aria-controls="basic-user-navbar-nav" />
      <Navbar.Collapse id="basic-user-navbar-nav">
-      <Nav className="ms-auto text-center">
+      <Nav className="mx-auto text-center">
        <div className="nav-link">
         <NavLink to="/" className="nav-link" end>
          Home
