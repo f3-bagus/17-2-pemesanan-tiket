@@ -12,44 +12,23 @@ import {
   OverlayTrigger,
   FormGroup,
  } from "react-bootstrap";
- import { useState, useRef, useEffect } from "react";
+ import { useState, useRef } from "react";
  import { useNavigate } from "react-router-dom";
  import axios from "axios";
  import * as formik from "formik";
  import * as yup from "yup";
- import { useContext } from "react";
- import { UserContext } from "../../UserContext";
  import userProfile from "../assets/img/profile/user-def-profile.png";
  
  const AccountPages = () => {
   const navigate = useNavigate();
-  const { state, dispatch } = useContext(UserContext);
-  const { user } = state;
   const [userData, setUserData] = useState({});
-  const [editMode, setEditMode] = useState(true);
+  const [editMode, setEditMode] = useState(true); // Set to true to show the form by default
   const [showAlert, setShowAlert] = useState(false);
   const fileInputRef = useRef(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
  
-  useEffect(() => {
-   const fetchProfile = async () => {
-    try {
-     const token = sessionStorage.getItem("token");
-     const response = await axios.get("http://localhost:3000/api/profile", {
-      headers: {
-       Authorization: `Bearer ${token}`,
-      },
-     });
-     setUserData(response.data);
-    } catch (error) {
-     console.error("Error fetching profile:", error);
-    }
-   };
-   fetchProfile();
-  }, []);
- 
   const handleBack = () => {
-   navigate(-1);
+   navigate(-1); // Go back to the previous page
   };
  
   const handleTopUp = () => {
@@ -62,8 +41,19 @@ import {
    username: yup.string().required(),
    email: yup.string().email().required(),
    password: yup.string().required(),
-   noHp: yup.string().required(),
+   phone: yup.string().required(),
+   file: yup.mixed().required(),
   });
+ 
+  // Temporary profile data
+  const profile = {
+   username: "kumi",
+   email: "anak pucis@example.com",
+   password: "password123",
+   phone: "123-456-7890",
+   profilePhoto: userProfile,
+   balance: 500000,
+  };
  
   const handleIconClick = () => {
    fileInputRef.current.click();
@@ -71,44 +61,6 @@ import {
  
   const togglePasswordVisibility = () => {
    setPasswordVisible(!passwordVisible);
-  };
- 
-  const handleSubmit = async (values) => {
-   try {
-    const token = sessionStorage.getItem("token");
-    await axios.put("http://localhost:3000/api/profile", values, {
-     headers: {
-      Authorization: `Bearer ${token}`,
-     },
-    });
- 
-    if (values.file) {
-     const formData = new FormData();
-     formData.append("image", values.file);
-     await axios.put("http://localhost:3000/api/profile/ava", formData, {
-      headers: {
-       Authorization: `Bearer ${token}`,
-       "Content-Type": "multipart/form-data",
-      },
-     });
-    }
- 
-    const response = await axios.get("http://localhost:3000/api/profile", {
-     headers: {
-      Authorization: `Bearer ${token}`,
-     },
-    });
- 
-    dispatch({
-     type: "UPDATE_USER",
-     payload: response.data,
-    });
- 
-    setUserData(response.data);
-    setShowAlert(true);
-   } catch (error) {
-    console.error("Error updating profile:", error);
-   }
   };
  
   return (
@@ -132,23 +84,23 @@ import {
          <h3 className="fw-bold pb-1">Profile Settings</h3>
          <Formik
           validationSchema={schema}
-          onSubmit={handleSubmit}
+          onSubmit={console.log}
           initialValues={{
-           username: userData.username || "",
-           email: userData.email || "",
+           username: userData.username || profile.username,
+           email: userData.email || profile.email,
            password: "",
-           noHp: userData.noHp || "",
+           phone: userData.phone || profile.phone,
            file: null,
           }}
           enableReinitialize
          >
-          {({ handleSubmit, handleChange, setFieldValue, values, touched, errors }) => (
+          {({ handleSubmit, handleChange, values, touched, errors }) => (
            <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
              <FormGroup as={Col}>
               <div className="profile-photo-container">
                <img
-                src={userData.image?.url || userProfile}
+                src={userData.profilePhoto || profile.profilePhoto}
                 alt="Profile"
                 className="profile-photo"
                />
@@ -174,7 +126,7 @@ import {
                 name="file"
                 ref={fileInputRef}
                 style={{ display: "none" }}
-                onChange={(e) => setFieldValue("file", e.currentTarget.files[0])}
+                onChange={handleChange}
                 isInvalid={!!errors.file}
                 accept="image/png, image/jpeg"
                />
@@ -203,13 +155,13 @@ import {
               </Form.Label>
               <Form.Control
                type="text"
-               name="noHp"
-               value={values.noHp}
+               name="phone"
+               value={values.phone}
                onChange={handleChange}
-               isInvalid={!!errors.noHp}
+               isInvalid={!!errors.phone}
               />
               <Form.Control.Feedback type="invalid">
-               {errors.noHp}
+               {errors.phone}
               </Form.Control.Feedback>
              </Form.Group>
             </Row>
@@ -282,7 +234,7 @@ import {
              </Form.Label>{" "}
              <br />
              <Form.Label>
-              <h5>Rp {userData.balance || 0}</h5>
+              <h5>Rp {userData.balance || profile.balance}</h5>
              </Form.Label>
             </Form.Group>
             <div className="d-grid gap-2">
@@ -295,11 +247,11 @@ import {
                onClose={() => setShowAlert(false)}
                dismissible
               >
-               Request top-up already sent to admin!
+               Request top-up already sent to admin.
               </Alert>
              )}
-             <Button type="submit" className="btn-dark">
-              Save
+             <Button type="submit" className="btn-orange">
+              Change Profile
              </Button>
             </div>
            </Form>
@@ -314,5 +266,4 @@ import {
   );
  };
  
-export default AccountPages;
- 
+ export default AccountPages; 
