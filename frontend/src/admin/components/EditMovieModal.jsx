@@ -4,10 +4,11 @@ import axios from "axios";
 const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
   const [formData, setFormData] = useState({
     name_film: "",
+    linkTrailer: "",
     duration: "",
     genre: "",
     synopsis: "",
-    images: [], // images will be an array of file objects
+    images: { url: "", filename: "" },
     director: "",
     writer: "",
     cast: "",
@@ -17,65 +18,62 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
   });
 
   useEffect(() => {
-    if (showModal && movieId) {
-      // Fetch movie data based on movieId
-      axios
-        .get(`http://localhost:3000/api/films/${movieId}`)
-        .then((response) => {
-          const {
-            name_film,
-            duration,
-            genre,
-            synopsis,
-            images,
-            director,
-            writer,
-            cast,
-            distributor,
-            age,
-            price,
-          } = response.data;
-          setFormData({
-            name_film,
-            duration,
-            genre,
-            synopsis,
-            images: images.map(image => ({ url: image.url, filename: image.filename })), // convert image objects
-            director,
-            writer,
-            cast,
-            distributor,
-            age,
-            price: price.toString(), // Ensure price is a string for input type number
-          });
-        })
-        .catch((error) => {
-          console.error("Error fetching movie data:", error);
+    // Fetch movie data based on movieId
+    axios
+      .get(`http://localhost:3000/api/films/${movieId}`)
+      .then((response) => {
+        const {
+          name_film,
+          linkTrailer,
+          duration,
+          genre,
+          synopsis,
+          images,
+          director,
+          writer,
+          cast,
+          distributor,
+          age,
+          price,
+        } = response.data;
+        setFormData({
+          name_film,
+          linkTrailer,
+          duration,
+          genre,
+          synopsis,
+          images: images.length > 0 ? images[0] : { url: "", filename: "" },
+          director,
+          writer,
+          cast,
+          distributor,
+          age,
+          price: price.toString(), // Ensure price is a string for input type number
         });
-    }
-  }, [showModal, movieId]);
+      })
+      .catch((error) => {
+        console.error("Error fetching movie data:", error);
+      });
+  }, [movieId]);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "images") {
-      setFormData({ ...formData, images: Array.from(e.target.files) });
+    if (e.target.name === "images") {
+      setFormData({ ...formData, images: e.target.files[0] });
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({ ...formData, [e.target.name]: e.target.value });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create form data object to send with Axios
     const formDataToSend = new FormData();
     formDataToSend.append("name_film", formData.name_film);
+    formDataToSend.append("linkTrailer", formData.linkTrailer);
     formDataToSend.append("duration", formData.duration);
     formDataToSend.append("genre", formData.genre);
     formDataToSend.append("synopsis", formData.synopsis);
-    formData.images.forEach((image, index) => {
-      formDataToSend.append(`images`, image);
-    });
+    formDataToSend.append("images", formData.images);
     formDataToSend.append("director", formData.director);
     formDataToSend.append("writer", formData.writer);
     formDataToSend.append("cast", formData.cast);
@@ -83,9 +81,7 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
     formDataToSend.append("age", formData.age);
     formDataToSend.append("price", formData.price);
 
-    console.log("Form Data to Send:", formDataToSend);
-
-    const token = sessionStorage.getItem("token"); // Ambil token dari sessionStorage
+    const token = sessionStorage.getItem("token");
 
     try {
       const response = await axios.put(
@@ -94,7 +90,7 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", // Perlu ditambahkan header ini untuk mengirimkan file
+            "Content-Type": "multipart/form-data",
           },
         }
       );
@@ -107,12 +103,20 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
   };
 
   return (
-    <div className={`modal ${showModal ? "d-block" : ""}`} tabIndex="-1" role="dialog">
+    <div
+      className={`modal ${showModal ? "d-block" : ""}`}
+      tabIndex="-1"
+      role="dialog"
+    >
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Edit Movie</h5>
-            <button type="button" className="close" onClick={() => setShowModal(false)}>
+            <button
+              type="button"
+              className="close"
+              onClick={() => setShowModal(false)}
+            >
               <span>&times;</span>
             </button>
           </div>
@@ -125,6 +129,17 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                   className="form-control"
                   name="name_film"
                   value={formData.name_film}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Trailer Link</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="linkTrailer"
+                  value={formData.linkTrailer}
                   onChange={handleChange}
                   required
                 />
@@ -163,14 +178,13 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
                 ></textarea>
               </div>
               <div className="form-group">
-                <label>Image Upload</label>
+                <label>Image URL</label>
                 <input
                   type="file"
                   className="form-control-file"
                   name="images"
                   onChange={handleChange}
                   accept=".jpg,.jpeg,.png"
-                  multiple
                   required
                 />
               </div>
@@ -242,7 +256,11 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setShowModal(false)}
+              >
                 Close
               </button>
               <button type="submit" className="btn btn-primary">

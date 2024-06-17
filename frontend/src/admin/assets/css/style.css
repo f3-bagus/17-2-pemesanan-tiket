@@ -32392,7 +32392,6 @@ div.tagsinput span.tag a {
 .navbar-admin {
   font-weight: normal;
   background: #191c24;
-  left: 244px;
   transition: left 0.25s ease;
   -webkit-transition: left 0.25s ease;
   -moz-transition: left 0.25s ease;

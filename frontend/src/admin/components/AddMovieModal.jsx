@@ -4,10 +4,11 @@ import axios from "axios";
 const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
   const [formData, setFormData] = useState({
     name_film: "",
+    linkTrailer: "",
     duration: "",
     genre: "",
     synopsis: "",
-    images: null, // diganti dari string menjadi null untuk file gambar
+    images: null,
     director: "",
     writer: "",
     cast: "",
@@ -21,6 +22,7 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
       // Reset form data when modal is opened
       setFormData({
         name_film: "",
+        linkTrailer: "",
         duration: "",
         genre: "",
         synopsis: "",
@@ -37,7 +39,6 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
 
   const handleChange = (e) => {
     if (e.target.name === "images") {
-      // Handle file input separately
       setFormData({ ...formData, images: e.target.files[0] });
     } else {
       setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -47,14 +48,13 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Create form data object to send with Axios
     const formDataToSend = new FormData();
     formDataToSend.append("name_film", formData.name_film);
+    formDataToSend.append("linkTrailer", formData.linkTrailer);
     formDataToSend.append("duration", formData.duration);
     formDataToSend.append("genre", formData.genre);
     formDataToSend.append("synopsis", formData.synopsis);
-    formDataToSend.append("images", formData.images); // append the file object
-
+    formDataToSend.append("images", formData.images);
     formDataToSend.append("director", formData.director);
     formDataToSend.append("writer", formData.writer);
     formDataToSend.append("cast", formData.cast);
@@ -62,21 +62,8 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
     formDataToSend.append("age", formData.age);
     formDataToSend.append("price", formData.price);
 
-    console.log("Form Data to Send:", {
-      name_film: formData.name_film,
-      duration: formData.duration,
-      genre: formData.genre,
-      synopsis: formData.synopsis,
-      images: formData.images, // file object
-      director: formData.director,
-      writer: formData.writer,
-      cast: formData.cast,
-      distributor: formData.distributor,
-      age: formData.age,
-      price: formData.price,
-    });
+    console.log("Form Data to Send:", formData);
 
-    // Ambil token dari sessionStorage
     const token = sessionStorage.getItem("token");
 
     try {
@@ -86,14 +73,14 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", // perlu ditambahkan header ini untuk mengirimkan file
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
       console.log("Data successfully added:", response.data);
-      reloadMovies(); // Panggil fungsi reloadMovies untuk memuat ulang data film
-      setShowModal(false); // Tutup modal setelah berhasil menambahkan data
+      reloadMovies();
+      setShowModal(false);
     } catch (error) {
       console.error("Error adding data:", error);
       setShowModal(false);
@@ -101,20 +88,12 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
   };
 
   return (
-    <div
-      className={`modal ${showModal ? "d-block" : ""}`}
-      tabIndex="-1"
-      role="dialog"
-    >
+    <div className={`modal ${showModal ? "d-block" : ""}`} tabIndex="-1" role="dialog">
       <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Add New Movie</h5>
-            <button
-              type="button"
-              className="close"
-              onClick={() => setShowModal(false)}
-            >
+            <button type="button" className="close" onClick={() => setShowModal(false)}>
               <span>&times;</span>
             </button>
           </div>
@@ -127,6 +106,17 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
                   className="form-control"
                   name="name_film"
                   value={formData.name_film}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>Trailer Link</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="linkTrailer"
+                  value={formData.linkTrailer}
                   onChange={handleChange}
                   required
                 />
@@ -171,7 +161,7 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
                   className="form-control-file"
                   name="images"
                   onChange={handleChange}
-                  accept=".jpg,.jpeg,.png" // tambahkan sesuai dengan ekstensi file gambar yang diterima
+                  accept=".jpg,.jpeg,.png"
                   required
                 />
               </div>
@@ -222,7 +212,7 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
               <div className="form-group">
                 <label>Age Rating</label>
                 <input
-                  type="string"
+                  type="text"
                   className="form-control"
                   name="age"
                   value={formData.age}
@@ -243,11 +233,7 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
               </div>
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() => setShowModal(false)}
-              >
+              <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
                 Close
               </button>
               <button type="submit" className="btn btn-primary">

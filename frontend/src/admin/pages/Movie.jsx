@@ -3,7 +3,8 @@ import axios from "axios";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import { loadCSS, cleanUpFiles } from "../utils/loadFiles";
+import { Pagination } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import AddMovieModal from "../components/AddMovieModal";
 import EditMovieModal from "../components/EditMovieModal";
 
@@ -14,26 +15,10 @@ const Movie = () => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filmsPerPage] = useState(10); // Jumlah film per halaman
 
   useEffect(() => {
-    // Function to load CSS files
-    const loadCSSFiles = async () => {
-      try {
-        const cssPromises = [
-          loadCSS("../assets/css/app.css"),
-          loadCSS("../assets/css/bootstrap.css"),
-          loadCSS("../assets/css/perfect-scrollbar.css"),
-          loadCSS("../assets/css/Chart.min.css"),
-        ];
-
-        await Promise.all(cssPromises);
-        console.log("All CSS files loaded successfully");
-      } catch (error) {
-        console.error("Error loading CSS files:", error);
-      }
-    };
-
-    // Fetch movies from API
     const fetchMovies = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/films");
@@ -47,26 +32,32 @@ const Movie = () => {
       }
     };
 
-    loadCSSFiles();
     fetchMovies();
-
-    // Clean up CSS files on component unmount
-    return () => {
-      cleanUpFiles([
-        "app.css",
-        "bootstrap.css",
-        "perfect-scrollbar.css",
-        "Chart.min.css",
-      ]);
-    };
   }, []);
+
+  // Menghitung indeks film pada halaman saat ini
+  const indexOfLastFilm = currentPage * filmsPerPage;
+  const indexOfFirstFilm = indexOfLastFilm - filmsPerPage;
+
+  // Menentukan data film yang akan ditampilkan pada halaman saat ini
+  const currentFilms = films.slice(indexOfFirstFilm, indexOfLastFilm);
+
+  // Mengubah halaman
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const handleAdd = (newFilm) => {
     const token = sessionStorage.getItem("token");
+    const formData = new FormData();
+
+    for (const key in newFilm) {
+      formData.append(key, newFilm[key]);
+    }
+
     axios
-      .post("http://localhost:3000/api/films", newFilm, {
+      .post("http://localhost:3000/api/films", formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
@@ -81,10 +72,17 @@ const Movie = () => {
 
   const handleEdit = (id, updatedFilm) => {
     const token = sessionStorage.getItem("token");
+    const formData = new FormData();
+
+    for (const key in updatedFilm) {
+      formData.append(key, updatedFilm[key]);
+    }
+
     axios
-      .put(`http://localhost:3000/api/films/${id}`, updatedFilm, {
+      .put(`http://localhost:3000/api/films/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
@@ -162,6 +160,7 @@ const Movie = () => {
                               <th>Duration</th>
                               <th>Genre</th>
                               <th>Synopsis</th>
+                              <th>Trailer Link</th>
                               <th>Image</th>
                               <th>Director</th>
                               <th>Writer</th>
@@ -175,20 +174,20 @@ const Movie = () => {
                           <tbody>
                             {loading ? (
                               <tr>
-                                <td colSpan="13" className="text-center">
+                                <td colSpan="14" className="text-center">
                                   Loading...
                                 </td>
                               </tr>
                             ) : error ? (
                               <tr>
-                                <td colSpan="13" className="text-center">
+                                <td colSpan="14" className="text-center">
                                   Error: {error.message}
                                 </td>
                               </tr>
                             ) : (
-                              films.map((film, index) => (
+                              currentFilms.map((film, index) => (
                                 <tr key={film._id}>
-                                  <td>{index + 1}</td>
+                                  <td>{indexOfFirstFilm + index + 1}</td>
                                   <td>{film.name_film}</td>
                                   <td>{film.duration}</td>
                                   <td>{film.genre}</td>
@@ -201,6 +200,15 @@ const Movie = () => {
                                     }}
                                   >
                                     {film.synopsis}
+                                  </td>
+                                  <td>
+                                    <a
+                                      href={film.linkTrailer}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      Watch Trailer
+                                    </a>
                                   </td>
                                   <td>
                                     <img
@@ -241,6 +249,16 @@ const Movie = () => {
                             )}
                           </tbody>
                         </table>
+                      </div>
+                      {/* Pagination */}
+                      <div className="d-flex justify-content-center mt-3">
+                        <Pagination>
+                          {[...Array(Math.ceil(films.length / filmsPerPage)).keys()].map((number) => (
+                            <Pagination.Item key={number + 1} onClick={() => paginate(number + 1)} active={number + 1 === currentPage}>
+                              {number + 1}
+                            </Pagination.Item>
+                          ))}
+                        </Pagination>
                       </div>
                     </div>
                   </div>

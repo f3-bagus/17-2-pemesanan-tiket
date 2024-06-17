@@ -1,14 +1,23 @@
 import React from "react";
-import logo from "../assets/images/logo-mini.svg";
-import pict from "../assets/images/faces/face1.jpg"
+import pict from "../../user/assets/img/profile/user-def-profile.png"
 import "../assets/css/style.css";
 
 const Navbar = () => {
+  const handleLogout = () => {
+    // Hapus token dari sessionStorage
+    sessionStorage.removeItem("token");
+
+    // Setelah 2 detik, arahkan ke halaman login
+    setTimeout(() => {
+      window.location.href = "/login";  // Ganti dengan path menuju halaman login
+    }, 2000);
+  };
+
   return (
-    <nav className="navbar-admin p-0 fixed-top d-flex flex-row">
+    <nav className="navbar-admin p-0 fixed-top d-flex flex-row" style={{ left: "244px" }}>
       <div className="navbar-admin-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
         <a className="navbar-admin-brand brand-logo-mini" href="index.html">
-          <img src={logo} alt="logo" />
+          <img src="/logo-w.svg" alt="logo" />
         </a>
       </div>
       <div className="navbar-admin-menu-wrapper flex-grow d-flex align-items-stretch">
@@ -34,7 +43,7 @@ const Navbar = () => {
                   alt=""
                 />
                 <p className="mb-0 d-none d-sm-block navbar-admin-profile-name">
-                  Henry Klein
+                  Admin
                 </p>
                 <i className="mdi mdi-menu-down d-none d-sm-block"></i>
               </div>
@@ -45,18 +54,8 @@ const Navbar = () => {
             >
               <h6 className="p-3 mb-0">Profile</h6>
               <div className="dropdown-divider"></div>
-              <a className="dropdown-item preview-item">
-                <div className="preview-thumbnail">
-                  <div className="preview-icon bg-dark rounded-circle">
-                    <i className="mdi mdi-settings text-success"></i>
-                  </div>
-                </div>
-                <div className="preview-item-content">
-                  <p className="preview-subject mb-1">Settings</p>
-                </div>
-              </a>
               <div className="dropdown-divider"></div>
-              <a className="dropdown-item preview-item">
+              <a className="dropdown-item preview-item" onClick={handleLogout}>
                 <div className="preview-thumbnail">
                   <div className="preview-icon bg-dark rounded-circle">
                     <i className="mdi mdi-logout text-danger"></i>
@@ -66,8 +65,6 @@ const Navbar = () => {
                   <p className="preview-subject mb-1">Log out</p>
                 </div>
               </a>
-              <div className="dropdown-divider"></div>
-              <p className="p-3 mb-0 text-center">Advanced settings</p>
             </div>
           </li>
         </ul>
