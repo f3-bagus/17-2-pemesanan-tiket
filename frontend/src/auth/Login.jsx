@@ -37,14 +37,21 @@ const Login = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const { username } = profileResponse.data;
+
+      const { username, isAdmin } = profileResponse.data;
 
       dispatch({
         type: "LOGIN",
-        payload: { user: { email: form.email, username: username } },
+        payload: { user: { email: form.email, username: username, isAdmin: isAdmin } },
       });
 
-      navigate("/");
+      // Navigate based on isAdmin
+      if (isAdmin) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
     } catch (error) {
       if (error.response) {
         setError(error.response.data.message || "Login failed! Please try again.");
