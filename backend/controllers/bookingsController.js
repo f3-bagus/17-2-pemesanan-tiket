@@ -44,7 +44,6 @@ const createBookingOrder = async (req, res) => {
     const seats = order.seatId.seats.map(
       (seat) => `${seat.rows}-${seat.number}`
     );
-    // console.log(seats);
     const tickets = [];
     for (const seat of seats) {
       const newTicket = new Ticket({

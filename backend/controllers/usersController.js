@@ -1,5 +1,6 @@
 const User = require("../models/UserModel");
-const fs = require('fs')
+const fs = require('fs');
+const bcrypt = require('bcrypt')
 
 const getAllUser = async (req, res) => {
   const users = await User.find({});
@@ -64,7 +65,16 @@ const getProfile = async (req, res) => {
 }
 
 const updateProfile = async (req, res) => {
-  const user = await User.findByIdAndUpdate({_id: req.user._id}, req.body, {new: true});
+  const { password } = req.body;
+  const passwordHash = bcrypt.hashSync(password,10)
+  const profiles = {
+    username: req.body.username,
+    password: passwordHash,
+    email: req.body.email,
+    noHp: req.body.noHp,
+  }
+
+  const user = await User.findByIdAndUpdate({_id: req.user._id}, profiles, {new: true});
   if (!user) {
     return res.status(400).json({
       status: 'fail',
