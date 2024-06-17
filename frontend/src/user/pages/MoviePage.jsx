@@ -64,7 +64,7 @@ const MoviePage = () => {
  const times = ["12:10", "14:25", "16:40", "17:15", "18:55"];
 
  return (
-  <div className="user-movie">
+  <div className="user-movie text-dark">
    {/* MOVIE DETAILS */}
    <Container className="min-vh-100">
     <div className="back-button d-flex align-items-center">

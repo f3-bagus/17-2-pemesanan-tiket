@@ -61,7 +61,7 @@ const PaymentPage = () => {
  };
 
  return (
-  <div className="user-payment">
+  <div className="user-payment bg-light text-dark">
    <Container className="pb-5">
     <div className="back-button d-flex align-items-center mb-3">
      <Button
@@ -75,7 +75,7 @@ const PaymentPage = () => {
     </div>
     <Row className="justify-content-md-center">
      <Col md="6">
-      <Card>
+      <Card className="bg-light"> 
        <Card.Body>
         <h5 className="pb-3">Movie Detail</h5>
         <Row>

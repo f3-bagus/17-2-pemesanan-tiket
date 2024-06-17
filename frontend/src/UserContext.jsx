@@ -15,7 +15,7 @@ const reducer = (state, action) => {
   }
 };
 
-const UserContext = createContext();
+const UserContext = createContext();  
 
 const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);

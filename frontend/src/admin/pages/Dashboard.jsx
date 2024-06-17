@@ -117,17 +117,17 @@ const Dashboard = () => {
         <div className="main-panel">
           <div className="content-wrapper">
             <div className="row">
+            <DashboardCard
+                jumlah={schedulesCount}
+                iconClass="icon-box-warning"
+                judul="Schedules"
+                icon="schedule"
+              />
               <DashboardCard
                 jumlah={moviesCount}
                 iconClass="icon-box-danger"
                 judul="Movies"
                 icon="movie"
-              />
-              <DashboardCard
-                jumlah={schedulesCount}
-                iconClass="icon-box-warning"
-                judul="Schedules"
-                icon="schedule"
               />
               <DashboardCard
                 jumlah={usersCount}

@@ -101,7 +101,7 @@ const SeatPage = () => {
   const pricePerSeat = film ? film.price : 0;
 
   return (
-    <div className="user-seat">
+    <div className="user-seat bg-light text-dark">
       <Container className="main-container min-vh-100 pb-5">
         <div className="back-button d-flex align-items-center mb-3">
           <Button
@@ -143,7 +143,7 @@ const SeatPage = () => {
                       ))}
                   </div>
                 ))}
-                <div className="legend d-flex justify-content-center">
+                <div className="legend d-flex justify-content-center text-dark">
                   <div className="mx-2">
                     <Image src={seat_av} style={{ width: "20px" }} /> Available
                   </div>
@@ -158,7 +158,7 @@ const SeatPage = () => {
             </div>
           </Col>
           <Col md="4">
-            <div className="movie-details p-3 border rounded mb-3 text-center">
+            <div className="movie-details p-3 border rounded mb-3 text-center text-dark">
               <Row>
                 {film && (
                   <>
