@@ -41,19 +41,16 @@ const createBookingOrder = async (req, res) => {
     const newBalance = userBalance - totalPrice;
     req.user.balance = newBalance;
     await req.user.save();
-
-    
     const seats = order.seatId.seats.map(
       (seat) => `${seat.rows}-${seat.number}`
     );
-    // console.log(seats);
     const tickets = [];
     for (const seat of seats) {
       const newTicket = new Ticket({
-        user: req.user.username,
+        costumer: req.user.username,
         seat: seat,
-        film: order.name_film,
-        "Date & Time": `${order.date}-${order.time}`,
+        film: order.filmId.name_film,
+        showtime: `${order.date}-${order.time}`,
       });
       tickets.push(await newTicket.save());
     }

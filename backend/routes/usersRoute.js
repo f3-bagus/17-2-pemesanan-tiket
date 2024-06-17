@@ -16,6 +16,7 @@ router.route('/profile')
   .get(verifyToken, usersController.getProfile)
   .put(verifyToken, verifyUser, usersController.updateProfile)
 
-router.route('/profile/avatar').put(verifyToken, verifyUser,upload.single('image'), usersController.changeAvatar)
+router.route('/profile/ava')
+  .put(verifyToken, verifyUser,upload.single('image'), usersController.changeAvatar)
 
 module.exports = router;

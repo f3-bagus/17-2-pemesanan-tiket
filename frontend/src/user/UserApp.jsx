@@ -15,10 +15,10 @@ function UserApp() {
 
    <Routes>
     <Route path="/" element={<HomePage />} />
-    <Route path="/movie" element={<MoviePage />} />
+    <Route path="/movie/:id" element={<MoviePage />} />
     <Route path="/ticket" element={<TicketPage />} />
-    <Route path="/seat-picker" element={<SeatPage />} />
-    <Route path="/payment" element={<PaymentPage />} />
+    <Route path="/seats/:id" element={<SeatPage />} />
+    <Route path="/payment/:id" element={<PaymentPage />} />
     <Route path="/account" element={<AccountPage />} />
    </Routes>
 
