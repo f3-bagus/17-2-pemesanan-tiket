@@ -178,6 +178,16 @@
  --padding-btn-md: 6px 12px 6px 12px;
 }
 
+/* CSS in main.css or your custom CSS file */
+.dropdown-menu {
+    background-color: #fd7014 !important; /* Background color for dropdown menu */
+    border: 0 !important;
+    padding: 5px !important;
+  }
+.dropdown-item {
+    background-color: #fd7014 !important;
+}
+
 .back-button {
  display: flex;
  align-items: center;
