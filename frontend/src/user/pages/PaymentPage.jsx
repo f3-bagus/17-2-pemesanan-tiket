@@ -61,16 +61,16 @@ const PaymentPage = () => {
   if (!film) return <div>Loading...</div>;
 
   const totalAmount = film.price * selectedSeats.length;
-  const totalPrice = parseFloat((totalAmount + 1).toFixed(2));
+  const totalPrice = parseFloat(totalAmount.toFixed(2));
 
   const handlePayment = async () => {
     if (balance >= totalPrice) {
       const orderData = {
         filmId: film._id,
-        customer: "Alaska", // Menggunakan "customer" alih-alih "costumer"
+        customer: "Alaska",
         date: moment().tz('Asia/Jakarta').format('YYYY-MM-DD'),
         time: time,
-        seatId: selectedSeats, // Memastikan seatId adalah array ID kursi
+        seatId: selectedSeats,
         totalPrice: totalPrice,
       };
 
@@ -162,9 +162,6 @@ const PaymentPage = () => {
                   </p>
                   <p className="d-flex justify-content-between">
                     <strong>Admin Fee</strong> <span>Free</span>
-                  </p>
-                  <p className="d-flex justify-content-between">
-                    <strong>Convenience fee</strong> <span>Rp 1</span>
                   </p>
                   <hr />
                   <p className="d-flex justify-content-between">

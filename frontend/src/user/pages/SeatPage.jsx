@@ -9,48 +9,84 @@ import "../css/main.css";
 
 const seatsData = [
   // Row A
-  { id: "A1", available: true }, { id: "A2", available: true },
-  { id: "A3", available: true }, { id: "A4", available: true },
-  { id: "A5", available: true }, { id: "A6", available: true },
-  { id: "A7", available: true }, { id: "A8", available: true },
-  { id: "A9", available: true }, { id: "A10", available: true },
+  { id: "A1", rows: "A", number: 1, available: true },
+  { id: "A2", rows: "A", number: 2, available: true },
+  { id: "A3", rows: "A", number: 3, available: true },
+  { id: "A4", rows: "A", number: 4, available: true },
+  { id: "A5", rows: "A", number: 5, available: true },
+  { id: "A6", rows: "A", number: 6, available: true },
+  { id: "A7", rows: "A", number: 7, available: true },
+  { id: "A8", rows: "A", number: 8, available: true },
+  { id: "A9", rows: "A", number: 9, available: true },
+  { id: "A10", rows: "A", number: 10, available: true },
   // Row B
-  { id: "B1", available: true }, { id: "B2", available: true },
-  { id: "B3", available: true }, { id: "B4", available: true },
-  { id: "B5", available: true }, { id: "B6", available: true },
-  { id: "B7", available: true }, { id: "B8", available: true },
-  { id: "B9", available: true }, { id: "B10", available: true },
+  { id: "B1", rows: "B", number: 1, available: true },
+  { id: "B2", rows: "B", number: 2, available: true },
+  { id: "B3", rows: "B", number: 3, available: true },
+  { id: "B4", rows: "B", number: 4, available: true },
+  { id: "B5", rows: "B", number: 5, available: true },
+  { id: "B6", rows: "B", number: 6, available: true },
+  { id: "B7", rows: "B", number: 7, available: true },
+  { id: "B8", rows: "B", number: 8, available: true },
+  { id: "B9", rows: "B", number: 9, available: true },
+  { id: "B10", rows: "B", number: 10, available: true },
   // Row C
-  { id: "C1", available: true }, { id: "C2", available: true },
-  { id: "C3", available: true }, { id: "C4", available: true },
-  { id: "C5", available: true }, { id: "C6", available: true },
-  { id: "C7", available: true }, { id: "C8", available: true },
-  { id: "C9", available: true }, { id: "C10", available: true },
+  { id: "C1", rows: "C", number: 1, available: true },
+  { id: "C2", rows: "C", number: 2, available: true },
+  { id: "C3", rows: "C", number: 3, available: true },
+  { id: "C4", rows: "C", number: 4, available: true },
+  { id: "C5", rows: "C", number: 5, available: true },
+  { id: "C6", rows: "C", number: 6, available: true },
+  { id: "C7", rows: "C", number: 7, available: true },
+  { id: "C8", rows: "C", number: 8, available: true },
+  { id: "C9", rows: "C", number: 9, available: true },
+  { id: "C10", rows: "C", number: 10, available: true },
   // Row D
-  { id: "D1", available: true }, { id: "D2", available: true },
-  { id: "D3", available: true }, { id: "D4", available: true },
-  { id: "D5", available: true }, { id: "D6", available: true },
-  { id: "D7", available: true }, { id: "D8", available: true },
-  { id: "D9", available: true }, { id: "D10", available: true },
+  { id: "D1", rows: "D", number: 1, available: true },
+  { id: "D2", rows: "D", number: 2, available: true },
+  { id: "D3", rows: "D", number: 3, available: true },
+  { id: "D4", rows: "D", number: 4, available: true },
+  { id: "D5", rows: "D", number: 5, available: true },
+  { id: "D6", rows: "D", number: 6, available: true },
+  { id: "D7", rows: "D", number: 7, available: true },
+  { id: "D8", rows: "D", number: 8, available: true },
+  { id: "D9", rows: "D", number: 9, available: true },
+  { id: "D10", rows: "D", number: 10, available: true },
   // Row E
-  { id: "E1", available: true }, { id: "E2", available: true },
-  { id: "E3", available: true }, { id: "E4", available: true },
-  { id: "E5", available: true }, { id: "E6", available: true },
-  { id: "E7", available: true }, { id: "E8", available: true },
-  { id: "E9", available: true }, { id: "E10", available: true },
+  { id: "E1", rows: "E", number: 1, available: true },
+  { id: "E2", rows: "E", number: 2, available: true },
+  { id: "E3", rows: "E", number: 3, available: true },
+  { id: "E4", rows: "E", number: 4, available: true },
+  { id: "E5", rows: "E", number: 5, available: true },
+  { id: "E6", rows: "E", number: 6, available: true },
+  { id: "E7", rows: "E", number: 7, available: true },
+  { id: "E8", rows: "E", number: 8, available: true },
+  { id: "E9", rows: "E", number: 9, available: true },
+  { id: "E10", rows: "E", number: 10, available: true },
   // Row F
-  { id: "F1", available: true }, { id: "F2", available: true },
-  { id: "F3", available: true }, { id: "F4", available: true },
-  { id: "F5", available: true }, { id: "F6", available: true },
-  { id: "F7", available: true }, { id: "F8", available: true },
-  { id: "F9", available: true }, { id: "F10", available: true },
+  { id: "F1", rows: "F", number: 1, available: true },
+  { id: "F2", rows: "F", number: 2, available: true },
+  { id: "F3", rows: "F", number: 3, available: true },
+  { id: "F4", rows: "F", number: 4, available: true },
+  { id: "F5", rows: "F", number: 5, available: true },
+  { id: "F6", rows: "F", number: 6, available: true },
+  { id: "F7", rows: "F", number: 7, available: true },
+  { id: "F8", rows: "F", number: 8, available: true },
+  { id: "F9", rows: "F", number: 9, available: true },
+  { id: "F10", rows: "F", number: 10, available: true },
   // Row G
-  { id: "G1", available: true }, { id: "G2", available: true },
-  { id: "G3", available: true }, { id: "G4", available: true },
-  { id: "G5", available: true }, { id: "G6", available: true },
-  { id: "G7", available: true }, { id: "G8", available: true },
-  { id: "G9", available: true }, { id: "G10", available: true },
+  { id: "G1", rows: "G", number: 1, available: true },
+  { id: "G2", rows: "G", number: 2, available: true },
+  { id: "G3", rows: "G", number: 3, available: true },
+  { id: "G4", rows: "G", number: 4, available: true },
+  { id: "G5", rows: "G", number: 5, available: true },
+  { id: "G6", rows: "G", number: 6, available: true },
+  { id: "G7", rows: "G", number: 7, available: true },
+  { id: "G8", rows: "G", number: 8, available: true },
+  { id: "G9", rows: "G", number: 9, available: true },
+  { id: "G10", rows: "G", number: 10, available: true },
 ];
+
 
 const SeatPage = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -93,9 +129,33 @@ const SeatPage = () => {
     }
   };
 
-  const handleProceedToPayment = () => {
-    navigate(`/payment/${id}`, { state: { selectedSeats, movie: film } });
+  const handleProceedToPayment = async () => {
+    try {
+      const token = sessionStorage.getItem("token");
+  
+      // Buat array baru yang hanya berisi rows dan number dari selectedSeats
+      const selectedSeatsData = selectedSeats.map((seatId) => {
+        const seat = seatsData.find((s) => s.id === seatId);
+        return { rows: seat.rows, number: seat.number };
+      });
+  
+      // Kirim data ke backend
+      await axios.post(
+        `http://localhost:3000/api/films/${id}/seat-picker`,
+        { seats: selectedSeatsData }, // Ubah objek yang dikirim menjadi objek dengan properti seats
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+  
+      navigate(`/payment/${id}`, { state: { selectedSeats, movie: film } });
+    } catch (error) {
+      console.error("Error sending seat data:", error);
+    }
   };
+  
 
   const totalAmount = film ? film.price * selectedSeats.length : 0;
   const pricePerSeat = film ? film.price : 0;
@@ -132,7 +192,7 @@ const SeatPage = () => {
                 {["A", "B", "C", "D", "E", "F", "G"].map((row) => (
                   <div className="seat-row" key={row}>
                     {seatsData
-                      .filter((seat) => seat.id.startsWith(row))
+                      .filter((seat) => seat.rows === row)
                       .map((seat) => (
                         <Seat
                           key={seat.id}

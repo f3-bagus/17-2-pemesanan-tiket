@@ -42,12 +42,15 @@ const MoviePage = () => {
   }
 
   try {
-   const response = await axios.get("http://localhost:3000/api/profile", {
-    headers: {
-     Authorization: `Bearer ${token}`,
-    },
-   });
-
+   const response = await axios.post(
+    `http://localhost:3000/api/films/${movieId}`,
+    { date: getFormattedDate(), time: time },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
    // Jika berhasil, arahkan ke halaman pemilihan kursi
    navigate(`/seats/${movieId}`, { state: { movie: film, time: time } });
   } catch (error) {
