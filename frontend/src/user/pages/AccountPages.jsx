@@ -7,12 +7,11 @@ import {
   Card,
   InputGroup,
   Alert,
-  Image,
-  Tooltip,
-  OverlayTrigger,
   FormGroup,
+  OverlayTrigger,
+  Tooltip,
  } from "react-bootstrap";
- import { useState, useRef } from "react";
+ import { useState, useRef, useEffect } from "react";
  import { useNavigate } from "react-router-dom";
  import axios from "axios";
  import * as formik from "formik";
@@ -27,6 +26,23 @@ import {
   const fileInputRef = useRef(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
  
+  useEffect(() => {
+   const token = sessionStorage.getItem("token");
+   if (token) {
+    axios
+     .get("http://localhost:3000/api/profile", {
+      headers: { Authorization: `Bearer ${token}` },
+     })
+     .then((response) => {
+      setUserData(response.data);
+      console.log("Profile data fetched:", response.data);
+     })
+     .catch((error) => {
+      console.error("Error fetching profile data:", error);
+     });
+   }
+  }, []);
+ 
   const handleBack = () => {
    navigate(-1); // Go back to the previous page
   };
@@ -38,22 +54,12 @@ import {
   const { Formik } = formik;
  
   const schema = yup.object().shape({
-   username: yup.string().required(),
-   email: yup.string().email().required(),
-   password: yup.string().required(),
-   phone: yup.string().required(),
-   file: yup.mixed().required(),
+   username: yup.string(),
+   email: yup.string().email(),
+   password: yup.string(),
+   noHp: yup.string(),
+   file: yup.mixed(),
   });
- 
-  // Temporary profile data
-  const profile = {
-   username: "kumi",
-   email: "anak pucis@example.com",
-   password: "password123",
-   phone: "123-456-7890",
-   profilePhoto: userProfile,
-   balance: 500000,
-  };
  
   const handleIconClick = () => {
    fileInputRef.current.click();
@@ -61,6 +67,48 @@ import {
  
   const togglePasswordVisibility = () => {
    setPasswordVisible(!passwordVisible);
+  };
+ 
+  const handleSubmit = async (values) => {
+   const token = sessionStorage.getItem("token");
+ 
+   try {
+    // Update profile data
+    await axios.put(
+     "http://localhost:3000/api/profile",
+     {
+      username: values.username,
+      email: values.email,
+      password: values.password,
+      noHp: values.noHp,
+     },
+     {
+      headers: { Authorization: `Bearer ${token}` },
+     }
+    );
+ 
+    console.log("Profile updated successfully");
+ 
+    // Update profile photo if a new file is selected
+    if (values.file) {
+     const formData = new FormData();
+     formData.append("image", values.file);
+ 
+     await axios.put("http://localhost:3000/api/profile/ava", formData, {
+      headers: {
+       Authorization: `Bearer ${token}`,
+       "Content-Type": "multipart/form-data",
+      },
+     });
+ 
+     console.log("Profile photo updated successfully");
+    }
+ 
+    setShowAlert(true);
+    setTimeout(() => setShowAlert(false), 3000);
+   } catch (error) {
+    console.error("Error updating profile:", error);
+   }
   };
  
   return (
@@ -84,23 +132,34 @@ import {
          <h3 className="fw-bold pb-1">Profile Settings</h3>
          <Formik
           validationSchema={schema}
-          onSubmit={console.log}
+          onSubmit={handleSubmit}
           initialValues={{
-           username: userData.username || profile.username,
-           email: userData.email || profile.email,
+           username: userData.username || "",
+           email: userData.email || "",
            password: "",
-           phone: userData.phone || profile.phone,
+           noHp: userData.noHp || "",
            file: null,
           }}
           enableReinitialize
          >
-          {({ handleSubmit, handleChange, values, touched, errors }) => (
+          {({
+           handleSubmit,
+           handleChange,
+           setFieldValue,
+           values,
+           touched,
+           errors,
+          }) => (
            <Form noValidate onSubmit={handleSubmit}>
             <Row className="mb-3">
              <FormGroup as={Col}>
               <div className="profile-photo-container">
                <img
-                src={userData.profilePhoto || profile.profilePhoto}
+                src={
+                 userData.image
+                  ? `http://localhost:3000/uploads/members/${userData.image.filename}`
+                  : userProfile
+                }
                 alt="Profile"
                 className="profile-photo"
                />
@@ -126,139 +185,125 @@ import {
                 name="file"
                 ref={fileInputRef}
                 style={{ display: "none" }}
-                onChange={handleChange}
-                isInvalid={!!errors.file}
-                accept="image/png, image/jpeg"
+                onChange={(event) => {
+                 setFieldValue("file", event.target.files[0]);
+                }}
                />
               </div>
              </FormGroup>
             </Row>
-            <Row className="mb-3">
-             <Form.Group as={Col} md="6" controlId="validationFormikUsername">
-              <Form.Label>
-               <strong>Username</strong>
-              </Form.Label>
+ 
+            <FormGroup as={Col} controlId="validationFormikUsername">
+             <Form.Label className="fs-6">Username</Form.Label>
+             <InputGroup hasValidation>
               <Form.Control
                type="text"
+               placeholder="Username"
                name="username"
                value={values.username}
                onChange={handleChange}
-               isInvalid={!!errors.username}
+               isValid={touched.username && !errors.username}
+               isInvalid={touched.username && !!errors.username}
               />
               <Form.Control.Feedback type="invalid">
                {errors.username}
               </Form.Control.Feedback>
-             </Form.Group>
-             <Form.Group as={Col} md="6" controlId="validationFormikPhone">
-              <Form.Label>
-               <strong>Phone Number</strong>
-              </Form.Label>
-              <Form.Control
-               type="text"
-               name="phone"
-               value={values.phone}
-               onChange={handleChange}
-               isInvalid={!!errors.phone}
-              />
-              <Form.Control.Feedback type="invalid">
-               {errors.phone}
-              </Form.Control.Feedback>
-             </Form.Group>
-            </Row>
+             </InputGroup>
+            </FormGroup>
  
-            <Row className="mb-3">
-             <Form.Group as={Col} md="6" controlId="validationFormikEmail">
-              <Form.Label>
-               <strong>Email</strong>
-              </Form.Label>
+            <FormGroup
+             as={Col}
+             controlId="validationFormikEmail"
+             className="mt-2"
+            >
+             <Form.Label className="fs-6">Email</Form.Label>
+             <InputGroup hasValidation>
               <Form.Control
                type="email"
+               placeholder="Email"
                name="email"
                value={values.email}
                onChange={handleChange}
-               isInvalid={!!errors.email}
+               isValid={touched.email && !errors.email}
+               isInvalid={touched.email && !!errors.email}
               />
               <Form.Control.Feedback type="invalid">
                {errors.email}
               </Form.Control.Feedback>
-             </Form.Group>
-             <Form.Group as={Col} md="6" controlId="validationFormikPassword">
-              <Form.Label>
-               <strong>Password</strong>
-              </Form.Label>
-              <InputGroup>
-               <Form.Control
-                type={passwordVisible ? "text" : "password"}
-                name="password"
-                value={values.password}
-                onChange={handleChange}
-                isInvalid={!!errors.password}
-               />
-               <InputGroup.Text
-                className="rounded-right"
-                onClick={togglePasswordVisibility}
-                style={{ cursor: "pointer" }}
-               >
-                <i
-                 className={`fa-solid ${
-                  passwordVisible ? "fa-unlock" : "fa-lock"
-                 }`}
-                ></i>
-               </InputGroup.Text>
-               <Form.Control.Feedback type="invalid">
-                {errors.password}
-               </Form.Control.Feedback>
-              </InputGroup>
-             </Form.Group>
-            </Row>
-            <Row>
-             <Form.Group as={Col} className="position-relative mb-3">
+             </InputGroup>
+            </FormGroup>
+ 
+            <FormGroup
+             as={Col}
+             controlId="validationFormikPassword"
+             className="mt-2"
+            >
+             <Form.Label className="fs-6">Password</Form.Label>
+             <InputGroup hasValidation>
               <Form.Control
-               type="file"
-               name="file"
-               ref={fileInputRef}
-               style={{ display: "none" }}
+               type={passwordVisible ? "text" : "password"}
+               placeholder="Password"
+               name="password"
+               value={values.password}
                onChange={handleChange}
-               isInvalid={!!errors.file}
-               accept="image/png, image/jpeg"
+               isValid={touched.password && !errors.password}
+               isInvalid={touched.password && !!errors.password}
+              />
+              <InputGroup.Text
+               className="password-toggle-icon"
+               onClick={togglePasswordVisibility}
+              >
+               <i
+                className={`fa ${passwordVisible ? "fa-eye-slash" : "fa-eye"}`}
+               ></i>
+              </InputGroup.Text>
+              <Form.Control.Feedback type="invalid">
+               {errors.password}
+              </Form.Control.Feedback>
+             </InputGroup>
+            </FormGroup>
+ 
+            <FormGroup
+             as={Col}
+             controlId="validationFormikNoHp"
+             className="mt-2"
+            >
+             <Form.Label className="fs-6">Phone Number</Form.Label>
+             <InputGroup hasValidation>
+              <Form.Control
+               type="text"
+               placeholder="Phone Number"
+               name="noHp"
+               value={values.noHp}
+               onChange={handleChange}
+               isValid={touched.noHp && !errors.noHp}
+               isInvalid={touched.noHp && !!errors.noHp}
               />
               <Form.Control.Feedback type="invalid">
-               {errors.file}
+               {errors.noHp}
               </Form.Control.Feedback>
-             </Form.Group>
-            </Row>
+             </InputGroup>
+            </FormGroup>
  
-            <Form.Group className="position-relative mb-3">
-             <Form.Label>
-              <strong>Balance </strong>
-             </Form.Label>{" "}
-             <br />
-             <Form.Label>
-              <h5>Rp {userData.balance || profile.balance}</h5>
-             </Form.Label>
-            </Form.Group>
-            <div className="d-grid gap-2">
-             <Button className="btn-dark" onClick={handleTopUp}>
-              Request Top-Up
-             </Button>
-             {showAlert && (
-              <Alert
-               variant="success"
-               onClose={() => setShowAlert(false)}
-               dismissible
-              >
-               Request top-up already sent to admin.
-              </Alert>
-             )}
-             <Button type="submit" className="btn-orange">
-              Change Profile
-             </Button>
-            </div>
+            <Button variant="primary" type="submit" className="mt-3">
+             Save Changes
+            </Button>
            </Form>
           )}
          </Formik>
         </Card.Body>
        </Card>
+      )}
+ 
+      {showAlert && (
+       <Alert
+        variant="success"
+        onClose={() => setShowAlert(false)}
+        dismissible
+        className="mt-3 w-75"
+       >
+        Profile updated successfully!
+       </Alert>
       )}
      </Row>
     </Container>
@@ -266,4 +311,5 @@ import {
   );
  };
  
- export default AccountPages; 
+ export default AccountPages;
+ 
