@@ -17,10 +17,12 @@ const bookingSchema = new Schema({
     time: {
         type: String,
     },
-    seatId: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Seat',
-    },
+    seats: [
+        {
+            rows: String,
+            number: Number
+        }
+    ],
     totalPrice: {
         type: Number
     },
