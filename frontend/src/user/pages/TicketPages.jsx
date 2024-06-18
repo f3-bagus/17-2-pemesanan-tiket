@@ -38,11 +38,21 @@ const TicketPages = () => {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
+        const token = sessionStorage.getItem("token");
+        if (!token) {
+          throw new Error("No token found");
+        }
+
+        console.log("Fetching tickets with token:", token);
+
         const response = await axios.get("http://localhost:3000/api/tickets", {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         });
+
+        console.log("Tickets fetched successfully:", response.data);
+
         setTickets(response.data);
         setLoading(false);
       } catch (error) {
@@ -59,8 +69,8 @@ const TicketPages = () => {
   );
 
   return (
-    <div className="ticket-page-container">
-      <Container className="ticket-page-ticket-container">
+    <div className="ticket-pages-container">
+      <Container className="ticket-pages-ticket-container">
         <Row className="w-100 align-items-center justify-content-between">
           <Col>
             <div className="back-button d-flex align-items-center">
@@ -71,35 +81,35 @@ const TicketPages = () => {
               >
                 <i className="fa-solid fa-arrow-left"></i>
               </Button>
-              <h2 className="ml-2 mb-0">MY TICKETS</h2>
+              <h2 className="ml-2 mb-0 ticket-pages-my-tickets-header">MY TICKETS</h2>
             </div>
           </Col>
           <Col className="d-flex justify-content-end align-items-center">
-            <div className="d-flex align-items-center mr-3 ticket-page-sort-container">
-              <span className="ticket-page-sort-by-text">Sort By</span>
+            <div className="d-flex align-items-center mr-3 ticket-pages-sort-container">
+              <span className="ticket-pages-sort-by-text">Sort By</span>
               <Form.Select
                 value={sortOption}
                 onChange={handleSortChange}
-                className="ticket-page-sort-dropdown"
+                className="ticket-pages-sort-dropdown"
               >
                 <option value="latest">Latest</option>
                 <option value="newest">Newest</option>
               </Form.Select>
             </div>
-            <div className="ticket-page-search-bar">
+            <div className="ticket-pages-search-bar">
               <FormControl
                 placeholder="Search tickets..."
                 aria-label="Search tickets"
                 aria-describedby="search-tickets"
                 value={searchQuery}
                 onChange={handleSearchChange}
-                className="ticket-page-search-input"
+                className="ticket-pages-search-input"
               />
               <InputGroup.Text
                 id="search-tickets"
-                className="ticket-page-search-icon"
+                className="ticket-pages-search-icon"
               >
-                <FontAwesomeIcon icon={faSearch} className="ticket-page-fa-search" />
+                <FontAwesomeIcon icon={faSearch} className="ticket-pages-fa-search" />
               </InputGroup.Text>
             </div>
           </Col>
@@ -111,7 +121,7 @@ const TicketPages = () => {
         ) : filteredTickets.length > 0 ? (
           <Row className="text-center mt-4">
             <Col>
-              <Table striped bordered hover>
+              <Table striped bordered hover className="ticket-pages-table">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -138,13 +148,13 @@ const TicketPages = () => {
         ) : (
           <Row className="text-center mt-4">
             <Col>
-              <div className="ticket-page-ticket-empty">
+              <div className="ticket-pages-ticket-empty">
                 <img
                   src={historykosong}
                   alt="No tickets"
-                  className="ticket-page-ticket-image"
+                  className="ticket-pages-ticket-image"
                 />
-                <p className="ticket-page-ticket-text">
+                <p className="ticket-pages-ticket-text">
                   Looks like you haven't booked any ticket yet.
                 </p>
               </div>

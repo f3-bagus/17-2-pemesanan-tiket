@@ -30,6 +30,7 @@ const Login = () => {
       const response = await axios.post("http://localhost:3000/api/auth/login", form);
       const token = response.data.token;
       sessionStorage.setItem("token", token);
+      navigate("/tickets");
 
       // Fetch user profile details
       const profileResponse = await axios.get("http://localhost:3000/api/profile", {
