@@ -64,7 +64,7 @@ const MoviePage = () => {
  const times = ["12:10", "14:25", "16:40", "17:15", "18:55"];
 
  return (
-  <div className="user-movie text-dark">
+  <div className="user-movie">
    {/* MOVIE DETAILS */}
    <Container className="min-vh-100">
     <div className="back-button d-flex align-items-center">
@@ -78,7 +78,7 @@ const MoviePage = () => {
     </div>
     <Row className="justify-content-md-center">
      <Col md={3}>
-      <Card className="poster-card">
+      <Card className="poster-card rounded-4">
        <Card.Img
         className="w-100 rounded-4"
         variant="top"
@@ -86,13 +86,13 @@ const MoviePage = () => {
         alt={film.name_film}
        />
       </Card>
-      <div className="d-grid gap-2 pt-3">
-       <Button
-        className="btn-dark btn-lg rounded-3 me-2 mb-xs-0 mb-2"
+      <div className="d-grid pt-3">
+       <button
+        className="btn-trailer-movie btn-dark rounded-2 fs-7 mb-xs-0 mb-2"
         onClick={handleShow}
        >
         Watch trailer
-       </Button>
+       </button>
       </div>
      </Col>
      <Col md={6}>
@@ -143,7 +143,7 @@ const MoviePage = () => {
         <Accordion.Body>
          {times.map((time, timeIndex) => (
           <button
-           className="btn btn-outline-dark m-1"
+           className="btn-jam btn-outline-dark m-1 rounded-1"
            onClick={() => handleNavigateToSeatPage(id)}
            key={timeIndex}
           >

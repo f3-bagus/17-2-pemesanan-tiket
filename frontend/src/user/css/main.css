@@ -155,7 +155,7 @@
  color: #0a0358;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
  .login-register .container {
   margin-top: 30px;
   padding: 20px;
@@ -174,6 +174,8 @@
  --color-text: #eeeeee;
  --navbar-color: #393e46;
  --navbar-color-text: #ffffff;
+ --padding-btn-lg: 12px 16px 12px 16px;
+ --padding-btn-md: 6px 12px 6px 12px;
 }
 
 .back-button {
@@ -188,7 +190,7 @@
 .btn-orange {
  color: #fff;
  background-color: #fd7014;
- border-color: #fd7014;
+ border: none;
 }
 
 .btn-orange:hover {
@@ -245,6 +247,10 @@
  background-color: #222831;
 }
 
+.user-navbar button {
+ padding: var(--padding-btn-md);
+}
+
 .user-navbar.color-active {
  background-color: var(--navbar-color);
  padding: 20px 0 20px 0;
@@ -269,6 +275,18 @@
  color: var(--navbar-color);
 }
 
+.navbar-toggler {
+ background-color: #eeeeee;
+}
+
+.navbar-toggler:focus {
+ border-color: #eeeeee;
+}
+
+.logo-user-navbar:hover {
+ text-decoration: none;
+}
+
 /* ----- STYLE HOME PAGE HEADER ----- */
 header {
  background-color: var(--primary-color);
@@ -279,6 +297,10 @@ header {
  font-size: 3.2 rem;
  font-weight: 600;
  color: white;
+}
+
+.homepage .header-box button {
+ padding: var(--padding-btn-lg);
 }
 
 .homepage .header-box h1 span {
@@ -336,11 +358,7 @@ header {
 
 /* ----- STYLE HOME PAGE PROMO ----- */
 .homepage .promo {
- background-color: var(--color-text);
-}
-
-.homepage .promo h1 {
- color: #222831;
+ background-color: #eeeeee;
 }
 
 .swiper {
@@ -351,7 +369,7 @@ header {
 .swiper-slide {
  text-align: center;
  font-size: 18px;
- background: #fff;
+ background: #eeeeee;
 
  /* Center slide text vertically */
  display: flex;
@@ -373,7 +391,6 @@ header {
 }
 
 .homepage .movies .row:nth-child(1) {
- padding-top: 50px;
  padding-bottom: 30px;
 }
 
@@ -384,16 +401,34 @@ header {
 
 .homepage .movies .row:nth-child(2) {
  display: grid;
- grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .homepage .movies .row:nth-child(2) img {
  width: 100%;
 }
 
+.homepage .movies button {
+ padding: var(--padding-btn-md);
+}
+
+.homepage .trailer {
+ border: none;
+}
+
+.homepage .film-poster {
+ border: none;
+}
+
 /* Overlay for movie poster */
 .movie-poster {
  position: relative;
+}
+
+.movie-poster .card {
+ border: none;
+ background-color: #eeeeee;
+ background-clip: border-box;
 }
 
 .movie-poster .overlay {
@@ -419,6 +454,22 @@ header {
  margin: 5px;
 }
 
+.movie-poster-img {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+ .movie-poster-img {
+  aspect-ratio: 2 / 3; /* Maintain aspect ratio */
+ }
+}
+
 /* STYLE FAQ */
 .faq {
  padding-top: 50px;
@@ -438,10 +489,24 @@ header {
  box-shadow: none;
 }
 
+/* MODAL */
+.modal-header,
+.modal-body {
+ background-color: #eeeeee;
+ border-color: #eeeeee;
+}
+
+.modal-body {
+ border-bottom-left-radius: 5px;
+ border-bottom-right-radius: 5px;
+}
+
 /* ----------- FOOTER STYLE ----------- */
 .footer {
  background-color: var(--secondary-color);
+ color: #222831;
  font-weight: 500;
+ padding: 20px 0;
 }
 
 .footer .social {
@@ -451,7 +516,7 @@ header {
 }
 
 .footer .social i {
- font-size: 25px;
+ font-size: 24px;
  width: 40px;
  height: 40px;
  cursor: pointer;
@@ -465,8 +530,9 @@ header {
  -moz-transition: all 0.3s ease;
  -ms-transition: all 0.3s ease;
  transition: all 0.3s ease;
- background-color: #eeeeee;
+ background-color: #222831;
  border-radius: 50%;
+ color: #eeeeee;
 }
 
 .footer .social i:hover {
@@ -476,6 +542,30 @@ header {
 .footer .row:nth-child(2) {
  margin-top: 25px;
 }
+
+@media (max-width: 768px) {
+ .footer .d-flex {
+  flex-direction: column;
+  align-items: center;
+ }
+
+ .footer .social {
+  justify-content: center;
+ }
+
+ .footer img {
+  display: block;
+  margin: 0 auto;
+ }
+
+ .footer p {
+  text-align: center;
+ }
+
+ .footer h6 {
+  text-align: center;
+ }
+}
 /* ----- END STYLE HOME PAGE MOVIE ----- */
 /* --------------------------------------------------------------------------------------------- */
 
@@ -483,9 +573,22 @@ header {
 .user-movie {
  background-color: var(--color-text);
  padding-top: 130px;
+ color: #212529;
 }
 
-.icon-duration {
+.user-movie .card {
+ border: none;
+}
+
+.btn-trailer-movie {
+ padding: var(--padding-btn-md);
+ border: none;
+ font-size: 14px;
+}
+
+.icon-duration,
+.icon-age,
+.icon-price {
  display: flex;
  align-items: center;
 }
@@ -496,25 +599,17 @@ header {
  margin-right: 10px;
  align-items: center;
  font-size: 20px;
- padding-bottom: 10px; /* Ubah nilai ini sesuai kebutuhan */
-}
-
-.poster-card {
- background: none;
- border: none;
-}
-
-.icon-age {
- display: flex;
-}
-
-.icon-price {
- display: flex;
+ padding-bottom: 10px;
 }
 
 .user-movie .row:nth-child(4) .accordion-button {
  background-color: #fd7014;
  color: #ffffff;
+}
+
+.user-movie .row:nth-child(4) .btn-jam {
+ padding: var(--padding-btn-md);
+ background-color: #ffffff;
 }
 
 /* -------------------------------------------------------------------------------------------- */

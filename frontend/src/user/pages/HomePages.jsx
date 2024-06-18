@@ -54,11 +54,8 @@ const HomePage = () => {
         Discover new movies and book your tickets today. <br />
         Enjoy an unforgettable cinema experience.
        </p>
-       <button className="btn btn-light btn-lg rounded-1 me-2 mb-xs-0 mb-2">
+       <button className="btn padding-btn-lg btn-light fs-6 rounded-1 me-2 mb-xs-0 mb-2">
         Buy Ticket
-       </button>
-       <button className="btn btn-outline-light btn-lg rounded-1 mb-xs-0 mb-2">
-        Movies
        </button>
       </Col>
       <Col lg="6" className="pt-lg-0 pt-5">
@@ -71,11 +68,12 @@ const HomePage = () => {
    {/* PROMO SECTION */}
    <div className="promo">
     <Container>
-     <Row className="p-5">
+     <Row className="py-5">
       <Swiper
        spaceBetween={30}
        slidesPerView={2} // This sets the number of slides visible to 2
        centeredSlides={false}
+       loop={true}
        autoplay={{
         delay: 2500,
         disableOnInteraction: false,
@@ -83,12 +81,12 @@ const HomePage = () => {
        pagination={{
         clickable: true,
        }}
-       navigation={true}
+       navigation={false}
        modules={[Autoplay, Pagination, Navigation]}
        className="mySwiper"
        breakpoints={{
         // When window width is >= 640px
-        640: {
+        0: {
          slidesPerView: 1, // Show 1 slide on small screens
          spaceBetween: 20,
         },
@@ -123,7 +121,7 @@ const HomePage = () => {
     <Container>
      <Row>
       <Col>
-       <h1 className="fw-bold ">Showing Now</h1>
+       <h1 className="fw-bold pt-3">Showing Now</h1>
       </Col>
      </Row>
      <Row>
@@ -134,17 +132,17 @@ const HomePage = () => {
           variant="top"
           src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
           alt="poster-film"
-          className="w-100 rounded-4"
+          className="film-poster w-100 rounded-4"
          />
          <div className="overlay rounded-4">
           <button
-           className="btn btn-light mb-2"
+           className="trailer btn-light rounded-1 mb-2"
            onClick={() => handleShow(film)}
           >
            Watch Trailer
           </button>
           <button
-           className="btn btn-orange"
+           className="btn-orange rounded-1"
            onClick={() => navigate(`/movie/${film._id}`)} // Navigate to MoviePage with the film ID
           >
            Get Ticket
@@ -155,7 +153,13 @@ const HomePage = () => {
       ))}
      </Row>
      {/* Trailer Modal */}
-     <Modal show={show} onHide={handleClose} size="lg" centered>
+     <Modal
+      show={show}
+      onHide={handleClose}
+      size="md"
+      className="modal-trailer"
+      centered
+     >
       <Modal.Header closeButton></Modal.Header>
       <Modal.Body>
        {selectedFilm && (

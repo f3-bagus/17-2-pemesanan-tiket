@@ -6,41 +6,43 @@ import "../css/main.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const NavbarComponents = () => {
-const navigate = useNavigate();
-const { state, dispatch } = useContext(UserContext);
-const { user } = state;
+ const navigate = useNavigate();
+ const { state, dispatch } = useContext(UserContext);
+ const { user } = state;
 
-const [changeColor, setChangeColor] = useState(false);
+ const [changeColor, setChangeColor] = useState(false);
 
-const changeBackgroundColor = () => {
-if (window.scrollY > 10) {
-setChangeColor(true);
-} else {
-setChangeColor(false);
-}
-};
+ const changeBackgroundColor = () => {
+  if (window.scrollY > 10) {
+   setChangeColor(true);
+  } else {
+   setChangeColor(false);
+  }
+ };
 
-useEffect(() => {
-changeBackgroundColor();
+ useEffect(() => {
+  changeBackgroundColor();
 
-window.addEventListener("scroll", changeBackgroundColor);
-});
+  window.addEventListener("scroll", changeBackgroundColor);
+ });
 
-const handleLogout = () => {
-sessionStorage.removeItem("token");
-dispatch({ type: "LOGOUT" });
-navigate("/login");
-};
+ const handleLogout = () => {
+  sessionStorage.removeItem("token");
+  dispatch({ type: "LOGOUT" });
+  navigate("/login");
+ };
 
-return (
-
+ return (
   <div>
    <Navbar
     expand="lg"
     className={`user-navbar ${changeColor ? "color-active" : ""}`}
    >
     <Container>
-     <Navbar.Brand href="#home" className="fs-3 fw-bold text-white">
+     <Navbar.Brand
+      href="#home"
+      className="logo-user-navbar fs-3 fw-bold text-white"
+     >
       <img
        src={"/logo-w.svg"}
        width="35"
@@ -69,11 +71,14 @@ return (
        </div>
       </Nav>
       {user ? (
-       <Nav className="ms-auto text-center">
+       <Nav className="mx-auto text-center">
         <div className="d-flex align-items-center">
-         <p className="text-white m-0 fs-5 me-3">Hi {user.username}</p>{" "}
+         <p className="text-white m-0 fs-6 fw-medium me-3 text-center">
+          Hi, {user.username}
+         </p>{" "}
+         <hr />
          <button
-          className="btn btn-outline-light rounded-1"
+          className="btn-orange fs-6 fw-medium ms-4 rounded-1"
           onClick={handleLogout}
          >
           Logout
@@ -83,7 +88,7 @@ return (
       ) : (
        <div className="text-center">
         <button
-         className="btn btn-outline-light rounded-1"
+         className="btn-orange fs-6 fw-medium ms-4 rounded-1"
          onClick={() => navigate("/login")}
         >
          Sign In
@@ -96,4 +101,5 @@ return (
   </div>
  );
 };
+
 export default NavbarComponents;

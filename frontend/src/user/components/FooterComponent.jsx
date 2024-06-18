@@ -29,7 +29,7 @@ const FooterComponent = () => {
       </p>
      </Col>
      <Col lg="3" className="mt-lg-0 mt-4">
-      <h6 className="fw-bold mb-3">Stay Tune in Our Social Media</h6>
+      <h6 className="fw-semibold mb-3">Stay Tune in Our Social Media</h6>
       <div className="social mt-3">
        <Button
         className="px-0"
