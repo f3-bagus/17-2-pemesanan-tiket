@@ -21,7 +21,7 @@ const seatsData = [
   { id: "B7", available: true }, { id: "B8", available: true },
   { id: "B9", available: true }, { id: "B10", available: true },
   // Row C
-  { id: "C1", available: false }, { id: "C2", available: true },
+  { id: "C1", available: true }, { id: "C2", available: true },
   { id: "C3", available: true }, { id: "C4", available: true },
   { id: "C5", available: true }, { id: "C6", available: true },
   { id: "C7", available: true }, { id: "C8", available: true },

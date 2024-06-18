@@ -1,67 +1,88 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
- Container,
- Row,
- Col,
- Card,
- Button,
- Accordion,
- Modal,
+  Container,
+  Row,
+  Col,
+  Card,
+  Button,
+  Accordion,
+  Modal,
 } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 
 const MoviePage = () => {
- let navigate = useNavigate();
- const { id } = useParams();
+  let navigate = useNavigate();
+  const { id } = useParams();
 
- const [film, setFilm] = useState(null);
- const [schedules, setSchedules] = useState([]);
- const [show, setShow] = useState(false);
+  const [film, setFilm] = useState(null);
+  const [show, setShow] = useState(false);
 
- const handleShow = () => setShow(true);
- const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
 
- const handleBack = () => {
-  navigate(-1); // Go back to the previous page
- };
-
- const handleNavigateToSeatPage = (movieId) => {
-  console.log("Navigating to SeatPage with movieId:", movieId);
-  console.log("Film object being passed:", film);
-  navigate(`/seats/${movieId}`, { state: { movie: film } });
- };
-
- useEffect(() => {
-  const fetchFilm = async () => {
-   try {
-    const response = await axios.get(`http://localhost:3000/api/films/${id}`);
-    console.log("Fetched film data:", response.data);
-    setFilm(response.data);
-   } catch (error) {
-    console.error("Error fetching film:", error);
-   }
+  const handleBack = () => {
+    navigate(-1); // Go back to the previous page
   };
 
-  fetchFilm();
- }, [id]);
+  const handleNavigateToSeatPage = async (movieId, time) => {
+    console.log("Navigating to SeatPage with movieId:", movieId);
+    console.log("Film object being passed:", film);
 
- if (!film) return <div>Loading...</div>;
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      // Jika token tidak ada, arahkan ke halaman login
+      navigate("/login");
+      return;
+    }
 
- const getFormattedDate = (offset = 0) => {
-  const date = new Date();
-  date.setDate(date.getDate() + offset);
-  return date.toLocaleDateString("en-GB", {
-   weekday: "long",
-   year: "numeric",
-   month: "long",
-   day: "numeric",
-  });
- };
+    try {
+      const response = await axios.get("http://localhost:3000/api/profile", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
- const dates = [getFormattedDate(), getFormattedDate(1), getFormattedDate(2)];
+      // Jika berhasil, arahkan ke halaman pemilihan kursi
+      navigate(`/seats/${movieId}`, { state: { movie: film, time: time } });
+    } catch (error) {
+      console.error("Error verifying user profile:", error);
 
- const times = ["12:10", "14:25", "16:40", "17:15", "18:55"];
+      // Jika gagal, arahkan ke halaman login
+      navigate("/login");
+    }
+  };
+
+  useEffect(() => {
+    const fetchFilm = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/films/${id}`
+        );
+        console.log("Fetched film data:", response.data);
+        setFilm(response.data);
+      } catch (error) {
+        console.error("Error fetching film:", error);
+      }
+    };
+
+    fetchFilm();
+  }, [id]);
+
+  if (!film) return <div>Loading...</div>;
+
+  const getFormattedDate = () => {
+    const date = new Date();
+    return date.toLocaleDateString("en-GB", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const dates = getFormattedDate();
+  const times = ["12:10", "14:25", "16:40", "17:15", "18:55"];
 
  return (
   <div className="user-movie">
@@ -136,24 +157,22 @@ const MoviePage = () => {
      </Col>
     </Row>
     <Row className="justify-content-md-center pt-2 pb-5">
-     {dates.map((date, index) => (
-      <Accordion key={index} defaultActiveKey="0" className="w-75 pb-3">
-       <Accordion.Item eventKey={index.toString()}>
-        <Accordion.Header>{date}</Accordion.Header>
-        <Accordion.Body>
-         {times.map((time, timeIndex) => (
-          <button
-           className="btn-jam btn-outline-dark m-1 rounded-1"
-           onClick={() => handleNavigateToSeatPage(id)}
-           key={timeIndex}
-          >
-           {time}
-          </button>
-         ))}
-        </Accordion.Body>
-       </Accordion.Item>
-      </Accordion>
-     ))}
+     <Accordion defaultActiveKey="0" className="w-75 pb-3">
+      <Accordion.Item eventKey="0">
+       <Accordion.Header>{dates}</Accordion.Header>
+       <Accordion.Body>
+        {times.map((time, timeIndex) => (
+         <button
+          className="btn-jam btn-outline-dark m-1 rounded-1"
+          onClick={() => handleNavigateToSeatPage(id, time)}
+          key={timeIndex}
+         >
+          {time}
+         </button>
+        ))}
+       </Accordion.Body>
+      </Accordion.Item>
+     </Accordion>
     </Row>
 
     {/* Trailer Modal */}
