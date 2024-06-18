@@ -165,7 +165,7 @@ const HomePage = () => {
       show={show}
       onHide={handleClose}
       size="md"
-      className="modal-trailer"
+      className="user-modal-trailer"
       centered
      >
       <Modal.Header closeButton></Modal.Header>

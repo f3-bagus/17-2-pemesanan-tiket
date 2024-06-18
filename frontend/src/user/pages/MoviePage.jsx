@@ -46,11 +46,11 @@ const MoviePage = () => {
     `http://localhost:3000/api/films/${movieId}`,
     { date: getFormattedDate(), time: time },
     {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+     headers: {
+      Authorization: `Bearer ${token}`,
+     },
     }
-  );
+   );
    // Jika berhasil, arahkan ke halaman pemilihan kursi
    navigate(`/seats/${movieId}`, { state: { movie: film, time: time } });
   } catch (error) {
@@ -188,7 +188,7 @@ const MoviePage = () => {
      show={show}
      onHide={handleClose}
      size="md"
-     className="modal-trailer"
+     className="user-modal-trailer"
      centered
     >
      <Modal.Header closeButton></Modal.Header>
