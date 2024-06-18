@@ -71,14 +71,14 @@ const NavbarComponents = () => {
        </div>
       </Nav>
       {user ? (
-       <Nav className="mx-auto text-center">
+       <Nav className="mx-50 text-center">
         <div className="d-flex align-items-center">
-         <p className="text-white m-0 fs-6 fw-medium me-3 text-center">
+         <p className="text-white my-0 fs-6 fw-medium me-3">
           Hi, {user.username}
          </p>{" "}
          <hr />
          <button
-          className="btn-orange fs-6 fw-medium ms-4 rounded-1"
+          className="btn-orange fs-6 fw-medium rounded-2"
           onClick={handleLogout}
          >
           Logout
@@ -88,7 +88,7 @@ const NavbarComponents = () => {
       ) : (
        <div className="text-center">
         <button
-         className="btn-orange fs-6 fw-medium ms-4 rounded-1"
+         className="btn-orange fs-6 fw-medium rounded-2 m"
          onClick={() => navigate("/login")}
         >
          Sign In

@@ -1,5 +1,5 @@
 import { Container, Col, Row, Card, Modal } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import HeroImage from "../assets/img/hero/hero1.png";
 import FaqComponents from "../components/FaqComponent";
@@ -15,6 +15,7 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 
 const HomePage = () => {
  let navigate = useNavigate();
+ const showingNowRef = useRef(null);
 
  const [films, setFilms] = useState([]);
  const [show, setShow] = useState(false);
@@ -26,6 +27,10 @@ const HomePage = () => {
  };
 
  const handleClose = () => setShow(false);
+
+ const scrollToShowingNow = () => {
+  showingNowRef.current.scrollIntoView({ behavior: "smooth" });
+ };
 
  useEffect(() => {
   const fetchFilms = async () => {
@@ -54,7 +59,10 @@ const HomePage = () => {
         Discover new movies and book your tickets today. <br />
         Enjoy an unforgettable cinema experience.
        </p>
-       <button className="btn padding-btn-lg btn-light fs-6 rounded-1 me-2 mb-xs-0 mb-2">
+       <button
+        className="btn padding-btn-lg btn-light fs-6 fw-medium rounded-2 me-2 mb-xs-0 mb-2"
+        onClick={scrollToShowingNow}
+       >
         Buy Ticket
        </button>
       </Col>
@@ -117,7 +125,7 @@ const HomePage = () => {
    </div>
 
    {/* SHOWING NOW MOVIE SECTION */}
-   <div className="movies w-100 min-vh-100">
+   <div className="movies w-100 min-vh-100" ref={showingNowRef}>
     <Container>
      <Row>
       <Col>
@@ -136,13 +144,13 @@ const HomePage = () => {
          />
          <div className="overlay rounded-4">
           <button
-           className="trailer btn-light rounded-1 mb-2"
+           className="trailer btn-light rounded-2 mb-2"
            onClick={() => handleShow(film)}
           >
            Watch Trailer
           </button>
           <button
-           className="btn-orange rounded-1"
+           className="btn-orange rounded-2"
            onClick={() => navigate(`/movie/${film._id}`)} // Navigate to MoviePage with the film ID
           >
            Get Ticket
@@ -166,7 +174,8 @@ const HomePage = () => {
         <div className="embed-responsive embed-responsive-16by9">
          <iframe
           className="embed-responsive-item"
-          src={selectedFilm.linkTrailer}
+          src={`http://www.youtube.com/embed/${selectedFilm.linkTrailer}`}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
           title="Trailer"
          ></iframe>
