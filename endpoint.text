@@ -26,3 +26,4 @@ getBookingOrderByUser = GET = localhost:3000/api/films/:id/order
 createBookingOrder = POST = localhost:3000/api/films/:id/order
 
 getAllTicketByUser = GET = localhost:3000/api/tickets
+getAllTicket = GET = localhost:3000/api/tickets/all
