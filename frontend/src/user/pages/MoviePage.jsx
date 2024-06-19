@@ -191,10 +191,10 @@ const MoviePage = () => {
      className="user-modal-trailer"
      centered
     >
-     <Modal.Header closeButton></Modal.Header>
-     <Modal.Body>
+     <Modal.Header className="user-modal-header" closeButton></Modal.Header>
+     <Modal.Body className="user-modal-body">
       {selectedFilm && (
-       <div className="embed-responsive embed-responsive-16by9">
+       <div className="user-modal-content embed-responsive embed-responsive-16by9">
         <iframe
          className="embed-responsive-item"
          src={`http://www.youtube.com/embed/${selectedFilm.linkTrailer}`}
