@@ -24,7 +24,7 @@ const Users = () => {
     const token = sessionStorage.getItem("token");
 
     try {
-      const response = await axios.get("http://localhost:3000/api/users", {
+      const response = await axios.get("http://localhost:5750/api/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,7 +46,7 @@ const Users = () => {
     const token = sessionStorage.getItem("token");
 
     try {
-      await axios.delete(`http://localhost:3000/api/users/${userId}`, {
+      await axios.delete(`http://localhost:5750/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

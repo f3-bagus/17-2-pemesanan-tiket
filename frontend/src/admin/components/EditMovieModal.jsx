@@ -20,7 +20,7 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
   useEffect(() => {
     // Fetch movie data based on movieId
     axios
-      .get(`http://localhost:3000/api/films/${movieId}`)
+      .get(`http://localhost:5750/api/films/${movieId}`)
       .then((response) => {
         const {
           name_film,
@@ -85,7 +85,7 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
 
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/films/${movieId}`,
+        `http://localhost:5750/api/films/${movieId}`,
         formDataToSend,
         {
           headers: {

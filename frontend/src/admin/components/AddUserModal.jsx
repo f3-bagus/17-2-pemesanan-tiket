@@ -21,7 +21,7 @@ const AddUserModal = ({ showModal, setShowModal, reloadUsers }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/register",
+        "http://localhost:5750/api/register",
         formData,
         {
           headers: {

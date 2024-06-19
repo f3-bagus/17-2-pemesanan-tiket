@@ -43,7 +43,7 @@ const MoviePage = () => {
 
   try {
    const response = await axios.post(
-    `http://localhost:3000/api/films/${movieId}`,
+    `http://localhost:5750/api/films/${movieId}`,
     { date: getFormattedDate(), time: time },
     {
      headers: {
@@ -64,7 +64,7 @@ const MoviePage = () => {
  useEffect(() => {
   const fetchFilm = async () => {
    try {
-    const response = await axios.get(`http://localhost:3000/api/films/${id}`);
+    const response = await axios.get(`http://localhost:5750/api/films/${id}`);
     console.log("Fetched film data:", response.data);
     setFilm(response.data);
    } catch (error) {
@@ -109,7 +109,7 @@ const MoviePage = () => {
        <Card.Img
         className="w-100 rounded-4"
         variant="top"
-        src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+        src={`http://localhost:5750/uploads/members/${film.images[0].filename}`}
         alt={film.name_film}
        />
       </Card>

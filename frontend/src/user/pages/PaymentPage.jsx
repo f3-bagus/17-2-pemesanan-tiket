@@ -29,7 +29,7 @@ const PaymentPage = () => {
   const fetchFilm = async () => {
    console.log("Fetching film with id:", id);
    try {
-    const response = await axios.get(`http://localhost:3000/api/films/${id}`);
+    const response = await axios.get(`http://localhost:5750/api/films/${id}`);
     console.log("API response:", response.data);
     setFilm(response.data);
    } catch (error) {
@@ -45,7 +45,7 @@ const PaymentPage = () => {
    }
 
    try {
-    const response = await axios.get("http://localhost:3000/api/profile", {
+    const response = await axios.get("http://localhost:5750/api/profile", {
      headers: {
       Authorization: `Bearer ${token}`,
      },
@@ -82,7 +82,7 @@ const PaymentPage = () => {
    try {
     const token = sessionStorage.getItem("token");
     const response = await axios.post(
-     `http://localhost:3000/api/films/${id}/order`,
+     `http://localhost:5750/api/films/${id}/order`,
      orderData,
      {
       headers: {
@@ -129,7 +129,7 @@ const PaymentPage = () => {
          <Col md="4">
           <Image
            className="rounded-3"
-           src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+           src={`http://localhost:5750/uploads/members/${film.images[0].filename}`}
            fluid
           />
          </Col>

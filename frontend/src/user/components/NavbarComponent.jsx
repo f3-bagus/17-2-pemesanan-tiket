@@ -32,7 +32,7 @@ const NavbarComponents = () => {
   const token = sessionStorage.getItem("token");
   if (token) {
    axios
-    .get("http://localhost:3000/api/profile", {
+    .get("http://localhost:5750/api/profile", {
      headers: {
       Authorization: `Bearer ${token}`,
      },
@@ -54,7 +54,7 @@ const NavbarComponents = () => {
  };
 
  const profileImageSrc = profileImage
-  ? `http://localhost:3000/uploads/members/${profileImage}`
+  ? `http://localhost:5750/uploads/members/${profileImage}`
   : profileimg;
 
  return (

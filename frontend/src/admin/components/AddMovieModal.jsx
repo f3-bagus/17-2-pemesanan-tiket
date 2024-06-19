@@ -68,7 +68,7 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/films",
+        "http://localhost:5750/api/films",
         formDataToSend,
         {
           headers: {
@@ -89,7 +89,7 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
 
   return (
     <div className={`modal ${showModal ? "d-block" : ""}`} tabIndex="-1" role="dialog">
-      <div className="modal-dialog" role="document">
+      <div className="modal-dialog text-dark" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Add New Movie</h5>
@@ -103,7 +103,7 @@ const AddMovieModal = ({ showModal, setShowModal, reloadMovies }) => {
                 <label>Title</label>
                 <input
                   type="text"
-                  className="form-control"
+                  className="form-control bg-white"
                   name="name_film"
                   value={formData.name_film}
                   onChange={handleChange}

@@ -30,7 +30,7 @@ const EditUserModal = ({ showModal, setShowModal, user, reloadUsers }) => {
     const token = sessionStorage.getItem("token");
     try {
       const response = await axios.put(
-        `http://localhost:3000/api/users/${user._id}`,
+        `http://localhost:5750/api/users/${user._id}`,
         formData,
         {
           headers: {

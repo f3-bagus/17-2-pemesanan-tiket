@@ -21,7 +21,7 @@ const Movie = () => {
  useEffect(() => {
   const fetchMovies = async () => {
    try {
-    const response = await axios.get("http://localhost:3000/api/films");
+    const response = await axios.get("http://localhost:5750/api/films");
     console.log("Film data:", response.data);
     setFilms(response.data);
     setLoading(false);
@@ -54,7 +54,7 @@ const Movie = () => {
   }
 
   axios
-   .post("http://localhost:3000/api/films", formData, {
+   .post("http://localhost:5750/api/films", formData, {
     headers: {
      Authorization: `Bearer ${token}`,
      "Content-Type": "multipart/form-data",
@@ -79,7 +79,7 @@ const Movie = () => {
   }
 
   axios
-   .put(`http://localhost:3000/api/films/${id}`, formData, {
+   .put(`http://localhost:5750/api/films/${id}`, formData, {
     headers: {
      Authorization: `Bearer ${token}`,
      "Content-Type": "multipart/form-data",
@@ -99,7 +99,7 @@ const Movie = () => {
   const token = sessionStorage.getItem("token");
   if (window.confirm("Are you sure you want to delete this movie?")) {
    axios
-    .delete(`http://localhost:3000/api/films/${id}`, {
+    .delete(`http://localhost:5750/api/films/${id}`, {
      headers: {
       Authorization: `Bearer ${token}`,
      },
@@ -116,7 +116,7 @@ const Movie = () => {
 
  const reloadMovies = () => {
   axios
-   .get("http://localhost:3000/api/films")
+   .get("http://localhost:5750/api/films")
    .then((response) => {
     setFilms(response.data);
    })
@@ -150,9 +150,9 @@ const Movie = () => {
           <div className="card-body p-5 bg-dark rounded">
            <div
             className="table-responsive"
-            style={{ maxWidth: "1070px", overflowX: "auto" }}
+            style={{ maxWidth: "1070px", overflowX: "auto", margin: "0px", padding:"0px" }}
            >
-            <table className="table table-striped table-dark">
+            <table className="table table-striped table-dark" style={{ margin: "0px" }}>
              <thead>
               <tr>
                <th>No</th>
@@ -203,7 +203,7 @@ const Movie = () => {
                  </td>
                  <td>
                   <a
-                   href={film.linkTrailer}
+                   href={`http://www.youtube.com/watch?v=${film.linkTrailer}`}
                    target="_blank"
                    rel="noopener noreferrer"
                   >
@@ -212,7 +212,7 @@ const Movie = () => {
                  </td>
                  <td>
                   <img
-                   src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+                   src={`http://localhost:5750/uploads/members/${film.images[0].filename}`}
                    alt="poster"
                    style={{
                     width: "100px",

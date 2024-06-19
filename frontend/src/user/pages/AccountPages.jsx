@@ -32,7 +32,7 @@ const AccountPages = () => {
   const token = sessionStorage.getItem("token");
   if (token) {
    axios
-    .get("http://localhost:3000/api/profile", {
+    .get("http://localhost:5750/api/profile", {
      headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {
@@ -87,7 +87,7 @@ const AccountPages = () => {
 
   try {
    // Update profile data
-   await axios.put("http://localhost:3000/api/profile", updatedFields, {
+   await axios.put("http://localhost:5750/api/profile", updatedFields, {
     headers: { Authorization: `Bearer ${token}` },
    });
 
@@ -98,7 +98,7 @@ const AccountPages = () => {
     const formData = new FormData();
     formData.append("image", values.file);
 
-    await axios.put("http://localhost:3000/api/profile/ava", formData, {
+    await axios.put("http://localhost:5750/api/profile/ava", formData, {
      headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
@@ -109,7 +109,7 @@ const AccountPages = () => {
    }
 
    setShowAlert(true);
-   setTimeout(() => setShowAlert(false), 3000);
+   setTimeout(() => setShowAlert(false), 5750);
   } catch (error) {
    console.error("Error updating profile:", error);
   }
@@ -163,7 +163,7 @@ const AccountPages = () => {
               <img
                src={
                 userData.image
-                 ? `http://localhost:3000/uploads/members/${userData.image.filename}`
+                 ? `http://localhost:5750/uploads/members/${userData.image.filename}`
                  : userProfile
                }
                alt="Profile"

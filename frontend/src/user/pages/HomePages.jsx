@@ -35,7 +35,7 @@ const HomePage = () => {
  useEffect(() => {
   const fetchFilms = async () => {
    try {
-    const response = await axios.get("http://localhost:3000/api/films");
+    const response = await axios.get("http://localhost:5750/api/films");
     setFilms(response.data);
    } catch (error) {
     console.error("Error fetching films:", error);
@@ -138,7 +138,7 @@ const HomePage = () => {
         <Card className="mb-4 rounded-4">
          <Card.Img
           variant="top"
-          src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+          src={`http://localhost:5750/uploads/members/${film.images[0].filename}`}
           alt="poster-film"
           className="film-poster w-100 rounded-4"
          />

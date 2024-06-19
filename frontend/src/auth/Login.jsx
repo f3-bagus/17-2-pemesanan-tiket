@@ -28,7 +28,7 @@ const Login = () => {
   e.preventDefault();
   try {
    const response = await axios.post(
-    "http://localhost:3000/api/auth/login",
+    "http://localhost:5750/api/auth/login",
     form
    );
    const token = response.data.token;
@@ -37,7 +37,7 @@ const Login = () => {
 
    // Fetch user profile details
    const profileResponse = await axios.get(
-    "http://localhost:3000/api/profile",
+    "http://localhost:5750/api/profile",
     {
      headers: {
       Authorization: `Bearer ${token}`,

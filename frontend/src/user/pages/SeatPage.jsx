@@ -105,7 +105,7 @@ const SeatPage = () => {
   } else {
    const fetchFilm = async () => {
     try {
-     const response = await axios.get(`http://localhost:3000/api/films/${id}`);
+     const response = await axios.get(`http://localhost:5750/api/films/${id}`);
      setFilm(response.data);
     } catch (error) {
      console.error("Error fetching film:", error);
@@ -140,7 +140,7 @@ const SeatPage = () => {
 
    // Kirim data ke backend
    await axios.post(
-    `http://localhost:3000/api/films/${id}/seat-picker`,
+    `http://localhost:5750/api/films/${id}/seat-picker`,
     { seats: selectedSeatsData }, // Ubah objek yang dikirim menjadi objek dengan properti seats
     {
      headers: {
@@ -223,7 +223,7 @@ const SeatPage = () => {
           <Col>
            <Image
             className="rounded-3 w-50 mx-auto d-block"
-            src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+            src={`http://localhost:5750/uploads/members/${film.images[0].filename}`}
             alt={film.title}
             fluid
            />

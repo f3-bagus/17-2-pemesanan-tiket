@@ -45,7 +45,7 @@ const TicketPages = () => {
 
         console.log("Fetching tickets with token:", token);
 
-        const response = await axios.get("http://localhost:3000/api/tickets", {
+        const response = await axios.get("http://localhost:5750/api/tickets", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

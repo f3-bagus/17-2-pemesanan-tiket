@@ -31,7 +31,7 @@ const Register = () => {
   try {
    // Lakukan request POST ke endpoint register
    const response = await axios.post(
-    "http://localhost:3000/api/register",
+    "http://localhost:5750/api/register",
     form
    );
 
