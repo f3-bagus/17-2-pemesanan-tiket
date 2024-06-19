@@ -33,7 +33,7 @@ const Login = () => {
    );
    const token = response.data.token;
    sessionStorage.setItem("token", token);
-   navigate("/tickets");
+   // navigate("/tickets");
 
    // Fetch user profile details
    const profileResponse = await axios.get(
