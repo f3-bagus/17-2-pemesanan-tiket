@@ -4,33 +4,7 @@ import path from "path";
 
 export default defineConfig({
   optimizeDeps: {
-    exclude: ['@fortawesome/fontawesome-svg-core'],
+    exclude: ["@fortawesome/fontawesome-svg-core"],
   },
   plugins: [react()],
-  root: ".", // Tetapkan root ke direktori proyek Anda
-  build: {
-  rollupOptions: {
-   input: {
-    admin: path.resolve(__dirname, "src/admin/index.html"),
-    user: path.resolve(__dirname, "src/user/index.html"),
-   },
-   output: {
-    entryFileNames: (chunkInfo) => {
-     return chunkInfo.facadeModuleId.includes("admin")
-      ? "admin/assets/[name].js"
-      : "user/assets/[name].js";
-    },
-    chunkFileNames: (chunkInfo) => {
-     return chunkInfo.facadeModuleId.includes("admin")
-      ? "admin/assets/[name].js"
-      : "user/assets/[name].js";
-    },
-    assetFileNames: (assetInfo) => {
-     return assetInfo.name.includes("admin")
-      ? "admin/assets/[name].[ext]"
-      : "user/assets/[name].[ext]";
-    },
-   },
-  },
- },
 });
