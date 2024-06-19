@@ -292,11 +292,11 @@
 }
 
 .navbar-toggler {
- background-color: #eeeeee;
+ background-color: #fd7014;
 }
 
 .navbar-toggler:focus {
- border-color: #eeeeee;
+ border-color: #fd7014;
 }
 
 .logo-user-navbar:hover {

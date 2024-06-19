@@ -196,7 +196,7 @@ const AccountPages = () => {
                }}
               />
              </div>
-             <h5>Profile Picture</h5>
+             <h5 className="pt-3 text-center">Profile Picture</h5>
             </Col>
             <Col xs={12} md={8}>
              <FormGroup as={Col} controlId="validationFormikUsername">

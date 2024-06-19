@@ -150,9 +150,17 @@ const Movie = () => {
           <div className="card-body p-5 bg-dark rounded">
            <div
             className="table-responsive"
-            style={{ maxWidth: "1070px", overflowX: "auto", margin: "0px", padding:"0px" }}
+            style={{
+             maxWidth: "1070px",
+             overflowX: "auto",
+             margin: "0px",
+             padding: "0px",
+            }}
            >
-            <table className="table table-striped table-dark" style={{ margin: "0px" }}>
+            <table
+             className="table table-striped table-dark"
+             style={{ margin: "0px" }}
+            >
              <thead>
               <tr>
                <th>No</th>
