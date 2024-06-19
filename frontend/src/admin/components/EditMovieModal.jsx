@@ -121,7 +121,7 @@ const EditMovieModal = ({ showModal, setShowModal, movieId, reloadMovies }) => {
             </button>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="modal-body">
+            <div className="modal-body" style={{ maxHeight: "400px", overflowY: "auto" }}>
               <div className="form-group">
                 <label>Title</label>
                 <input
