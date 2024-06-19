@@ -30,9 +30,8 @@ const bookingSchema = new Schema({
         type: String,
         default: () => moment().tz('Asia/Jakarta').format('YYYY-MM-DD HH:mm:ss') 
     }
-
 })
 
-const Booking = mongoose.model('Booking', bookingSchema)
+const Booking = mongoose.model('Booking', bookingSchema);
 
 module.exports = Booking
