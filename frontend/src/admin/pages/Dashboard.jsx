@@ -74,7 +74,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/films")
+      .get("http://localhost:5750/api/films")
       .then((response) => {
         const count = response.data.length;
         setMoviesCount(count); // Update moviesCount state with the count from API response
@@ -85,7 +85,7 @@ const Dashboard = () => {
 
     // Fetch schedules count from API using axios
     axios
-      .get("http://localhost:3000/api/schedules")
+      .get("http://localhost:5750/api/schedules")
       .then((response) => {
         const count = response.data.length;
         // Assuming API returns an object with a count property
@@ -96,7 +96,7 @@ const Dashboard = () => {
       });
 
     axios
-      .get("http://localhost:3000/api/users", {
+      .get("http://localhost:5750/api/users", {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
@@ -117,17 +117,17 @@ const Dashboard = () => {
         <div className="main-panel">
           <div className="content-wrapper">
             <div className="row">
+            <DashboardCard
+                jumlah={schedulesCount}
+                iconClass="icon-box-warning"
+                judul="Schedules"
+                icon="schedule"
+              />
               <DashboardCard
                 jumlah={moviesCount}
                 iconClass="icon-box-danger"
                 judul="Movies"
                 icon="movie"
-              />
-              <DashboardCard
-                jumlah={schedulesCount}
-                iconClass="icon-box-warning"
-                judul="Schedules"
-                icon="schedule"
               />
               <DashboardCard
                 jumlah={usersCount}

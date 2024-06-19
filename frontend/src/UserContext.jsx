@@ -1,7 +1,5 @@
 import React, { createContext, useReducer } from 'react';
 
-const UserContext = createContext();
-
 const initialState = {
   user: null,
 };
@@ -11,11 +9,13 @@ const reducer = (state, action) => {
     case 'LOGIN':
       return { ...state, user: action.payload.user };
     case 'LOGOUT':
-      return initialState;
+      return { ...state, user: null };
     default:
       return state;
   }
 };
+
+const UserContext = createContext();  
 
 const UserProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);

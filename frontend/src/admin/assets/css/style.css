@@ -18587,6 +18587,7 @@ a.close.disabled {
   margin: 10px;
   pointer-events: none;
 }
+
 .modal.fade .modal-dialog {
   transition: transform 0.4s ease;
   transform: translate(0, -50px);
@@ -18648,7 +18649,8 @@ a.close.disabled {
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #000000;
+  background-color: #eeeeee;
+  color:#222831;
   background-clip: padding-box;
   border: 1px solid #2c2e33;
   border-radius: 0.3rem;
@@ -18694,6 +18696,7 @@ a.close.disabled {
   position: relative;
   flex: 1 1 auto;
   padding: 0.9375rem;
+  overflow-y: auto;
 }
 
 .modal-footer {
@@ -32392,7 +32395,6 @@ div.tagsinput span.tag a {
 .navbar-admin {
   font-weight: normal;
   background: #191c24;
-  left: 244px;
   transition: left 0.25s ease;
   -webkit-transition: left 0.25s ease;
   -moz-transition: left 0.25s ease;

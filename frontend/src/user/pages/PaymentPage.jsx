@@ -10,54 +10,101 @@ import {
 } from "react-bootstrap";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import moment from "moment-timezone";
 
 const PaymentPage = () => {
  const location = useLocation();
  const navigate = useNavigate();
- const { selectedSeats } = location.state || { selectedSeats: [] };
- const { id } = useParams();
-
- const initialBalance = 500000;
- const user = {
-  name: "Alaska",
-  balance: initialBalance,
+ const { selectedSeats, time } = location.state || {
+  selectedSeats: [],
+  time: "19:25",
  };
+ const { id } = useParams();
 
  const [film, setFilm] = useState(null);
  const [isPaymentSuccessful, setIsPaymentSuccessful] = useState(false);
- const [balance, setBalance] = useState(user.balance);
+ const [balance, setBalance] = useState(0);
 
  useEffect(() => {
   const fetchFilm = async () => {
-   console.log("Fetching film with id:", id); // Log nilai id
+   console.log("Fetching film with id:", id);
    try {
-    const response = await axios.get(`http://localhost:3000/api/films/${id}`);
-    console.log("API response:", response.data); // Log respons API
+    const response = await axios.get(`http://localhost:5750/api/films/${id}`);
+    console.log("API response:", response.data);
     setFilm(response.data);
    } catch (error) {
     console.error("Error fetching film:", error);
    }
   };
+
+  const fetchUserProfile = async () => {
+   const token = sessionStorage.getItem("token");
+   if (!token) {
+    console.error("No token found in session storage.");
+    return;
+   }
+
+   try {
+    const response = await axios.get("http://localhost:5750/api/profile", {
+     headers: {
+      Authorization: `Bearer ${token}`,
+     },
+    });
+    console.log("User profile response:", response.data);
+    setBalance(response.data.saldo);
+   } catch (error) {
+    console.error("Error fetching user profile:", error);
+   }
+  };
+
   fetchFilm();
+  fetchUserProfile();
  }, [id]);
 
  if (!film) return <div>Loading...</div>;
 
  const totalAmount = film.price * selectedSeats.length;
- const totalPrice = totalAmount + 1;
+ const totalPrice = parseFloat(totalAmount.toFixed(2));
 
- const handlePayment = () => {
+ const handlePayment = async () => {
   if (balance >= totalPrice) {
-   setBalance(balance - totalPrice);
-   setIsPaymentSuccessful(true);
-   // Backend logic to reduce user balance
+   const orderData = {
+    filmId: film._id,
+    customer: "Alaska",
+    date: moment().tz("Asia/Jakarta").format("YYYY-MM-DD"),
+    time: time,
+    seatId: selectedSeats,
+    totalPrice: totalPrice,
+   };
+
+   console.log("Order data being sent:", orderData);
+
+   try {
+    const token = sessionStorage.getItem("token");
+    const response = await axios.post(
+     `http://localhost:5750/api/films/${id}/order`,
+     orderData,
+     {
+      headers: {
+       Authorization: `Bearer ${token}`,
+      },
+     }
+    );
+    console.log("Order response:", response.data);
+
+    setBalance(balance - totalPrice);
+    setIsPaymentSuccessful(true);
+   } catch (error) {
+    console.error("Error processing order:", error);
+    alert("Terjadi kesalahan saat memproses pembayaran.");
+   }
   } else {
    alert("Saldo tidak mencukupi.");
   }
  };
 
  const handleBack = () => {
-  navigate(-1); // Go back to the previous page
+  navigate(-1);
  };
 
  return (
@@ -75,28 +122,28 @@ const PaymentPage = () => {
     </div>
     <Row className="justify-content-md-center">
      <Col md="6">
-      <Card>
+      <Card className="bg-light">
        <Card.Body>
-        <h5 className="pb-3">Movie Detail</h5>
+        <h5 className="pb-3 fs-5">Movie Detail</h5>
         <Row>
          <Col md="4">
           <Image
            className="rounded-3"
-           src={`http://localhost:3000/uploads/members/${film.images[0].filename}`}
+           src={`http://localhost:5750/uploads/members/${film.images[0].filename}`}
            fluid
           />
          </Col>
          <Col md="8">
           <div>
-           <h4>
+           <h3>
             <strong>{film.name_film}</strong>
-           </h4>
+           </h3>
            <p className="d-flex justify-content-between">
             <strong>Cinema</strong> <span>CGV - Pakuwon Mall Jogja</span>
            </p>
            <p className="d-flex justify-content-between">
             <strong>Date & Time</strong>{" "}
-            <span>Friday, 14 Jun 2024 - 19:25</span>
+            <span>{`Friday, 14 Jun 2024 - ${time}`}</span>
            </p>
            <p className="d-flex justify-content-between">
             <strong>Studio</strong> <span>REGULAR</span>
@@ -108,16 +155,13 @@ const PaymentPage = () => {
          </Col>
         </Row>
         <br />
-        <h5 className="pb-3">Payment Detail</h5>
+        <h5 className="pb-3 fs-5">Payment Detail</h5>
         <div>
          <p className="d-flex justify-content-between">
           <strong>Ticket price</strong> <span>Rp {totalAmount.toFixed(2)}</span>
          </p>
          <p className="d-flex justify-content-between">
           <strong>Admin Fee</strong> <span>Free</span>
-         </p>
-         <p className="d-flex justify-content-between">
-          <strong>Convenience fee</strong> <span>Rp 1</span>
          </p>
          <hr />
          <p className="d-flex justify-content-between">
@@ -139,7 +183,7 @@ const PaymentPage = () => {
          </>
         ) : (
          <Button
-          className="btn btn-warning btn-lg mt-3"
+          className="btn btn-warning btn-lg mt-3 fs-6 fw-semibold"
           style={{ width: "100%" }}
           onClick={handlePayment}
          >

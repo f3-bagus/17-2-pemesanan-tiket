@@ -26,7 +26,7 @@ const Schedule = () => {
       .catch((error) => console.error("Kesalahan saat memuat file:", error));
 
     axios
-      .get("http://localhost:3000/api/schedules")
+      .get("http://localhost:5750/api/schedules")
       .then((response) => {
         console.log("Data jadwal:", response.data);
         setSchedules(response.data);
@@ -50,7 +50,7 @@ const Schedule = () => {
 
   const handleAdd = (newSchedule) => {
     axios
-      .post("http://localhost:3000/api/schedules", newSchedule, {
+      .post("http://localhost:5750/api/schedules", newSchedule, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
@@ -67,7 +67,7 @@ const Schedule = () => {
 
   const handleEdit = (updatedSchedule) => {
     axios
-      .put(`http://localhost:3000/api/schedules/${updatedSchedule._id}`, updatedSchedule, {
+      .put(`http://localhost:5750/api/schedules/${updatedSchedule._id}`, updatedSchedule, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem("token")}`,
         },
@@ -86,7 +86,7 @@ const Schedule = () => {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this schedule?")) {
       axios
-        .delete(`http://localhost:3000/api/schedules/${id}`, {
+        .delete(`http://localhost:5750/api/schedules/${id}`, {
           headers: {
             Authorization: `Bearer ${sessionStorage.getItem("token")}`,
           },
@@ -103,7 +103,7 @@ const Schedule = () => {
 
   const reloadSchedules = () => {
     axios
-      .get("http://localhost:3000/api/schedules")
+      .get("http://localhost:5750/api/schedules")
       .then((response) => {
         setSchedules(response.data);
       })

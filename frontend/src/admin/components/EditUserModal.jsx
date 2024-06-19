@@ -1,36 +1,58 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const EditUserModal = ({ showModal, setShowModal, handleEdit, user }) => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [noHp, setNoHp] = useState("");
-  const [balance, setBalance] = useState(0);
-  const [isAdmin, setIsAdmin] = useState(false);
+const EditUserModal = ({ showModal, setShowModal, user, reloadUsers }) => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    noHp: "",
+    balance: "",
+    isAdmin: false, // Remove isAdmin from formData
+  });
 
   useEffect(() => {
-    if (user) {
-      setUsername(user.username);
-      setEmail(user.email);
-      setNoHp(user.noHp);
-      setBalance(user.balance);
-      setIsAdmin(user.isAdmin);
-    }
+    // Set initial formData from props user
+    setFormData({
+      username: user.username,
+      email: user.email,
+      noHp: user.noHp,
+      balance: user.balance,
+    });
   }, [user]);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    let userData = { username, email, noHp, balance, isAdmin };
-    handleEdit(user._id, userData);
-    setShowModal(null);
+
+    const token = sessionStorage.getItem("token");
+    try {
+      const response = await axios.put(
+        `http://localhost:5750/api/users/${user._id}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("User updated successfully:", response.data);
+      reloadUsers(); // Reload users data from server
+      setShowModal(false); // Close modal after successful edit
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
 
   return (
-    <div className={`modal ${showModal ? "show" : ""}`} style={{ display: showModal ? "block" : "none" }}>
-      <div className="modal-dialog">
+    <div className={`modal ${showModal ? "d-block" : ""}`} tabIndex="-1" role="dialog">
+      <div className="modal-dialog" role="document">
         <div className="modal-content">
           <div className="modal-header">
             <h5 className="modal-title">Edit User</h5>
-            <button type="button" className="close" onClick={() => setShowModal(null)}>
+            <button type="button" className="close" onClick={() => setShowModal(false)}>
               <span>&times;</span>
             </button>
           </div>
@@ -38,31 +60,56 @@ const EditUserModal = ({ showModal, setShowModal, handleEdit, user }) => {
             <div className="modal-body">
               <div className="form-group">
                 <label>Username</label>
-                <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} required />
+                <input
+                  type="text"
+                  className="form-control"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className="form-group">
                 <label>Email</label>
-                <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                <input
+                  type="email"
+                  className="form-control"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className="form-group">
-                <label>No HP</label>
-                <input type="text" className="form-control" value={noHp} onChange={(e) => setNoHp(e.target.value)} required />
+                <label>No Hp</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  name="noHp"
+                  value={formData.noHp}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className="form-group">
                 <label>Balance</label>
-                <input type="number" className="form-control" value={balance} onChange={(e) => setBalance(e.target.value)} required />
-              </div>
-              <div className="form-group">
-                <label>Role</label>
-                <select className="form-control" value={isAdmin} onChange={(e) => setIsAdmin(e.target.value)}>
-                  <option value={false}>User</option>
-                  <option value={true}>Admin</option>
-                </select>
+                <input
+                  type="number"
+                  className="form-control"
+                  name="balance"
+                  value={formData.balance}
+                  onChange={handleChange}
+                  required
+                />
               </div>
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" onClick={() => setShowModal(null)}>Close</button>
-              <button type="submit" className="btn btn-primary">Save Changes</button>
+              <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>
+                Close
+              </button>
+              <button type="submit" className="btn btn-primary">
+                Save Changes
+              </button>
             </div>
           </form>
         </div>

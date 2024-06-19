@@ -75,37 +75,43 @@
 
 .login-register .form-control {
  flex: 1;
- border: 1px solid #ced4da;
+ border: 1px solid #ccc;
  padding: 0.375rem 0.75rem;
  background-color: #ffffff;
- color: #0a0358;
+ color: #0d0d0d;
 }
 
 .login-register .form-control:focus {
  background-color: #ffffff;
- color: #0a0358;
+ color: #0d0d0d;
  border-color: #80bdff;
  outline: 0;
- box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+ box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
 }
 
-.login-register .btn-primary {
+.login-register .btn-primary-login {
  margin-top: 10px;
  margin-bottom: 10px;
- background-color: #ee9849;
- border-color: #ffffff;
- border-radius: 10px;
+ background-color: #fd7014;
+ border: none;
+ color: #ffffff;
+ border: none;
  width: 100%;
  height: 37px;
 }
 
-.login-register .btn-primary:hover {
- background-color: #15494d;
- border-color: #262531;
+.login-register .btn-primary-login:hover {
+ background-color: #ff8431;
+ border: none;
+ color: #222831;
+}
+
+.login-register .btn-primary-login:active {
+ background-color: #fd7014;
 }
 
 .login-register .link-primary {
- color: #29b7ca;
+ color: #009efa;
 }
 
 .login-register .link-primary:hover {
@@ -147,15 +153,15 @@
 }
 
 .login-register .input-group-text {
- background-color: #ffbb00;
- color: #0a0358;
+ background-color: #fd7014;
+ color: #1b1f27;
 }
 
 .login-register .input-group-text .fas {
- color: #0a0358;
+ color: #1b1f27;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 576px) {
  .login-register .container {
   margin-top: 30px;
   padding: 20px;
@@ -174,6 +180,18 @@
  --color-text: #eeeeee;
  --navbar-color: #393e46;
  --navbar-color-text: #ffffff;
+ --padding-btn-lg: 12px 16px 12px 16px;
+ --padding-btn-md: 6px 12px 6px 12px;
+}
+
+/* CSS in main.css or your custom CSS file */
+.dropdown-menu {
+ background-color: #fd7014 !important; /* Background color for dropdown menu */
+ border: 0 !important;
+ padding: 5px !important;
+}
+.dropdown-item {
+ background-color: #fd7014 !important;
 }
 
 .back-button {
@@ -188,7 +206,7 @@
 .btn-orange {
  color: #fff;
  background-color: #fd7014;
- border-color: #fd7014;
+ border: none;
 }
 
 .btn-orange:hover {
@@ -245,6 +263,10 @@
  background-color: #222831;
 }
 
+.user-navbar button {
+ padding: var(--padding-btn-md);
+}
+
 .user-navbar.color-active {
  background-color: var(--navbar-color);
  padding: 20px 0 20px 0;
@@ -269,6 +291,18 @@
  color: var(--navbar-color);
 }
 
+.navbar-toggler {
+ background-color: #fd7014;
+}
+
+.navbar-toggler:focus {
+ border-color: #fd7014;
+}
+
+.logo-user-navbar:hover {
+ text-decoration: none;
+}
+
 /* ----- STYLE HOME PAGE HEADER ----- */
 header {
  background-color: var(--primary-color);
@@ -279,6 +313,10 @@ header {
  font-size: 3.2 rem;
  font-weight: 600;
  color: white;
+}
+
+.homepage .header-box button {
+ padding: var(--padding-btn-lg);
 }
 
 .homepage .header-box h1 span {
@@ -336,11 +374,7 @@ header {
 
 /* ----- STYLE HOME PAGE PROMO ----- */
 .homepage .promo {
- background-color: var(--color-text);
-}
-
-.homepage .promo h1 {
- color: #222831;
+ background-color: #eeeeee;
 }
 
 .swiper {
@@ -351,7 +385,7 @@ header {
 .swiper-slide {
  text-align: center;
  font-size: 18px;
- background: #fff;
+ background: #eeeeee;
 
  /* Center slide text vertically */
  display: flex;
@@ -373,7 +407,6 @@ header {
 }
 
 .homepage .movies .row:nth-child(1) {
- padding-top: 50px;
  padding-bottom: 30px;
 }
 
@@ -384,16 +417,34 @@ header {
 
 .homepage .movies .row:nth-child(2) {
  display: grid;
- grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+ grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 }
 
 .homepage .movies .row:nth-child(2) img {
  width: 100%;
 }
 
+.homepage .movies button {
+ padding: var(--padding-btn-md);
+}
+
+.homepage .trailer {
+ border: none;
+}
+
+.homepage .film-poster {
+ border: none;
+}
+
 /* Overlay for movie poster */
 .movie-poster {
  position: relative;
+}
+
+.movie-poster .card {
+ border: none;
+ background-color: #eeeeee;
+ background-clip: border-box;
 }
 
 .movie-poster .overlay {
@@ -419,6 +470,22 @@ header {
  margin: 5px;
 }
 
+.movie-poster-img {
+ position: absolute;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+ .movie-poster-img {
+  aspect-ratio: 2 / 3; /* Maintain aspect ratio */
+ }
+}
+
 /* STYLE FAQ */
 .faq {
  padding-top: 50px;
@@ -438,10 +505,57 @@ header {
  box-shadow: none;
 }
 
+.faq .accordion .accordion-button:not(.collapsed) {
+ background-color: #ffae78;
+}
+
+/* STYLE MODAL */
+.user-modal-trailer .user-modal-header,
+.user-modal-body,
+.user-modal-content {
+ width: 600px;
+ background-color: #eeeeee;
+ border-color: #eeeeee;
+ align-items: center;
+ justify-content: center;
+}
+
+.user-modal-trailer .user-modal-body {
+ border-bottom-left-radius: 5px;
+ border-bottom-right-radius: 5px;
+}
+
+@media (max-width: 768px) {
+ .user-modal-trailer .user-modal-header,
+ .user-modal-body,
+ .user-modal-content {
+  width: 500px;
+  background-color: #eeeeee;
+  border-color: #eeeeee;
+  align-items: center;
+  justify-content: center;
+ }
+}
+
+@media (max-width: 450px) {
+ .user-modal-trailer .user-modal-header,
+ .user-modal-body,
+ .user-modal-content {
+  width: 400px;
+  background-color: #eeeeee;
+  border-color: #eeeeee;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+ }
+}
+
 /* ----------- FOOTER STYLE ----------- */
 .footer {
  background-color: var(--secondary-color);
+ color: #222831;
  font-weight: 500;
+ padding: 20px 0;
 }
 
 .footer .social {
@@ -451,7 +565,7 @@ header {
 }
 
 .footer .social i {
- font-size: 25px;
+ font-size: 24px;
  width: 40px;
  height: 40px;
  cursor: pointer;
@@ -465,8 +579,9 @@ header {
  -moz-transition: all 0.3s ease;
  -ms-transition: all 0.3s ease;
  transition: all 0.3s ease;
- background-color: #eeeeee;
+ background-color: #222831;
  border-radius: 50%;
+ color: #eeeeee;
 }
 
 .footer .social i:hover {
@@ -476,16 +591,53 @@ header {
 .footer .row:nth-child(2) {
  margin-top: 25px;
 }
+
+@media (max-width: 768px) {
+ .footer .d-flex {
+  flex-direction: column;
+  align-items: center;
+ }
+
+ .footer .social {
+  justify-content: center;
+ }
+
+ .footer img {
+  display: block;
+  margin: 0 auto;
+ }
+
+ .footer p {
+  text-align: center;
+ }
+
+ .footer h6 {
+  text-align: center;
+ }
+}
 /* ----- END STYLE HOME PAGE MOVIE ----- */
 /* --------------------------------------------------------------------------------------------- */
 
 /* -------------------------------------- MOVIEPAGE USERS -------------------------------------- */
 .user-movie {
- background-color: var(--color-text);
+ background-color: #eeeeee;
  padding-top: 130px;
+ color: #212529;
 }
 
-.icon-duration {
+.user-movie .card {
+ border: none;
+}
+
+.btn-trailer-movie {
+ padding: var(--padding-btn-md);
+ border: none;
+ font-size: 14px;
+}
+
+.icon-duration,
+.icon-age,
+.icon-price {
  display: flex;
  align-items: center;
 }
@@ -494,34 +646,88 @@ header {
 .icon-age i,
 .icon-price i {
  margin-right: 10px;
- align-items: center;
  font-size: 20px;
- padding-bottom: 10px; /* Ubah nilai ini sesuai kebutuhan */
+ padding-bottom: 10px;
+ color: #fd7014;
+ padding-right: 5px;
 }
 
-.poster-card {
- background: none;
- border: none;
-}
-
-.icon-age {
- display: flex;
-}
-
-.icon-price {
- display: flex;
+.user-movie .row:nth-child(4) .accordion-button:not(.collapsed) {
+ background-color: #fd7014;
+ color: #eeeeee;
 }
 
 .user-movie .row:nth-child(4) .accordion-button {
- background-color: #fd7014;
- color: #ffffff;
+ color: #393e46;
+ background-color: #ffae78;
+ box-shadow: none;
+}
+
+.user-movie .row:nth-child(4) .accordion-item {
+ border-color: #ffae78;
+ box-shadow: 2px;
+}
+
+.user-movie .row:nth-child(4) .btn-jam {
+ padding: var(--padding-btn-md);
+ background-color: #eeeeee;
+ color: #0d0d0d;
+ border: #0d0d0d solid 2px;
+}
+
+.user-movie .row:nth-child(4) .btn-jam:hover {
+ background-color: #0d0d0d;
+ color: #eeeeee;
+}
+
+.mv-cast,
+.mv-synopsis {
+ text-align: justify;
+}
+
+@media (max-width: 767px) {
+ .user-movie .back-button {
+  text-align: center;
+  margin-bottom: 20px;
+ }
+
+ .poster-card img {
+  width: 100%;
+  height: auto;
+ }
+
+ .user-movie .poster-card {
+  text-align: center;
+ }
+
+ .user-movie .poster-card .btn {
+  margin-top: 20px;
+ }
+
+ .user-movie h1 {
+  margin-top: 20px;
+ }
+
+ .user-movie h3 {
+  text-align: center;
+ }
+
+ .user-movie .row:nth-child(4) {
+  justify-content: center;
+ }
+
+ .user-movie .row:nth-child(5) {
+  justify-content: center;
+ }
 }
 
 /* -------------------------------------------------------------------------------------------- */
 
 /* --------------------------------------- SEAT USERS ----------------------------------------- */
-.user-seat .main-container {
+.user-seat {
  padding-top: 130px;
+ background-color: #eeeeee;
+ color: #393e46;
 }
 
 .user-seat .seat-selection-container {
@@ -538,15 +744,17 @@ header {
  background-color: #ccc;
  height: 20px;
  width: 80%;
- margin: 0 auto;
+ margin: 0px auto 1px auto;
 }
 
 .user-seat .legend {
- font-size: 12px;
+ font-size: 15px;
+ margin-top: 30px;
 }
 
 .user-seat .movie-details {
- background-color: #f8f9fa;
+ background-color: #ffffff;
+ border: #ccc solid 1px;
 }
 
 .user-seat .movie-details h5 {
@@ -556,20 +764,118 @@ header {
 .user-seat .movie-details p {
  margin: 5px 0;
 }
+
+.seat-row {
+ display: flex;
+ justify-content: center;
+ margin-bottom: 0px;
+}
+
+.seat-row .seat {
+ margin-right: 0px;
+ margin-top: 20px;
+}
+
+.user-seat .seat-selection-box .seat-row:nth-child(2n) {
+ margin-bottom: 20px;
+}
+
+.user-seat .seat-selection-box .seat-row:nth-child(odd) .seat:nth-child(5n) {
+ margin-right: 100x;
+}
+
+/* Media Query for screens smaller than 600px */
+@media (max-width: 600px) {
+ .user-seat .seat-selection-container {
+  padding: 10px;
+ }
+
+ .seat-row .seat {
+  margin-right: 5px; /* Adjust margin to ensure seats fit within the container */
+  margin-top: 10px;
+ }
+
+ .seat-row .seat img {
+  width: 25px; /* Adjust width of seat image */
+  height: 25px; /* Adjust height of seat image */
+ }
+
+ .user-seat .legend {
+  font-size: 12px; /* Adjust font size for smaller screens */
+ }
+
+ .user-seat .price-box h5 {
+  font-size: 14px; /* Adjust font size for smaller screens */
+ }
+
+ .user-seat .movie-details h4 {
+  font-size: 18px; /* Adjust font size for smaller screens */
+ }
+
+ .user-seat .movie-details p {
+  font-size: 12px; /* Adjust font size for smaller screens */
+ }
+
+ .user-seat .btn-warning {
+  font-size: 14px; /* Adjust button font size for smaller screens */
+ }
+}
+
+/* Media Query for screens smaller than 400px */
+@media (max-width: 400px) {
+ .user-seat .seat-selection-container {
+  padding: 5px;
+ }
+
+ .seat-row .seat {
+  margin-right: 3px; /* Further adjust margin to ensure seats fit within the container */
+  margin-top: 8px;
+ }
+
+ .seat-row .seat img {
+  width: 20px; /* Further adjust width of seat image */
+  height: 20px; /* Further adjust height of seat image */
+ }
+
+ .user-seat .legend {
+  font-size: 10px; /* Further adjust font size for smaller screens */
+ }
+
+ .user-seat .price-box h5 {
+  font-size: 12px; /* Further adjust font size for smaller screens */
+ }
+
+ .user-seat .movie-details h4 {
+  font-size: 16px; /* Further adjust font size for smaller screens */
+ }
+
+ .user-seat .movie-details p {
+  font-size: 10px; /* Further adjust font size for smaller screens */
+ }
+
+ .user-seat .btn-warning {
+  font-size: 12px; /* Further adjust button font size for smaller screens */
+ }
+}
+
 /* -------------------------------------------------------------------------------------------- */
 
 /* ------------------------------------- PAYMENTPAGE USERS ------------------------------------ */
 .user-payment {
  padding-top: 130px;
+ background-color: #eeeeee;
+ color: #393e46;
 }
 /* --------------------------------------------------------------------------------------------- */
-/* -------------------------------------- TICKETPAGE USERS -------------------------------------- */
-.ticket-page-container {
+
+/* ------------------------------------- TICKETPAGE USERS -------------------------------------- */
+.ticket-pages-container {
  background-color: #f8f9fa;
+ color: #393e46;
  padding: 50px;
 }
 
-.ticket-page-ticket-container {
+.ticket-pages-ticket-container {
  min-height: 100vh;
  display: flex;
  flex-direction: column;
@@ -577,49 +883,49 @@ header {
  justify-content: center;
 }
 
-.ticket-page-my-tickets-header {
+.ticket-pages-my-tickets-header {
  font-size: 2.5rem;
  margin-bottom: 10px;
  text-align: left;
  width: 100%;
 }
 
-.ticket-page-ticket-empty {
+.ticket-pages-ticket-empty {
  text-align: center;
  display: flex;
  flex-direction: column;
  align-items: center;
 }
 
-.ticket-page-ticket-image {
+.ticket-pages-ticket-image {
  width: 400px;
  height: auto;
  margin-bottom: 10px;
  margin-top: 60px;
 }
 
-.ticket-page-ticket-text {
+.ticket-pages-ticket-text {
  font-size: 1.25rem;
  color: #555;
  margin-top: 60px;
 }
 
-.ticket-page-sort-container {
+.ticket-pages-sort-container {
  display: flex;
  align-items: center;
 }
 
-.ticket-page-sort-by-text {
+.ticket-pages-sort-by-text {
  margin-right: 20px;
  white-space: nowrap;
 }
 
-.ticket-page-sort-dropdown {
+.ticket-pages-sort-dropdown {
  margin-right: 10px;
  width: 250px;
 }
 
-.ticket-page-search-bar {
+.ticket-pages-search-bar {
  background-color: #ffffff;
  border: 1px solid #ced4da;
  border-radius: 25px;
@@ -630,7 +936,17 @@ header {
  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.ticket-page-search-input {
+.ticket-pages-search-bar .form-control {
+ background-color: #ffffff;
+ border: none;
+}
+
+.ticket-pages-search-bar .form-control:focus {
+ background-color: #ffffff;
+ border: none;
+}
+
+.ticket-pages-search-input {
  border: none;
  outline: none;
  width: 100%;
@@ -641,11 +957,11 @@ header {
  border-radius: 25px 0 0 25px;
 }
 
-.ticket-page-search-input::placeholder {
+.ticket-pages-search-input::placeholder {
  color: #0a0358;
 }
 
-.ticket-page-search-bar .ticket-page-search-icon {
+.ticket-pages-search-bar .ticket-pages-search-icon {
  background-color: #ffbb00;
  border: none;
  padding: 5px 10px;
@@ -655,7 +971,114 @@ header {
  justify-content: center;
 }
 
-.ticket-page-search-bar .ticket-page-fa-search {
+.ticket-pages-search-bar .ticket-pages-fa-search {
  color: #ffffff;
 }
+
+.ticket-pages-table {
+ margin-top: 20px;
+ width: 100%;
+}
+
+.ticket-pages-table thead {
+ background: linear-gradient(
+  90deg,
+  rgba(255, 153, 0, 1) 0%,
+  rgba(255, 94, 0, 1) 100%
+ );
+ color: #fff;
+}
+
+.ticket-pages-table th,
+.ticket-pages-table td {
+ vertical-align: middle;
+ text-align: center;
+}
+
+.ticket-pages-table tbody tr:nth-child(even) {
+ background: rgba(255, 153, 0, 0.1);
+}
+/* -------------------------------------------------------------------------------------------- */
+
+/* ----------------------------------ACCOUNT PAGE STYLE---------------------------------------- */
+.user-account {
+ padding-top: 130px;
+ background-color: #eeeeee;
+ color: #393e46;
+}
+
+.user-account .card {
+ background-color: #ffffff;
+}
+
+.user-account .form-control {
+ background-color: #eeeeee;
+ border: #ccc solid 1px;
+ color: #0d0d0d;
+}
+
+.user-account .form-control:focus {
+ background-color: #ffae78;
+ color: #0d0d0d;
+}
+
+.profile-photo-container {
+ position: relative;
+ display: inline-block;
+}
+
+.profile-photo-circle {
+ position: absolute;
+ top: 10px;
+ left: 10px;
+ width: 90px;
+ height: 90px;
+ border: 2px dashed #ccc;
+ background-color: #eeeeee32; /* Adjust border style and color */
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ z-index: 0; /* Ensure it's behind the profile photo */
+}
+
+.user-account .profile-photo {
+ width: 110px;
+ height: 110px;
+ object-fit: cover;
+ border-radius: 50%;
+ position: relative;
+ z-index: 1;
+}
+
+.overlay-profile {
+ position: absolute;
+ top: 10px;
+ left: 10px;
+ width: 90px;
+ height: 90px;
+ background: rgba(0, 0, 0, 0.5);
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ opacity: 0;
+ transition: opacity 0.3s;
+ cursor: pointer;
+ z-index: 2;
+}
+
+.overlay-profile i {
+ color: white;
+ font-size: 24px;
+}
+
+.profile-photo-container:hover .overlay-profile {
+ opacity: 1;
+}
+.user-btn-save {
+ padding: var(--padding-btn-md);
+ border: none;
+}
+
 /* -------------------------------------------------------------------------------------------- */

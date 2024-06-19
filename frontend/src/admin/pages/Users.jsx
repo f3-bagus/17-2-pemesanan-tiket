@@ -1,96 +1,79 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Pagination } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
-import AddUserModal from "../components/AddUserModal";
 import EditUserModal from "../components/EditUserModal";
+import AddUserModal from "../components/AddUserModal";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(null); // Variabel untuk menunjukkan modal edit aktif
-  const [error, setError] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage] = useState(15); // Jumlah pengguna per halaman
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  const fetchUsers = () => {
+  const fetchUsers = async () => {
     const token = sessionStorage.getItem("token");
 
-    axios
-      .get("http://localhost:3000/api/users", {
+    try {
+      const response = await axios.get("http://localhost:5750/api/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        setError("Failed to fetch users");
-        console.error("Error fetching users:", error);
       });
-  };
-
-  const handleAdd = (newUser) => {
-    const token = sessionStorage.getItem("token");
-    axios
-      .post("http://localhost:3000/api/register", newUser, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("User added successfully:", response.data);
-        setShowAddModal(false);
-        fetchUsers(); // Fetch users again to update the table
-      })
-      .catch((error) => {
-        console.error("Failed to add user:", error);
-      });
-  };
-
-  const handleEdit = (userId, updatedData) => {
-    const token = sessionStorage.getItem("token");
-    axios
-      .put(`http://localhost:3000/api/users/${userId}`, updatedData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("User edited successfully:", response.data);
-        setShowEditModal(null);
-        fetchUsers(); // Fetch users again to update the table
-      })
-      .catch((error) => {
-        console.error("Failed to edit user:", error);
-      });
-  };
-
-  const handleDelete = (userId) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-    if (!confirmDelete) {
-      return;
+      // Filter out users with isAdmin === true
+      const filteredUsers = response.data.filter((user) => !user.isAdmin);
+      setUsers(filteredUsers);
+    } catch (error) {
+      console.error("Error fetching users:", error);
     }
+  };
 
+  const handleEdit = (user) => {
+    setSelectedUser(user);
+    setShowEditModal(true);
+  };
+
+  const handleDelete = async (userId) => {
     const token = sessionStorage.getItem("token");
-    axios
-      .delete(`http://localhost:3000/api/users/${userId}`, {
+
+    try {
+      await axios.delete(`http://localhost:5750/api/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      .then((response) => {
-        console.log("User deleted successfully:", response.data);
-        fetchUsers(); // Fetch users again to update the table
-      })
-      .catch((error) => {
-        console.error("Failed to delete user:", error);
       });
+      reloadUsers();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
   };
+
+  const handleAdd = () => {
+    setShowAddModal(true);
+  };
+
+  const reloadUsers = () => {
+    fetchUsers();
+  };
+
+  // Menghitung indeks pengguna pada halaman saat ini
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+
+  // Menentukan data pengguna yang akan ditampilkan pada halaman saat ini
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  // Mengubah halaman
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="container-scroller">
@@ -118,52 +101,50 @@ const Users = () => {
                       <table className="table table-striped table-dark">
                         <thead>
                           <tr>
-                            <th>No</th>
+                            <th>No.</th>
                             <th>Username</th>
                             <th>Email</th>
-                            <th>Password</th>
                             <th>No Hp</th>
                             <th>Balance</th>
-                            <th>Role</th>
                             <th>Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {users.length > 0 ? (
-                            users.map((user, index) => (
-                              <tr key={user._id}>
-                                <td>{index + 1}</td>
-                                <td>{user.username}</td>
-                                <td>{user.email}</td>
-                                <td>*******</td>
-                                <td>{user.noHp}</td>
-                                <td>{user.balance}</td>
-                                <td>{user.isAdmin ? "Admin" : "User"}</td>
-                                <td>
-                                  <button
-                                    className="btn btn-warning btn-sm"
-                                    onClick={() => setShowEditModal(user)}
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    className="btn btn-danger btn-sm"
-                                    onClick={() => handleDelete(user._id)}
-                                  >
-                                    Delete
-                                  </button>
-                                </td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan="8" className="text-center">
-                                {error || "Loading..."}
+                          {currentUsers.map((user, index) => (
+                            <tr key={user._id}>
+                              <td>{indexOfFirstUser + index + 1}</td>
+                              <td>{user.username}</td>
+                              <td>{user.email}</td>
+                              <td>{user.noHp}</td>
+                              <td>{user.balance}</td>
+                              <td>
+                                <button
+                                  className="btn btn-warning btn-sm mr-2"
+                                  onClick={() => handleEdit(user)}
+                                >
+                                  Edit
+                                </button>
+                                <button
+                                  className="btn btn-danger btn-sm"
+                                  onClick={() => handleDelete(user._id)}
+                                >
+                                  Delete
+                                </button>
                               </td>
                             </tr>
-                          )}
+                          ))}
                         </tbody>
                       </table>
+                    </div>
+                    {/* Pagination */}
+                    <div className="d-flex justify-content-center">
+                      <Pagination>
+                        {[...Array(Math.ceil(users.length / usersPerPage)).keys()].map((number) => (
+                          <Pagination.Item key={number + 1} onClick={() => paginate(number + 1)} active={number + 1 === currentPage}>
+                            {number + 1}
+                          </Pagination.Item>
+                        ))}
+                      </Pagination>
                     </div>
                   </div>
                 </div>
@@ -173,8 +154,23 @@ const Users = () => {
           <Footer />
         </div>
       </div>
-      <AddUserModal showModal={showAddModal} setShowModal={setShowAddModal} handleAdd={handleAdd} />
-      <EditUserModal showModal={showEditModal !== null} setShowModal={setShowEditModal} handleEdit={handleEdit} user={showEditModal} />
+
+      {/* EditUserModal */}
+      {selectedUser && (
+        <EditUserModal
+          showModal={showEditModal}
+          setShowModal={setShowEditModal}
+          user={selectedUser}
+          reloadUsers={reloadUsers}
+        />
+      )}
+
+      {/* AddUserModal */}
+      <AddUserModal
+        showModal={showAddModal}
+        setShowModal={setShowAddModal}
+        reloadUsers={reloadUsers}
+      />
     </div>
   );
 };
