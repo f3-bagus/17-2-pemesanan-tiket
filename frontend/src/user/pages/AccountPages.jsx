@@ -55,12 +55,16 @@ const AccountPages = () => {
 
  const { Formik } = formik;
 
+ // Update the Yup validation schema
  const schema = yup.object().shape({
-  username: yup.string(),
-  email: yup.string().email(),
-  password: yup.string(),
-  noHp: yup.string(),
-  file: yup.mixed(),
+  username: yup.string().required("Username is required"), // Required
+  email: yup
+   .string()
+   .email("Invalid email address")
+   .required("Email is required"), // Required
+  password: yup.string().required("Password is required"), // Required
+  noHp: yup.string().required("Phone number is required"), // Required
+  file: yup.mixed(), // Optional
  });
 
  const handleIconClick = () => {
