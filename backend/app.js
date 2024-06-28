@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "./public")));
 
 mongoose
-  .connect(process.env.DB_NAME, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.DB_NAME)
   .then(() => {
     console.log("Database connected");
   })
@@ -53,7 +53,7 @@ app.use((req, res) => {
   });
 });
 
-app.use((err, req, res, next) => { // Menambahkan parameter next
+app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: "Internal Server Error" });
 });
