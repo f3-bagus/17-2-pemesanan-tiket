@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
 const path = require("path");
 const morgan = require("morgan");
 const cors = require("cors");
@@ -14,10 +15,18 @@ const seatsRouter = require("./routes/seatsRoute");
 const bookingsRouter = require("./routes/bookingsRoute");
 const ticketsRouter = require("./routes/ticketsRoute");
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5750",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true, 
+  })
+);
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "./public")));
 
