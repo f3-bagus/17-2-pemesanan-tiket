@@ -5,10 +5,10 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon app.js",
+    "dev": "nodemon ./bin/www",
     "fix": "eslint ./ --fix",
     "lint": "eslint ./",
-    "start": "node app.js"
+    "start": "node ./bin/www"
   },
   "keywords": [],
   "author": "",

@@ -8,7 +8,6 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 const app = express();
-const port = process.env.PORT || 5000;
 const usersRouter = require("./routes/usersRoute");
 const authRouter = require("./routes/auth");
 const filmsRouter = require("./routes/filmsRoute");
@@ -18,7 +17,6 @@ const ticketsRouter = require("./routes/ticketsRoute");
 
 app.use(
   cors({
-    origin: "http://localhost:5750",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
@@ -58,7 +56,4 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: "Internal Server Error" });
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
-
+module.exports = app;
